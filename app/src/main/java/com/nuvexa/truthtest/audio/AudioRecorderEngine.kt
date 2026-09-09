@@ -22,20 +22,24 @@ class AudioRecorderEngine(
             AudioFormat.ENCODING_PCM_16BIT
         )
         val bufferSize = maxOf(minBuffer, 2048)
-        recorder = AudioRecord(
-            MediaRecorder.AudioSource.VOICE_RECOGNITION,
+        val audioRecord = AudioRecord(
+            MediaRecorder.AudioSource.MIC,
             sampleRate,
             AudioFormat.CHANNEL_IN_MONO,
             AudioFormat.ENCODING_PCM_16BIT,
             bufferSize * 2
         )
+        check(audioRecord.state == AudioRecord.STATE_INITIALIZED) { "AudioRecord initialization failed" }
+
         samples.clear()
-        recorder?.startRecording()
+        recorder = audioRecord
+        audioRecord.startRecording()
+        check(audioRecord.recordingState == AudioRecord.RECORDSTATE_RECORDING) { "AudioRecord did not start" }
         recording = true
         recordingThread = thread(name = "truth-test-recorder") {
             val buffer = ShortArray(bufferSize)
             while (recording) {
-                val read = recorder?.read(buffer, 0, buffer.size) ?: 0
+                val read = audioRecord.read(buffer, 0, buffer.size)
                 if (read > 0) {
                     synchronized(samples) {
                         for (i in 0 until read) samples.add(buffer[i])
@@ -55,7 +59,7 @@ class AudioRecorderEngine(
     fun stop(): ShortArray {
         recording = false
         runCatching { recorder?.stop() }
-        recordingThread?.join(250)
+        recordingThread?.join(500)
         recorder?.release()
         recorder = null
         recordingThread = null

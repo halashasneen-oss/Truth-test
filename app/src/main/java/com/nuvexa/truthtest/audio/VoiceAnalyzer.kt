@@ -10,13 +10,29 @@ import kotlin.math.sqrt
 object VoiceAnalyzer {
     private const val FRAME = 2048
     private const val HOP = 1024
+    private const val MIN_DURATION_SECONDS = 2
+    private const val SILENCE_RMS = 0.0008
+    private const val SILENCE_PEAK = 0.0025
+    private const val TARGET_RMS = 0.06
+    private const val MAX_GAIN = 20.0
 
     fun analyze(samples: ShortArray, sampleRate: Int = AudioRecorderEngine.SAMPLE_RATE): VoiceAnalysis {
-        if (samples.size < sampleRate * 2) return empty(false)
+        if (samples.size < sampleRate * MIN_DURATION_SECONDS) return empty(false)
 
-        val normalized = DoubleArray(samples.size) { samples[it] / 32768.0 }
-        val overallRms = sqrt(normalized.sumOf { it * it } / normalized.size)
-        if (overallRms < 0.008) return empty(false, overallRms)
+        val raw = DoubleArray(samples.size) { samples[it] / 32768.0 }
+        val dc = raw.average()
+        val centered = DoubleArray(raw.size) { raw[it] - dc }
+        val rawRms = sqrt(centered.sumOf { it * it } / centered.size)
+        val peak = centered.maxOfOrNull { abs(it) } ?: 0.0
+
+        // Different Android devices expose very different microphone gain. Reject only true/near silence,
+        // then normalize quiet but valid speech before extracting voice-pattern features.
+        if (rawRms < SILENCE_RMS && peak < SILENCE_PEAK) return empty(false, rawRms)
+
+        val gain = if (rawRms > 0.0) (TARGET_RMS / rawRms).coerceIn(1.0, MAX_GAIN) else 1.0
+        val normalized = DoubleArray(centered.size) { (centered[it] * gain).coerceIn(-1.0, 1.0) }
+        val analysisRms = sqrt(normalized.sumOf { it * it } / normalized.size)
+        val activeThreshold = maxOf(0.0035, analysisRms * 0.16)
 
         val pitches = mutableListOf<Double>()
         val energies = mutableListOf<Double>()
@@ -28,22 +44,26 @@ object VoiceAnalyzer {
             }
             val rms = sqrt(frame.sumOf { it * it } / FRAME)
             energies += rms
-            if (rms > 0.006) estimatePitch(frame, sampleRate)?.let(pitches::add)
+            if (rms > activeThreshold) estimatePitch(frame, sampleRate)?.let(pitches::add)
             offset += HOP
         }
+
+        val activeFrames = energies.count { it > activeThreshold }
+        // A short burst/noise should not pass just because automatic gain made it louder.
+        if (energies.isNotEmpty() && activeFrames < 3) return empty(false, rawRms)
 
         val meanPitch = pitches.averageOrZero()
         val jitter = if (pitches.size > 1 && meanPitch > 0) {
             pitches.zipWithNext().map { (a, b) -> abs(b - a) }.average() / meanPitch
         } else 0.25
 
-        val voicedEnergy = energies.filter { it > 0.006 }
+        val voicedEnergy = energies.filter { it > activeThreshold }
         val meanEnergy = voicedEnergy.averageOrZero()
         val shimmer = if (voicedEnergy.size > 1 && meanEnergy > 0) {
             voicedEnergy.zipWithNext().map { (a, b) -> abs(b - a) }.average() / meanEnergy
         } else 0.5
 
-        val pauseRatio = if (energies.isEmpty()) 1.0 else energies.count { it < 0.006 }.toDouble() / energies.size
+        val pauseRatio = if (energies.isEmpty()) 1.0 else energies.count { it <= activeThreshold }.toDouble() / energies.size
         val pitchCv = if (pitches.size > 2 && meanPitch > 0) {
             val variance = pitches.sumOf { (it - meanPitch) * (it - meanPitch) } / pitches.size
             sqrt(variance) / meanPitch
@@ -55,10 +75,10 @@ object VoiceAnalyzer {
             (shimmer / 0.55).coerceIn(0.0, 1.0) * 18.0 +
             (pauseRatio / 0.65).coerceIn(0.0, 1.0) * 14.0 +
             (pitchCv / 0.35).coerceIn(0.0, 1.0) * 14.0
-        val energyBonus = ((overallRms - 0.015) / 0.08).coerceIn(0.0, 1.0) * 6.0
+        val energyBonus = ((analysisRms - 0.015) / 0.08).coerceIn(0.0, 1.0) * 6.0
         val score = (94.0 - penalty + energyBonus).roundToInt().coerceIn(24, 99)
 
-        return VoiceAnalysis(score, meanPitch, jitter, shimmer, pauseRatio, overallRms, true)
+        return VoiceAnalysis(score, meanPitch, jitter, shimmer, pauseRatio, rawRms, true)
     }
 
     private fun estimatePitch(frame: DoubleArray, sampleRate: Int): Double? {
@@ -78,7 +98,7 @@ object VoiceAnalyzer {
                 bestBin = bin
             }
         }
-        return if (bestBin > 0 && bestMagnitude > 1e-6) bestBin.toDouble() * sampleRate / FRAME else null
+        return if (bestBin > 0 && bestMagnitude > 1e-8) bestBin.toDouble() * sampleRate / FRAME else null
     }
 
     private fun List<Double>.averageOrZero() = if (isEmpty()) 0.0 else average()
