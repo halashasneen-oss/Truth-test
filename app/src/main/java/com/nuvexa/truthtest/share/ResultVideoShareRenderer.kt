@@ -16,6 +16,7 @@ object ResultVideoShareRenderer {
         score: Int,
         firstScore: Int? = null,
         secondScore: Int? = null,
+        groupScores: List<Int> = emptyList(),
         waveform: List<Float> = emptyList(),
         sound: ShareSound = ShareSound.NEON_BEAT
     ): Uri {
@@ -25,6 +26,7 @@ object ResultVideoShareRenderer {
             score = score,
             firstScore = firstScore,
             secondScore = secondScore,
+            groupScores = groupScores,
             waveform = waveform
         )
         if (!sound.enabled) return silentUri
