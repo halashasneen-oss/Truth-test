@@ -335,6 +335,7 @@ class TestActivity : AppCompatActivity() {
                     score = state.finalScore,
                     firstScore = if (state.mode == MODE_DUEL) state.firstScore else null,
                     secondScore = if (state.mode == MODE_DUEL) state.secondScore else null,
+                    groupScores = if (state.mode == MODE_GROUP) state.playerScores else emptyList(),
                     waveform = waveform,
                     sound = sound
                 )
