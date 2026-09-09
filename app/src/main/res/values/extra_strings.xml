@@ -29,4 +29,22 @@
     <string name="watermark">Truth Test • Nuvexa</string>
     <string name="splash_tagline">Speak • Pulse • Share</string>
     <string name="category_count_format">%1$s\n%2$d questions</string>
+
+    <string name="statistics">Stats</string>
+    <string name="statistics_subtitle">Your local activity at a glance. Nothing leaves this device.</string>
+    <string name="stats_average">Average score</string>
+    <string name="stats_best_score">Best score</string>
+    <string name="stats_total_tests">Answers analyzed</string>
+    <string name="stats_tests_today">Today</string>
+    <string name="stats_duel_challenges">Duel challenges</string>
+    <string name="stats_current_streak">Current streak</string>
+    <string name="stats_best_streak">Best streak</string>
+    <string name="stats_favorite_category">Top category</string>
+    <string name="stats_recent_scores">Recent score trend</string>
+    <string name="stats_recent_scores_note">Your latest 7 analyzed answers</string>
+    <string name="stats_no_data">Complete your first test and your statistics will appear here.</string>
+    <string name="stats_no_data_short">No data yet</string>
+    <string name="stats_category_usage_format">%1$d answers in this category</string>
+    <string name="stats_percent_format">%1$d%%</string>
+    <string name="stats_days_format">%1$d days</string>
 </resources>

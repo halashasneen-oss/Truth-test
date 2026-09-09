@@ -29,4 +29,22 @@
     <string name="watermark">كاشف الصدق • Nuvexa</string>
     <string name="splash_tagline">احكي • شوف النبض • شارك</string>
     <string name="category_count_format">%1$s\n%2$d أسئلة</string>
+
+    <string name="statistics">الإحصائيات</string>
+    <string name="statistics_subtitle">ملخص نشاطك المحفوظ محليًا على الجهاز فقط.</string>
+    <string name="stats_average">متوسط النتيجة</string>
+    <string name="stats_best_score">أعلى نتيجة</string>
+    <string name="stats_total_tests">الإجابات المحللة</string>
+    <string name="stats_tests_today">اليوم</string>
+    <string name="stats_duel_challenges">تحديات ثنائية</string>
+    <string name="stats_current_streak">السلسلة الحالية</string>
+    <string name="stats_best_streak">أفضل سلسلة</string>
+    <string name="stats_favorite_category">الفئة الأكثر استخدامًا</string>
+    <string name="stats_recent_scores">اتجاه آخر النتائج</string>
+    <string name="stats_recent_scores_note">آخر 7 إجابات تم تحليلها</string>
+    <string name="stats_no_data">أكمل أول اختبار وستظهر إحصائياتك هنا.</string>
+    <string name="stats_no_data_short">لا توجد بيانات بعد</string>
+    <string name="stats_category_usage_format">%1$d إجابات ضمن هذه الفئة</string>
+    <string name="stats_percent_format">%1$d%%</string>
+    <string name="stats_days_format">%1$d أيام</string>
 </resources>
