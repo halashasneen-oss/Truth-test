@@ -2,6 +2,7 @@ package com.nuvexa.truthtest.share
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.Resources
 import com.nuvexa.truthtest.R
 
 data class SharePalette(
@@ -69,28 +70,47 @@ enum class ShareTheme(
 }
 
 /**
- * Lightweight color overlay for share renderers.
- *
- * The existing PNG/MP4 renderers already read the app brand colors from Context.
- * Wrapping the context lets both exporters use the same selected palette without
- * duplicating their rendering pipelines or adding external dependencies.
+ * Color-only resource overlay used by the existing PNG and MP4 renderers.
+ * Context.getColor() itself is final on Android, so the wrapper overrides
+ * getResources() and lets the final Context method resolve through these
+ * themed resources instead.
  */
 class ShareThemeContext private constructor(
     base: Context,
-    private val shareTheme: ShareTheme
+    shareTheme: ShareTheme
 ) : ContextWrapper(base) {
+    private val themedResources = ShareThemeResources(base.resources, shareTheme)
 
     override fun getApplicationContext(): Context = this
 
-    override fun getColor(id: Int): Int = when (id) {
-        R.color.bg_dark -> shareTheme.palette.background
-        R.color.purple -> shareTheme.palette.primary
-        R.color.pink -> shareTheme.palette.secondary
-        R.color.cyan -> shareTheme.palette.accent
-        else -> super.getColor(id)
-    }
+    override fun getResources(): Resources = themedResources
 
     companion object {
         fun wrap(base: Context, theme: ShareTheme): Context = ShareThemeContext(base, theme)
+    }
+}
+
+@Suppress("DEPRECATION")
+private class ShareThemeResources(
+    private val baseResources: Resources,
+    shareTheme: ShareTheme
+) : Resources(
+    baseResources.assets,
+    baseResources.displayMetrics,
+    baseResources.configuration
+) {
+    private val palette = shareTheme.palette
+
+    override fun getColor(id: Int, theme: Theme?): Int = themedColor(id) ?: baseResources.getColor(id, theme)
+
+    @Deprecated("Kept for platform compatibility")
+    override fun getColor(id: Int): Int = themedColor(id) ?: baseResources.getColor(id)
+
+    private fun themedColor(id: Int): Int? = when (id) {
+        R.color.bg_dark -> palette.background
+        R.color.purple -> palette.primary
+        R.color.pink -> palette.secondary
+        R.color.cyan -> palette.accent
+        else -> null
     }
 }
