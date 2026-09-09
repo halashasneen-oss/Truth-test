@@ -37,7 +37,6 @@
             android:padding="16dp"
             android:text="@string/stats_no_data"
             android:textColor="@color/app_text_secondary"
-            android:textSize="14sp"
             android:visibility="gone" />
 
         <LinearLayout
@@ -55,28 +54,9 @@
                 app:cardCornerRadius="22dp"
                 app:strokeColor="@color/purple"
                 app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:id="@+id/averageValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/purple"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/stats_average"
-                        android:textColor="@color/app_text_secondary"
-                        android:textSize="13sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                    <TextView android:id="@+id/averageValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/purple" android:textSize="30sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_average" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -89,105 +69,36 @@
                 app:cardCornerRadius="22dp"
                 app:strokeColor="@color/cyan"
                 app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:id="@+id/bestScoreValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/cyan"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/stats_best_score"
-                        android:textColor="@color/app_text_secondary"
-                        android:textSize="13sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                    <TextView android:id="@+id/bestScoreValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/cyan" android:textSize="30sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_best_score" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/app_surface"
-                app:cardCornerRadius="22dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/app_surface" app:cardCornerRadius="22dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
                     <TextView android:id="@+id/totalTestsValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/app_text_primary" android:textSize="27sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_total_tests" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/app_surface"
-                app:cardCornerRadius="22dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/app_surface" app:cardCornerRadius="22dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
                     <TextView android:id="@+id/testsTodayValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/app_text_primary" android:textSize="27sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_tests_today" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/app_surface"
-                app:cardCornerRadius="22dp">
-
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/app_surface" app:cardCornerRadius="22dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
                     <TextView android:id="@+id/duelValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/pink" android:textSize="27sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_duel_challenges" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/app_surface"
-                app:cardCornerRadius="22dp">
-
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/app_surface" app:cardCornerRadius="22dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
                     <TextView android:id="@+id/currentStreakValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/warning" android:textSize="27sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/stats_current_streak" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
@@ -201,18 +112,11 @@
             android:layout_marginTop="12dp"
             app:cardBackgroundColor="@color/app_surface"
             app:cardCornerRadius="22dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="18dp">
-
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="18dp">
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/stats_best_streak" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                     <TextView android:id="@+id/bestStreakValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/app_text_primary" android:textSize="24sp" android:textStyle="bold" />
                 </LinearLayout>
-
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:orientation="vertical">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/stats_favorite_category" android:textColor="@color/app_text_secondary" android:textSize="13sp" />
                     <TextView android:id="@+id/favoriteCategoryValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/cyan" android:textSize="20sp" android:textStyle="bold" />
@@ -221,6 +125,14 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/monthlyReportButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/monthly_report_export"
+            app:icon="@android:drawable/ic_menu_save" />
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -228,45 +140,11 @@
             android:layout_marginBottom="24dp"
             app:cardBackgroundColor="@color/app_surface"
             app:cardCornerRadius="22dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="18dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stats_recent_scores"
-                    android:textColor="@color/app_text_primary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/stats_recent_scores_note"
-                    android:textColor="@color/app_text_secondary"
-                    android:textSize="12sp" />
-
-                <com.nuvexa.truthtest.ui.statistics.ScoreTrendView
-                    android:id="@+id/trendView"
-                    android:layout_width="match_parent"
-                    android:layout_height="190dp"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:id="@+id/trendEmpty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:gravity="center"
-                    android:padding="18dp"
-                    android:text="@string/stats_no_data_short"
-                    android:textColor="@color/app_text_secondary"
-                    android:visibility="gone" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/stats_recent_scores" android:textColor="@color/app_text_primary" android:textSize="18sp" android:textStyle="bold" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/stats_recent_scores_note" android:textColor="@color/app_text_secondary" android:textSize="12sp" />
+                <com.nuvexa.truthtest.ui.statistics.ScoreTrendView android:id="@+id/trendView" android:layout_width="match_parent" android:layout_height="190dp" android:layout_marginTop="10dp" />
+                <TextView android:id="@+id/trendEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:gravity="center" android:padding="18dp" android:text="@string/stats_no_data_short" android:textColor="@color/app_text_secondary" android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

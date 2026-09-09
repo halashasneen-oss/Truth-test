@@ -52,6 +52,26 @@
     <string name="group_ranking_line_format">%1$d. %2$s — %3$d%%</string>
     <string name="group_share_text">تحدينا %3$d لاعبين على “%1$s”. أعلى نتيجة في كاشف الصدق كانت %2$d%%. جرّبوا التحدي!</string>
 
+    <string name="choose_intensity">مستوى جرأة السؤال</string>
+    <string name="intensity_light">خفيف</string>
+    <string name="intensity_medium">متوسط</string>
+    <string name="intensity_bold">جريء</string>
+
+    <string name="history_filter_title">فلترة السجل</string>
+    <string name="history_filter_all">الكل</string>
+    <string name="history_filter_format">الفلتر: %1$s</string>
+    <string name="history_result_details">تفاصيل النتيجة</string>
+    <string name="history_score_label">النتيجة</string>
+    <string name="history_mode_label">الوضع</string>
+    <string name="history_category_label">الفئة</string>
+    <string name="history_intensity_label">الجرأة</string>
+    <string name="history_date_label">التاريخ</string>
+    <string name="history_share">مشاركة من جديد</string>
+    <string name="history_delete">حذف</string>
+    <string name="history_delete_title">حذف هذه النتيجة؟</string>
+    <string name="history_delete_message">سيتم حذف هذه النتيجة فقط من الجهاز.</string>
+    <string name="history_share_text">نتيجتي المحفوظة في كاشف الصدق كانت %1$d%%. بتقدر تجيب أعلى؟</string>
+
     <string name="statistics">الإحصائيات</string>
     <string name="statistics_subtitle">ملخص نشاطك المحفوظ محليًا على الجهاز فقط.</string>
     <string name="stats_average">متوسط النتيجة</string>
@@ -69,4 +89,37 @@
     <string name="stats_category_usage_format">%1$d إجابات ضمن هذه الفئة</string>
     <string name="stats_percent_format">%1$d%%</string>
     <string name="stats_days_format">%1$d أيام</string>
+
+    <string name="monthly_report_export">تصدير تقرير PDF شهري</string>
+    <string name="monthly_report_title">التقرير الشهري لكاشف الصدق</string>
+    <string name="monthly_report_choose_month">اختر الشهر</string>
+    <string name="monthly_report_no_data">أكمل اختبارًا أولًا حتى تنشئ التقرير.</string>
+    <string name="monthly_report_creating">جاري إنشاء PDF…</string>
+    <string name="monthly_report_share">مشاركة التقرير الشهري</string>
+    <string name="monthly_report_failed">تعذر إنشاء تقرير PDF الشهري.</string>
+    <string name="monthly_report_answers">الإجابات المحللة</string>
+    <string name="monthly_report_average">متوسط النتيجة</string>
+    <string name="monthly_report_best">أعلى نتيجة</string>
+    <string name="monthly_report_best_streak">أفضل سلسلة</string>
+    <string name="monthly_report_challenges">نشاط التحديات</string>
+    <string name="monthly_report_challenge_line">ثنائي %1$d • جماعي %2$d • مخصص %3$d</string>
+    <string name="monthly_report_intensity">مستوى جرأة الأسئلة</string>
+    <string name="monthly_report_intensity_line">خفيف %1$d • متوسط %2$d • جريء %3$d</string>
+    <string name="monthly_report_favorite_category">الفئة الأكثر استخدامًا</string>
+    <string name="monthly_report_favorite_line">%1$s • %2$d إجابات</string>
+    <string name="monthly_report_recent">آخر النتائج</string>
+    <string name="monthly_report_result_line">%1$d%% • %2$s • %3$s</string>
+    <string name="monthly_report_more_results">+ %1$d نتائج إضافية</string>
+
+    <string name="notifications_settings">الإشعارات</string>
+    <string name="notifications_settings_subtitle">حدد وقت التحدي اليومي وحافظ على السلسلة.</string>
+    <string name="daily_notifications_toggle">إشعار التحدي اليومي</string>
+    <string name="daily_notification_time">وقت الإشعار اليومي</string>
+    <string name="daily_notification_time_format">الوقت اليومي: %1$s</string>
+    <string name="streak_reminder_toggle">ذكرني قبل ما تنقطع السلسلة</string>
+    <string name="streak_reminder_note">إذا عندك سلسلة فعالة وما لعبت اليوم، يفحص Nuvexa تقريبًا الساعة 9:00 مساءً.</string>
+    <string name="reminders_channel">تذكيرات كاشف الصدق</string>
+    <string name="streak_reminder_title">🔥 حافظ على سلسلتك</string>
+    <string name="streak_reminder_text">سلسلتك الحالية %1$d أيام ولسا مستمرة. أكمل اختبار اليوم حتى تحافظ عليها.</string>
+    <string name="notification_permission_needed">يجب السماح بالإشعارات حتى تعمل التذكيرات.</string>
 </resources>

@@ -6,5 +6,6 @@ data class TestResult(
     val category: String,
     val score: Int,
     val timestamp: Long,
-    val mode: String = "solo"
+    val mode: String = "solo",
+    val intensity: String? = null
 )

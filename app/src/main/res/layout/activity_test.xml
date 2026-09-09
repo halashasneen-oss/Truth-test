@@ -34,6 +34,48 @@
                 android:textColor="@color/app_text_primary"
                 android:textSize="20sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/choose_intensity"
+                android:textColor="@color/app_text_secondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/intensityGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/intensityLight"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:text="@string/intensity_light" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/intensityMedium"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:text="@string/intensity_medium" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/intensityBold"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:text="@string/intensity_bold" />
+            </com.google.android.material.chip.ChipGroup>
+
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

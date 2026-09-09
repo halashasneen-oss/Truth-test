@@ -1,12 +1,23 @@
 package com.nuvexa.truthtest.ui.statistics
 
+import android.content.ClipData
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.data.HistoryRepository
 import com.nuvexa.truthtest.data.StatisticsCalculator
 import com.nuvexa.truthtest.databinding.FragmentStatisticsBinding
+import com.nuvexa.truthtest.report.MonthlyReportPdfRenderer
+import java.time.Instant
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.time.ZoneId
+import kotlinx.coroutines.launch
 
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private var _binding: FragmentStatisticsBinding? = null
@@ -15,6 +26,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentStatisticsBinding.bind(view)
+        binding.monthlyReportButton.setOnClickListener { showMonthlyReportPicker() }
         render()
     }
 
@@ -49,6 +61,50 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.emptyState.visibility = if (summary.totalResults == 0) View.VISIBLE else View.GONE
         binding.trendView.visibility = if (summary.recentScores.isEmpty()) View.GONE else View.VISIBLE
         binding.trendEmpty.visibility = if (summary.recentScores.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun showMonthlyReportPicker() {
+        val results = HistoryRepository(requireContext()).getAll()
+        if (results.isEmpty()) {
+            Toast.makeText(requireContext(), R.string.monthly_report_no_data, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val zone = ZoneId.systemDefault()
+        val months = results.map {
+            YearMonth.from(Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate())
+        }.distinct().sortedDescending()
+        val locale = resources.configuration.locales[0]
+        val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", locale)
+        val labels = months.map { it.format(formatter) }.toTypedArray()
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.monthly_report_choose_month)
+            .setItems(labels) { _, which -> createMonthlyReport(results, months[which]) }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun createMonthlyReport(results: List<com.nuvexa.truthtest.data.model.TestResult>, month: YearMonth) {
+        binding.monthlyReportButton.isEnabled = false
+        binding.monthlyReportButton.setText(R.string.monthly_report_creating)
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val uri = MonthlyReportPdfRenderer.render(requireContext(), results, month)
+                startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                    type = "application/pdf"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    clipData = ClipData.newUri(requireContext().contentResolver, getString(R.string.monthly_report_title), uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }, getString(R.string.monthly_report_share)))
+            } catch (_: Throwable) {
+                Toast.makeText(requireContext(), R.string.monthly_report_failed, Toast.LENGTH_LONG).show()
+            } finally {
+                if (_binding != null) {
+                    binding.monthlyReportButton.isEnabled = true
+                    binding.monthlyReportButton.setText(R.string.monthly_report_export)
+                }
+            }
+        }
     }
 
     private fun categoryName(category: String): String = when (category) {

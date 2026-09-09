@@ -13,21 +13,26 @@ import androidx.core.content.ContextCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.nuvexa.truthtest.R
-import com.nuvexa.truthtest.data.QuestionRepository
+import com.nuvexa.truthtest.data.HistoryRepository
 import com.nuvexa.truthtest.ui.MainActivity
 
-class DailyChallengeWorker(
+class StreakReminderWorker(
     appContext: Context,
     params: WorkerParameters
 ) : Worker(appContext, params) {
 
     override fun doWork(): Result {
-        if (!NotificationSettings(applicationContext).dailyEnabled) return Result.success()
+        if (!NotificationSettings(applicationContext).streakReminderEnabled) return Result.success()
         if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) return Result.success()
+
+        val history = HistoryRepository(applicationContext)
+        if (history.hasResultToday()) return Result.success()
+        val streak = history.currentStreak()
+        if (streak <= 0) return Result.success()
 
         val manager = applicationContext.getSystemService(NotificationManager::class.java)
         if (Build.VERSION.SDK_INT >= 26) {
@@ -39,24 +44,26 @@ class DailyChallengeWorker(
                 )
             )
         }
-        val question = QuestionRepository(applicationContext).dailyQuestion()?.text
-            ?: applicationContext.getString(R.string.daily_notification_fallback)
-        val intent = Intent(applicationContext, MainActivity::class.java)
+
         val pending = PendingIntent.getActivity(
             applicationContext,
-            10,
-            intent,
+            11,
+            Intent(applicationContext, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL)
-            .setSmallIcon(android.R.drawable.ic_btn_speak_now)
-            .setContentTitle(applicationContext.getString(R.string.daily_challenge))
-            .setContentText(question)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(question))
+            .setSmallIcon(android.R.drawable.ic_popup_reminder)
+            .setContentTitle(applicationContext.getString(R.string.streak_reminder_title))
+            .setContentText(applicationContext.getString(R.string.streak_reminder_text, streak))
+            .setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                    applicationContext.getString(R.string.streak_reminder_text, streak)
+                )
+            )
             .setContentIntent(pending)
             .setAutoCancel(true)
             .build()
-        manager.notify(1001, notification)
+        manager.notify(1002, notification)
         return Result.success()
     }
 

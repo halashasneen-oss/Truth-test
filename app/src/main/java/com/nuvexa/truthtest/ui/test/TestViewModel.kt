@@ -27,19 +27,27 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             TestActivity.MODE_GROUP -> requestedPlayerCount.coerceIn(3, 4)
             else -> 1
         }
+        val intensity = questions.preferredIntensity()
         _state.value = TestUiState(
             initialized = true,
             mode = mode,
             stage = initialStage,
+            selectedIntensity = intensity,
             playerCount = playerCount
         )
-        if (daily) questions.dailyQuestion()?.let(::beginQuestion)
+        if (daily) questions.dailyQuestion(intensity)?.let(::beginQuestion)
     }
 
-    fun categoryCount(category: String): Int = questions.allQuestions().count { it.category == category }
+    fun categoryCount(category: String): Int = questions.count(category, _state.value.selectedIntensity)
+
+    fun setIntensity(intensity: String) {
+        val clean = if (intensity in QuestionRepository.INTENSITIES) intensity else QuestionRepository.INTENSITY_MEDIUM
+        questions.setPreferredIntensity(clean)
+        _state.value = _state.value.copy(selectedIntensity = clean)
+    }
 
     fun chooseCategory(category: String): Boolean {
-        val question = questions.random(category) ?: return false
+        val question = questions.random(category, _state.value.selectedIntensity) ?: return false
         beginQuestion(question)
         return true
     }
@@ -47,7 +55,7 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     fun useCustomQuestion(text: String): Boolean {
         val clean = text.trim()
         if (clean.isBlank()) return false
-        beginQuestion(Question("custom-${System.currentTimeMillis()}", "custom", clean))
+        beginQuestion(Question("custom-${System.currentTimeMillis()}", "custom", clean, null))
         return true
     }
 
@@ -91,6 +99,7 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             initialized = true,
             mode = current.mode,
             stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY,
+            selectedIntensity = current.selectedIntensity,
             playerCount = current.playerCount
         )
     }
@@ -109,7 +118,8 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
                 question.category,
                 score,
                 System.currentTimeMillis(),
-                mode
+                mode,
+                question.intensity
             )
         )
         achievements.sync(history.getAll())

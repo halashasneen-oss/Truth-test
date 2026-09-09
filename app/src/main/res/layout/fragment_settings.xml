@@ -1,10 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/app_background">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/settings" android:textColor="@color/app_text_primary" android:textSize="28sp" android:textStyle="bold" />
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="@string/language" android:textColor="@color/app_text_primary" android:textSize="18sp" android:textStyle="bold" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><com.google.android.material.button.MaterialButton android:id="@+id/arabicButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/arabic" /><com.google.android.material.button.MaterialButton android:id="@+id/englishButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/english" /></LinearLayout>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="@string/theme" android:textColor="@color/app_text_primary" android:textSize="18sp" android:textStyle="bold" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><com.google.android.material.button.MaterialButton android:id="@+id/darkButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/dark" /><com.google.android.material.button.MaterialButton android:id="@+id/lightButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/light" /></LinearLayout>
-    <TextView android:id="@+id/aboutText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:background="@drawable/bg_surface" android:padding="18dp" android:textColor="@color/app_text_secondary" android:textSize="14sp" />
-</LinearLayout></ScrollView>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textColor="@color/app_text_primary"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/language"
+            android:textColor="@color/app_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/arabicButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/arabic" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/englishButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/english" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/theme"
+            android:textColor="@color/app_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/darkButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/dark" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/lightButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/light" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/notifications_settings"
+            android:textColor="@color/app_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/notifications_settings_subtitle"
+            android:textColor="@color/app_text_secondary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/dailyNotificationsSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/daily_notifications_toggle"
+            android:textColor="@color/app_text_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dailyTimeButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/daily_notification_time" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/streakReminderSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/streak_reminder_toggle"
+            android:textColor="@color/app_text_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/streak_reminder_note"
+            android:textColor="@color/app_text_secondary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/aboutText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_surface"
+            android:padding="18dp"
+            android:textColor="@color/app_text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+</ScrollView>

@@ -25,6 +25,7 @@ import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.audio.AudioRecorderEngine
 import com.nuvexa.truthtest.audio.VoiceAnalyzer
 import com.nuvexa.truthtest.data.PlayerRanking
+import com.nuvexa.truthtest.data.QuestionRepository
 import com.nuvexa.truthtest.databinding.ActivityTestBinding
 import com.nuvexa.truthtest.share.ResultCardRenderer
 import com.nuvexa.truthtest.share.ResultVideoShareRenderer
@@ -42,6 +43,14 @@ class TestActivity : AppCompatActivity() {
     private var renderedPlayer = 0
     private var lastStage: TestStage? = null
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var categorySpecs: List<CategorySpec>
+
+    private data class CategorySpec(
+        val button: MaterialButton,
+        val key: String,
+        val labelRes: Int,
+        val colorRes: Int
+    )
 
     private val timer = object : Runnable {
         override fun run() {
@@ -61,36 +70,68 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(state)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bindCategories()
-        bindActions()
-        observeState()
         viewModel.configure(
             mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO,
             daily = intent.getBooleanExtra(EXTRA_DAILY, false),
             requestedPlayerCount = intent.getIntExtra(EXTRA_PLAYER_COUNT, 1)
         )
+        bindIntensity()
+        bindCategories()
+        bindActions()
+        observeState()
     }
 
-    private fun bindCategories() {
-        val categories = listOf(
-            Triple(binding.categoryEmbarrassing, "embarrassing", R.color.orange),
-            Triple(binding.categoryFunny, "funny", R.color.warning),
-            Triple(binding.categoryBold, "bold", R.color.danger),
-            Triple(binding.categoryRomantic, "romantic", R.color.pink),
-            Triple(binding.categoryFriendship, "friendship", R.color.cyan),
-            Triple(binding.categoryFamily, "family", R.color.success)
-        )
-        categories.forEach { (button, category, color) ->
-            decorateCategory(button, viewModel.categoryCount(category), color)
-            button.setOnClickListener { viewModel.chooseCategory(category) }
+    private fun bindIntensity() {
+        when (viewModel.state.value.selectedIntensity) {
+            QuestionRepository.INTENSITY_LIGHT -> binding.intensityLight.isChecked = true
+            QuestionRepository.INTENSITY_BOLD -> binding.intensityBold.isChecked = true
+            else -> binding.intensityMedium.isChecked = true
+        }
+        binding.intensityGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            val intensity = when (checkedIds.firstOrNull()) {
+                R.id.intensityLight -> QuestionRepository.INTENSITY_LIGHT
+                R.id.intensityBold -> QuestionRepository.INTENSITY_BOLD
+                else -> QuestionRepository.INTENSITY_MEDIUM
+            }
+            if (intensity != viewModel.state.value.selectedIntensity) {
+                viewModel.setIntensity(intensity)
+                refreshCategoryCounts()
+            }
         }
     }
 
-    private fun decorateCategory(button: MaterialButton, count: Int, colorRes: Int) {
-        button.text = getString(R.string.category_count_format, button.text, count)
-        button.backgroundTintList = ColorStateList.valueOf(getColor(colorRes))
-        button.setTextColor(if (colorRes == R.color.warning || colorRes == R.color.cyan) 0xFF111118.toInt() else 0xFFFFFFFF.toInt())
-        button.cornerRadius = (20f * resources.displayMetrics.density).toInt()
+    private fun bindCategories() {
+        categorySpecs = listOf(
+            CategorySpec(binding.categoryEmbarrassing, "embarrassing", R.string.embarrassing, R.color.orange),
+            CategorySpec(binding.categoryFunny, "funny", R.string.funny, R.color.warning),
+            CategorySpec(binding.categoryBold, "bold", R.string.bold, R.color.danger),
+            CategorySpec(binding.categoryRomantic, "romantic", R.string.romantic, R.color.pink),
+            CategorySpec(binding.categoryFriendship, "friendship", R.string.friendship, R.color.cyan),
+            CategorySpec(binding.categoryFamily, "family", R.string.family, R.color.success)
+        )
+        categorySpecs.forEach { spec ->
+            decorateCategory(spec)
+            spec.button.setOnClickListener { viewModel.chooseCategory(spec.key) }
+        }
+    }
+
+    private fun refreshCategoryCounts() {
+        if (!::categorySpecs.isInitialized) return
+        categorySpecs.forEach(::decorateCategory)
+    }
+
+    private fun decorateCategory(spec: CategorySpec) {
+        spec.button.text = getString(
+            R.string.category_count_format,
+            getString(spec.labelRes),
+            viewModel.categoryCount(spec.key)
+        )
+        spec.button.backgroundTintList = ColorStateList.valueOf(getColor(spec.colorRes))
+        spec.button.setTextColor(
+            if (spec.colorRes == R.color.warning || spec.colorRes == R.color.cyan) 0xFF111118.toInt()
+            else 0xFFFFFFFF.toInt()
+        )
+        spec.button.cornerRadius = (20f * resources.displayMetrics.density).toInt()
     }
 
     private fun bindActions() {

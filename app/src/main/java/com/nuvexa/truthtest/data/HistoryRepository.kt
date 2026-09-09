@@ -21,8 +21,24 @@ class HistoryRepository(context: Context) {
     }
 
     fun add(result: TestResult) {
-        val updated = (listOf(result) + getAll()).distinctBy { it.id }.take(100)
-        prefs.edit().putString("results", gson.toJson(updated)).apply()
+        val updated = (listOf(result) + getAll()).distinctBy { it.id }.take(MAX_RESULTS)
+        save(updated)
+    }
+
+    fun delete(id: String): Boolean {
+        val current = getAll()
+        val updated = current.filterNot { it.id == id }
+        if (updated.size == current.size) return false
+        save(updated)
+        return true
+    }
+
+    fun hasResultToday(nowMillis: Long = System.currentTimeMillis()): Boolean {
+        val zone = ZoneId.systemDefault()
+        val today = Instant.ofEpochMilli(nowMillis).atZone(zone).toLocalDate()
+        return getAll().any {
+            Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate() == today
+        }
     }
 
     fun currentStreak(nowMillis: Long = System.currentTimeMillis()): Int {
@@ -54,4 +70,12 @@ class HistoryRepository(context: Context) {
     }
 
     fun clear() = prefs.edit().remove("results").apply()
+
+    private fun save(items: List<TestResult>) {
+        prefs.edit().putString("results", gson.toJson(items)).apply()
+    }
+
+    companion object {
+        private const val MAX_RESULTS = 500
+    }
 }
