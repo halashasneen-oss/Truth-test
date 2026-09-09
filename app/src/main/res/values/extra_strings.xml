@@ -35,7 +35,7 @@
     <string name="achievement_custom">Question Creator</string>
     <string name="achievement_progress_format">%1$d of %2$d achievements unlocked</string>
     <string name="current_streak_format">🔥 Current streak: %1$d days</string>
-    <string name="watermark">Truth Test • Nuvexa</string>
+    <string name="watermark">Truth Test</string>
     <string name="splash_tagline">Speak • Pulse • Share</string>
     <string name="category_count_format">%1$s\n%2$d questions</string>
 
@@ -117,7 +117,7 @@
     <string name="daily_notification_time">Daily notification time</string>
     <string name="daily_notification_time_format">Daily time: %1$s</string>
     <string name="streak_reminder_toggle">Remind me before my streak breaks</string>
-    <string name="streak_reminder_note">If you have an active streak and have not played today, Nuvexa checks around 9:00 PM.</string>
+    <string name="streak_reminder_note">If you have an active streak and have not played today, Truth Test checks around 9:00 PM.</string>
     <string name="reminders_channel">Truth Test reminders</string>
     <string name="streak_reminder_title">🔥 Keep your streak alive</string>
     <string name="streak_reminder_text">Your %1$d-day streak is still active. Complete one test today to keep it going.</string>
