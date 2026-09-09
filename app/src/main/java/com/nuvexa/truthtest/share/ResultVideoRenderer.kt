@@ -20,6 +20,7 @@ import android.opengl.GLUtils
 import android.view.Surface
 import androidx.core.content.FileProvider
 import com.nuvexa.truthtest.R
+import com.nuvexa.truthtest.data.PlayerRanking
 import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -40,13 +41,14 @@ object ResultVideoRenderer {
         score: Int,
         firstScore: Int? = null,
         secondScore: Int? = null,
+        groupScores: List<Int> = emptyList(),
         waveform: List<Float> = emptyList()
     ): android.net.Uri = withContext(Dispatchers.Default) {
         val appContext = context.applicationContext
         val dir = File(appContext.cacheDir, "shares").apply { mkdirs() }
         cleanupOldVideos(dir)
         val output = File(dir, "truth_test_${System.currentTimeMillis()}.mp4")
-        encode(appContext, output, question, score, firstScore, secondScore, waveform)
+        encode(appContext, output, question, score, firstScore, secondScore, groupScores, waveform)
         FileProvider.getUriForFile(appContext, "${appContext.packageName}.files", output)
     }
 
@@ -57,6 +59,7 @@ object ResultVideoRenderer {
         score: Int,
         firstScore: Int?,
         secondScore: Int?,
+        groupScores: List<Int>,
         waveform: List<Float>
     ) {
         val format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, WIDTH, HEIGHT).apply {
@@ -125,6 +128,7 @@ object ResultVideoRenderer {
                     score = score,
                     firstScore = firstScore,
                     secondScore = secondScore,
+                    groupScores = groupScores,
                     waveform = waveform,
                     progress = progress
                 )
@@ -154,6 +158,7 @@ object ResultVideoRenderer {
         score: Int,
         firstScore: Int?,
         secondScore: Int?,
+        groupScores: List<Int>,
         waveform: List<Float>,
         progress: Float
     ) {
@@ -203,26 +208,40 @@ object ResultVideoRenderer {
         drawScoreMeter(canvas, context, animatedScore)
 
         val resultAlpha = (ResultVideoTimeline.resultAlpha(progress) * 255).roundToInt().coerceIn(0, 255)
-        if (firstScore != null && secondScore != null) {
-            drawDuelPanel(canvas, context, firstScore, secondScore, resultAlpha)
-        } else {
-            paint.color = 0xE6FFFFFF.toInt()
-            paint.alpha = resultAlpha
-            paint.textSize = 32f
-            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            canvas.drawText(scoreLabel(context, score), WIDTH / 2f, 900f, paint)
+        val isGroup = groupScores.size in 3..4
+        when {
+            isGroup -> drawGroupPanel(canvas, context, groupScores, progress)
+            firstScore != null && secondScore != null -> drawDuelPanel(canvas, context, firstScore, secondScore, resultAlpha)
+            else -> {
+                paint.color = 0xE6FFFFFF.toInt()
+                paint.alpha = resultAlpha
+                paint.textSize = 32f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                canvas.drawText(scoreLabel(context, score), WIDTH / 2f, 900f, paint)
+            }
         }
 
-        paint.alpha = resultAlpha
+        val footerAlpha = if (isGroup) {
+            (ResultVideoTimeline.groupWinnerAlpha(progress) * 255).roundToInt().coerceIn(0, 255)
+        } else resultAlpha
+        paint.alpha = footerAlpha
         paint.color = context.getColor(R.color.cyan)
-        paint.textSize = 24f
+        paint.textSize = if (isGroup) 22f else 24f
         paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        canvas.drawText(context.getString(R.string.share_video_cta), WIDTH / 2f, 1030f, paint)
+        canvas.drawText(context.getString(R.string.share_video_cta), WIDTH / 2f, if (isGroup) 1100f else 1030f, paint)
 
         paint.color = 0x8FFFFFFF.toInt()
         paint.textSize = 17f
         paint.typeface = Typeface.DEFAULT
-        drawWrapped(canvas, context.getString(R.string.entertainment_notice), paint, WIDTH / 2f, 1120f, 610f, 25f)
+        drawWrapped(
+            canvas,
+            context.getString(R.string.entertainment_notice),
+            paint,
+            WIDTH / 2f,
+            if (isGroup) 1160f else 1120f,
+            610f,
+            25f
+        )
 
         paint.color = 0x72FFFFFF
         paint.textSize = 20f
@@ -290,6 +309,83 @@ object ResultVideoRenderer {
             else -> "🏆 ${context.getString(R.string.player_two)}"
         }
         canvas.drawText(winner, WIDTH / 2f, 1008f, paint)
+    }
+
+    private fun drawGroupPanel(
+        canvas: Canvas,
+        context: Context,
+        groupScores: List<Int>,
+        progress: Float
+    ) {
+        val safeScores = groupScores.take(4).map { it.coerceIn(0, 100) }
+        if (safeScores.size < 3) return
+
+        val standings = PlayerRanking.standings(safeScores)
+        val winners = PlayerRanking.winners(safeScores)
+        val panelAlpha = (
+            max(
+                ResultVideoTimeline.groupRowAlpha(progress, standings.lastIndex.coerceAtLeast(0)),
+                ResultVideoTimeline.groupWinnerAlpha(progress)
+            ) * 255
+        ).roundToInt().coerceIn(0, 255)
+
+        val outer = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = 0x18FFFFFF
+            alpha = panelAlpha
+        }
+        canvas.drawRoundRect(RectF(62f, 850f, 658f, 1070f), 30f, 30f, outer)
+
+        val winnerAlpha = ResultVideoTimeline.groupWinnerAlpha(progress)
+        val winnerScale = ResultVideoTimeline.groupWinnerScale(progress)
+        val headline = if (winners.size == 1) {
+            context.getString(
+                R.string.group_winner_format,
+                context.getString(R.string.player_number_format, winners.first())
+            )
+        } else {
+            context.getString(
+                R.string.group_tie_format,
+                winners.joinToString(" • ") { context.getString(R.string.player_number_format, it) }
+            )
+        }
+        val winnerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            textAlign = Paint.Align.CENTER
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            textSize = 27f * winnerScale
+            color = context.getColor(R.color.cyan)
+            alpha = (winnerAlpha * 255).roundToInt().coerceIn(0, 255)
+        }
+        canvas.drawText(headline, WIDTH / 2f, 890f, winnerPaint)
+
+        standings.forEachIndexed { index, standing ->
+            val rowAlpha = ResultVideoTimeline.groupRowAlpha(progress, index)
+            val alpha = (rowAlpha * 255).roundToInt().coerceIn(0, 255)
+            val slide = (1f - rowAlpha) * 34f
+            val centerY = 930f + index * 38f
+            val rowLeft = 84f + slide
+            val rowRight = 636f + slide
+
+            val rowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = if (standing.rank == 1) context.getColor(R.color.purple) else 0x22FFFFFF
+                this.alpha = if (standing.rank == 1) (alpha * 0.38f).roundToInt() else (alpha * 0.18f).roundToInt()
+            }
+            canvas.drawRoundRect(RectF(rowLeft, centerY - 25f, rowRight, centerY + 9f), 17f, 17f, rowPaint)
+
+            val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                textAlign = Paint.Align.CENTER
+                typeface = Typeface.create(Typeface.DEFAULT, if (standing.rank == 1) Typeface.BOLD else Typeface.NORMAL)
+                textSize = if (standing.rank == 1) 22f else 20f
+                color = if (standing.rank == 1) 0xFFF8FAFC.toInt() else 0xD9FFFFFF.toInt()
+                this.alpha = alpha
+            }
+            val line = context.getString(
+                R.string.group_ranking_line_format,
+                standing.rank,
+                context.getString(R.string.player_number_format, standing.playerNumber),
+                standing.score
+            )
+            canvas.drawText(line, WIDTH / 2f + slide, centerY, textPaint)
+        }
     }
 
     private fun drawWaveform(
