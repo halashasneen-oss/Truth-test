@@ -25,6 +25,23 @@ object ResultVideoTimeline {
 
     fun resultAlpha(progress: Float): Float = window(progress, 0.66f, 0.82f)
 
+    /** Each group result row enters slightly after the previous one. */
+    fun groupRowAlpha(progress: Float, rowIndex: Int): Float {
+        val index = rowIndex.coerceIn(0, 3)
+        val start = 0.60f + index * 0.045f
+        return window(progress, start, start + 0.12f)
+    }
+
+    /** Winner/tie headline lands after the ranking rows are already readable. */
+    fun groupWinnerAlpha(progress: Float): Float = window(progress, 0.76f, 0.91f)
+
+    /** Small deterministic pop for the winner headline without changing video duration. */
+    fun groupWinnerScale(progress: Float): Float {
+        val reveal = groupWinnerAlpha(progress)
+        val eased = 1f - (1f - reveal).pow(3)
+        return 0.88f + eased * 0.12f
+    }
+
     private fun window(value: Float, start: Float, end: Float): Float {
         if (end <= start) return if (value >= end) 1f else 0f
         return ((value - start) / (end - start)).coerceIn(0f, 1f)
