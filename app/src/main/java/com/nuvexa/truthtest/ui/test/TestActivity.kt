@@ -26,7 +26,8 @@ import com.nuvexa.truthtest.audio.AudioRecorderEngine
 import com.nuvexa.truthtest.audio.VoiceAnalyzer
 import com.nuvexa.truthtest.databinding.ActivityTestBinding
 import com.nuvexa.truthtest.share.ResultCardRenderer
-import com.nuvexa.truthtest.share.ResultVideoRenderer
+import com.nuvexa.truthtest.share.ResultVideoShareRenderer
+import com.nuvexa.truthtest.share.ShareSound
 import com.nuvexa.truthtest.share.ShareTheme
 import com.nuvexa.truthtest.share.ShareThemeContext
 import kotlinx.coroutines.launch
@@ -224,7 +225,30 @@ class TestActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.choose_share_format)
             .setItems(arrayOf(getString(R.string.share_video), getString(R.string.share_image))) { _, which ->
-                if (which == 0) shareVideo(state, theme) else shareImage(state, theme)
+                if (which == 0) showShareSoundPicker(state, theme) else shareImage(state, theme)
+            }
+            .show()
+    }
+
+    private fun showShareSoundPicker(state: TestUiState, theme: ShareTheme) {
+        val sounds = ShareSound.entries
+        val saved = ShareSound.fromStorage(
+            getSharedPreferences(SHARE_PREFS, MODE_PRIVATE).getString(PREF_SHARE_SOUND, null)
+        )
+        var selectedIndex = sounds.indexOf(saved).coerceAtLeast(0)
+        val labels = sounds.map { "${it.emoji}  ${getString(it.labelRes)}" }.toTypedArray()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.choose_video_sound)
+            .setSingleChoiceItems(labels, selectedIndex) { _, which -> selectedIndex = which }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.continue_label) { _, _ ->
+                val selectedSound = sounds[selectedIndex]
+                getSharedPreferences(SHARE_PREFS, MODE_PRIVATE)
+                    .edit()
+                    .putString(PREF_SHARE_SOUND, selectedSound.storageKey)
+                    .apply()
+                shareVideo(state, theme, selectedSound)
             }
             .show()
     }
@@ -243,7 +267,7 @@ class TestActivity : AppCompatActivity() {
         launchShare(uri, "image/png", getString(R.string.share_text, question.text, state.finalScore))
     }
 
-    private fun shareVideo(state: TestUiState, theme: ShareTheme) {
+    private fun shareVideo(state: TestUiState, theme: ShareTheme, sound: ShareSound) {
         val question = state.question ?: return
         val waveform = binding.waveform.snapshot()
         val themedContext = ShareThemeContext.wrap(this, theme)
@@ -251,13 +275,14 @@ class TestActivity : AppCompatActivity() {
         binding.shareButton.setText(R.string.creating_video)
         lifecycleScope.launch {
             try {
-                val uri = ResultVideoRenderer.render(
+                val uri = ResultVideoShareRenderer.render(
                     context = themedContext,
                     question = question.text,
                     score = state.finalScore,
                     firstScore = state.firstScore,
                     secondScore = state.secondScore,
-                    waveform = waveform
+                    waveform = waveform,
+                    sound = sound
                 )
                 launchShare(uri, "video/mp4", getString(R.string.share_text, question.text, state.finalScore))
             } catch (_: Throwable) {
@@ -293,5 +318,6 @@ class TestActivity : AppCompatActivity() {
         const val MODE_CUSTOM = "custom"
         private const val SHARE_PREFS = "truth_test_share"
         private const val PREF_SHARE_THEME = "share_theme"
+        private const val PREF_SHARE_SOUND = "share_sound"
     }
 }

@@ -23,6 +23,8 @@ Offline-first Android entertainment app built with Kotlin + XML Views. It analyz
 - Optional 7-second vertical MP4/H.264 result video rendered fully on-device using Android `MediaCodec` + `MediaMuxer` + EGL/OpenGL ES. No server or FFmpeg binary is required.
 - Video sharing animates the real recorded waveform, score reveal, question and final result; duel exports show both player scores.
 - Four selectable share themes shared by PNG and MP4 export: Neon Purple, Cyber Cyan, Romantic Pink and Gold Challenge. The last selected style is remembered locally.
+- Optional locally generated AAC soundtrack for MP4 export: Neon Beat, Minimal Pulse, or No Sound. The recorded microphone audio is never reused in shared media.
+- Audio/video merge has a silent-video fallback so export can still succeed if a device codec rejects AAC/remuxing.
 - GitHub Actions debug APK build using an installed Gradle version; no Gradle Wrapper JAR is committed.
 
 ## Architecture
@@ -33,12 +35,11 @@ The app deliberately keeps all user test data on-device. Share media is generate
 
 ## Video export choice
 
-The original FFmpegKit project was retired and its historical Android binaries were removed. To keep clean CI builds reliable and avoid a large native dependency, the MVP video exporter uses Android platform APIs (`MediaCodec`, `MediaMuxer`, EGL/OpenGL ES) instead. The output is a silent 720×1280 H.264 MP4 intended for reels/stories and general social sharing.
+The original FFmpegKit project was retired and its historical Android binaries were removed. To keep clean CI builds reliable and avoid a large native dependency, the MVP video exporter uses Android platform APIs (`MediaCodec`, `MediaMuxer`, EGL/OpenGL ES) instead. The output is a 720×1280 H.264 MP4 intended for reels/stories and general social sharing. Optional AAC music/effects are synthesized on-device from deterministic waveforms, so no copyrighted audio asset, server upload, or microphone recording is needed.
 
 ## Planned next steps
 
-1. Device-test video encoding on a wider range of Android chipsets and add codec fallback if needed.
-2. Add optional sound/music that does not require uploading user audio.
-3. Add group mode for up to four players.
-4. Add monthly playful PDF report.
-5. Add release signing and AAB workflow when Play Console publishing starts.
+1. Device-test video + AAC encoding on a wider range of Android chipsets and add additional codec fallback if needed.
+2. Add group mode for up to four players.
+3. Add monthly playful PDF report.
+4. Add release signing and AAB workflow when Play Console publishing starts.
