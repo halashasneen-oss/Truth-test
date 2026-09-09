@@ -9,6 +9,11 @@
     <string name="home_tagline">صوتك. نبضك. تحديك.</string>
     <string name="offline_badge">يعمل بدون إنترنت • بدون حساب • الصوت الخام لا يُحفظ</string>
     <string name="share_card_badge">تحدي أنماط الصوت</string>
+    <string name="share_video">مشاركة فيديو متحرك</string>
+    <string name="share_image">مشاركة صورة</string>
+    <string name="creating_video">جاري إنشاء الفيديو…</string>
+    <string name="video_failed">تعذر إنشاء الفيديو على هذا الجهاز. ما زال بإمكانك مشاركة الصورة.</string>
+    <string name="share_video_cta">بتقدر تجيب نتيجة أعلى؟</string>
     <string name="achievement_streak">سلسلة 3 أيام</string>
     <string name="current_streak_format">🔥 السلسلة الحالية: %1$d أيام</string>
     <string name="watermark">كاشف الصدق • Nuvexa</string>

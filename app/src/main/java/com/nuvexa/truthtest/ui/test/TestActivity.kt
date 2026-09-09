@@ -1,9 +1,11 @@
 package com.nuvexa.truthtest.ui.test
 
 import android.Manifest
+import android.content.ClipData
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,11 +20,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.audio.AudioRecorderEngine
 import com.nuvexa.truthtest.audio.VoiceAnalyzer
 import com.nuvexa.truthtest.databinding.ActivityTestBinding
 import com.nuvexa.truthtest.share.ResultCardRenderer
+import com.nuvexa.truthtest.share.ResultVideoRenderer
 import kotlinx.coroutines.launch
 
 class TestActivity : AppCompatActivity() {
@@ -86,7 +90,7 @@ class TestActivity : AppCompatActivity() {
         binding.recordButton.setOnClickListener { if (isRecording) stopRecording() else ensureMicAndStart() }
         binding.newTestButton.setOnClickListener { viewModel.reset() }
         binding.homeButton.setOnClickListener { finish() }
-        binding.shareButton.setOnClickListener { shareResult(viewModel.state.value) }
+        binding.shareButton.setOnClickListener { showShareOptions(viewModel.state.value) }
     }
 
     private fun observeState() {
@@ -190,19 +194,60 @@ class TestActivity : AppCompatActivity() {
         } else binding.duelComparison.visibility = View.GONE
     }
 
-    private fun shareResult(state: TestUiState) {
+    private fun showShareOptions(state: TestUiState) {
+        if (state.question == null) return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.share_result)
+            .setItems(arrayOf(getString(R.string.share_video), getString(R.string.share_image))) { _, which ->
+                if (which == 0) shareVideo(state) else shareImage(state)
+            }
+            .show()
+    }
+
+    private fun shareImage(state: TestUiState) {
         val question = state.question ?: return
         val uri = ResultCardRenderer.render(
             context = this,
             question = question.text,
             score = state.finalScore,
+            firstScore = state.firstScore,
             secondScore = state.secondScore,
             waveform = binding.waveform.snapshot()
         )
+        launchShare(uri, "image/png", getString(R.string.share_text, question.text, state.finalScore))
+    }
+
+    private fun shareVideo(state: TestUiState) {
+        val question = state.question ?: return
+        val waveform = binding.waveform.snapshot()
+        binding.shareButton.isEnabled = false
+        binding.shareButton.setText(R.string.creating_video)
+        lifecycleScope.launch {
+            try {
+                val uri = ResultVideoRenderer.render(
+                    context = this@TestActivity,
+                    question = question.text,
+                    score = state.finalScore,
+                    firstScore = state.firstScore,
+                    secondScore = state.secondScore,
+                    waveform = waveform
+                )
+                launchShare(uri, "video/mp4", getString(R.string.share_text, question.text, state.finalScore))
+            } catch (_: Throwable) {
+                Toast.makeText(this@TestActivity, R.string.video_failed, Toast.LENGTH_LONG).show()
+            } finally {
+                binding.shareButton.isEnabled = true
+                binding.shareButton.setText(R.string.share_result)
+            }
+        }
+    }
+
+    private fun launchShare(uri: Uri, mimeType: String, message: String) {
         startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-            type = "image/png"
+            type = mimeType
             putExtra(Intent.EXTRA_STREAM, uri)
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text, question.text, state.finalScore))
+            putExtra(Intent.EXTRA_TEXT, message)
+            clipData = ClipData.newUri(contentResolver, getString(R.string.share_result), uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }, getString(R.string.share_result)))
     }

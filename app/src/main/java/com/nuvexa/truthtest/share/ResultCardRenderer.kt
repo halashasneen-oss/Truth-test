@@ -19,6 +19,7 @@ object ResultCardRenderer {
         context: Context,
         question: String,
         score: Int,
+        firstScore: Int? = null,
         secondScore: Int? = null,
         waveform: List<Float> = emptyList()
     ): android.net.Uri {
@@ -35,12 +36,7 @@ object ResultCardRenderer {
         canvas.drawRect(0f, 0f, 1080f, 1350f, background)
 
         val glow = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            shader = LinearGradient(
-                120f, 80f, 960f, 420f,
-                context.getColor(R.color.purple),
-                context.getColor(R.color.pink),
-                Shader.TileMode.CLAMP
-            )
+            shader = LinearGradient(120f, 80f, 960f, 420f, context.getColor(R.color.purple), context.getColor(R.color.pink), Shader.TileMode.CLAMP)
             alpha = 46
         }
         canvas.drawOval(RectF(90f, 30f, 990f, 450f), glow)
@@ -66,12 +62,7 @@ object ResultCardRenderer {
 
         drawWaveform(canvas, context, waveform, 160f, 490f, 760f, 150f)
 
-        paint.shader = LinearGradient(
-            350f, 0f, 730f, 0f,
-            context.getColor(R.color.purple),
-            context.getColor(R.color.pink),
-            Shader.TileMode.CLAMP
-        )
+        paint.shader = LinearGradient(350f, 0f, 730f, 0f, context.getColor(R.color.purple), context.getColor(R.color.pink), Shader.TileMode.CLAMP)
         paint.textSize = 184f
         paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         canvas.drawText("$score%", 540f, 850f, paint)
@@ -82,13 +73,8 @@ object ResultCardRenderer {
         paint.typeface = Typeface.DEFAULT
         canvas.drawText(context.getString(R.string.truth_score), 540f, 905f, paint)
 
-        if (secondScore != null) {
-            val panel = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x16FFFFFF }
-            canvas.drawRoundRect(RectF(185f, 955f, 895f, 1055f), 34f, 34f, panel)
-            paint.color = context.getColor(R.color.cyan)
-            paint.textSize = 50f
-            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            canvas.drawText("VS  $secondScore%", 540f, 1022f, paint)
+        if (firstScore != null && secondScore != null) {
+            drawDuelPanel(canvas, context, firstScore, secondScore, paint)
         }
 
         paint.color = 0x99FFFFFF.toInt()
@@ -105,6 +91,25 @@ object ResultCardRenderer {
         FileOutputStream(file).use { bitmap.compress(Bitmap.CompressFormat.PNG, 96, it) }
         bitmap.recycle()
         return FileProvider.getUriForFile(context, "${context.packageName}.files", file)
+    }
+
+    private fun drawDuelPanel(canvas: Canvas, context: Context, firstScore: Int, secondScore: Int, paint: Paint) {
+        val panel = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x16FFFFFF }
+        canvas.drawRoundRect(RectF(135f, 950f, 945f, 1065f), 34f, 34f, panel)
+        paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        paint.textSize = 42f
+        paint.color = context.getColor(R.color.purple)
+        canvas.drawText("${context.getString(R.string.player_one)}  $firstScore%", 350f, 1018f, paint)
+        paint.color = context.getColor(R.color.cyan)
+        canvas.drawText("${context.getString(R.string.player_two)}  $secondScore%", 730f, 1018f, paint)
+        paint.color = 0xE6FFFFFF.toInt()
+        paint.textSize = 28f
+        val winner = when {
+            firstScore == secondScore -> "🤝"
+            firstScore > secondScore -> "🏆 ${context.getString(R.string.player_one)}"
+            else -> "🏆 ${context.getString(R.string.player_two)}"
+        }
+        canvas.drawText(winner, 540f, 1052f, paint)
     }
 
     private fun drawWaveform(
