@@ -2,9 +2,11 @@
 <resources>
     <string name="solo_card_label">🎙  Solo Test</string>
     <string name="duel_card_label">⚔  Duel Mode</string>
+    <string name="group_card_label">👥  Group Challenge</string>
     <string name="custom_card_label">✎  Custom Question</string>
     <string name="solo_card_subtitle">Pick a question, answer out loud, get your score</string>
     <string name="duel_card_subtitle">Same question. Two players. One winner.</string>
+    <string name="group_card_subtitle">3 or 4 players. One question. Full ranking.</string>
     <string name="custom_card_subtitle">Write the question nobody else dares to ask</string>
     <string name="home_tagline">Your voice. Your pulse. Your challenge.</string>
     <string name="offline_badge">100% offline • no account • raw audio not saved</string>
@@ -25,10 +27,30 @@
     <string name="video_failed">Could not create a video on this device. You can still share the image.</string>
     <string name="share_video_cta">Can your friend beat this score?</string>
     <string name="achievement_streak">3-Day Streak</string>
+    <string name="achievement_fifty">50 Answers</string>
+    <string name="achievement_hundred">100 Answers</string>
+    <string name="achievement_streak_seven">7-Day Fire</string>
+    <string name="achievement_duel">Duel Challenger</string>
+    <string name="achievement_group">Group Challenger</string>
+    <string name="achievement_custom">Question Creator</string>
+    <string name="achievement_progress_format">%1$d of %2$d achievements unlocked</string>
     <string name="current_streak_format">🔥 Current streak: %1$d days</string>
     <string name="watermark">Truth Test • Nuvexa</string>
     <string name="splash_tagline">Speak • Pulse • Share</string>
     <string name="category_count_format">%1$s\n%2$d questions</string>
+
+    <string name="group_mode">Group Challenge</string>
+    <string name="choose_group_size">How many players?</string>
+    <string name="three_players">3 players</string>
+    <string name="four_players">4 players</string>
+    <string name="player_turn_format">Player %1$d of %2$d</string>
+    <string name="next_player_ready_format">Player %1$d, you’re up!</string>
+    <string name="player_number_format">Player %1$d</string>
+    <string name="player_short_format">P%1$d</string>
+    <string name="group_winner_format">🏆 Winner: %1$s</string>
+    <string name="group_tie_format">🤝 Tie: %1$s</string>
+    <string name="group_ranking_line_format">%1$d. %2$s — %3$d%%</string>
+    <string name="group_share_text">We challenged %3$d players on “%1$s”. The winning Truth Test score was %2$d%%. Try it!</string>
 
     <string name="statistics">Stats</string>
     <string name="statistics_subtitle">Your local activity at a glance. Nothing leaves this device.</string>

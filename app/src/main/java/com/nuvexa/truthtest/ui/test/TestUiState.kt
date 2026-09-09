@@ -10,7 +10,10 @@ data class TestUiState(
     val stage: TestStage = TestStage.CATEGORY,
     val question: Question? = null,
     val player: Int = 1,
-    val firstScore: Int? = null,
-    val secondScore: Int? = null,
+    val playerCount: Int = 1,
+    val playerScores: List<Int> = emptyList(),
     val finalScore: Int = 0
-)
+) {
+    val firstScore: Int? get() = playerScores.getOrNull(0)
+    val secondScore: Int? get() = playerScores.getOrNull(1)
+}

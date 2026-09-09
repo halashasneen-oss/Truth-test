@@ -2,9 +2,11 @@
 <resources>
     <string name="solo_card_label">🎙  اختبار فردي</string>
     <string name="duel_card_label">⚔  تحدي ثنائي</string>
+    <string name="group_card_label">👥  تحدي جماعي</string>
     <string name="custom_card_label">✎  سؤال مخصص</string>
     <string name="solo_card_subtitle">اختر سؤال، جاوب بصوتك، وخذ نتيجتك</string>
     <string name="duel_card_subtitle">نفس السؤال. لاعبين. فائز واحد.</string>
+    <string name="group_card_subtitle">3 أو 4 لاعبين. سؤال واحد. ترتيب كامل.</string>
     <string name="custom_card_subtitle">اكتب السؤال اللي غيرك ما بجرؤ يسأله</string>
     <string name="home_tagline">صوتك. نبضك. تحديك.</string>
     <string name="offline_badge">يعمل بدون إنترنت • بدون حساب • الصوت الخام لا يُحفظ</string>
@@ -25,10 +27,30 @@
     <string name="video_failed">تعذر إنشاء الفيديو على هذا الجهاز. ما زال بإمكانك مشاركة الصورة.</string>
     <string name="share_video_cta">بتقدر تجيب نتيجة أعلى؟</string>
     <string name="achievement_streak">سلسلة 3 أيام</string>
+    <string name="achievement_fifty">50 إجابة</string>
+    <string name="achievement_hundred">100 إجابة</string>
+    <string name="achievement_streak_seven">شعلة 7 أيام</string>
+    <string name="achievement_duel">متحدي الثنائي</string>
+    <string name="achievement_group">متحدي المجموعة</string>
+    <string name="achievement_custom">صانع الأسئلة</string>
+    <string name="achievement_progress_format">تم فتح %1$d من أصل %2$d إنجازات</string>
     <string name="current_streak_format">🔥 السلسلة الحالية: %1$d أيام</string>
     <string name="watermark">كاشف الصدق • Nuvexa</string>
     <string name="splash_tagline">احكي • شوف النبض • شارك</string>
     <string name="category_count_format">%1$s\n%2$d أسئلة</string>
+
+    <string name="group_mode">تحدي جماعي</string>
+    <string name="choose_group_size">كم عدد اللاعبين؟</string>
+    <string name="three_players">3 لاعبين</string>
+    <string name="four_players">4 لاعبين</string>
+    <string name="player_turn_format">اللاعب %1$d من %2$d</string>
+    <string name="next_player_ready_format">دور اللاعب %1$d!</string>
+    <string name="player_number_format">اللاعب %1$d</string>
+    <string name="player_short_format">ل%1$d</string>
+    <string name="group_winner_format">🏆 الفائز: %1$s</string>
+    <string name="group_tie_format">🤝 تعادل: %1$s</string>
+    <string name="group_ranking_line_format">%1$d. %2$s — %3$d%%</string>
+    <string name="group_share_text">تحدينا %3$d لاعبين على “%1$s”. أعلى نتيجة في كاشف الصدق كانت %2$d%%. جرّبوا التحدي!</string>
 
     <string name="statistics">الإحصائيات</string>
     <string name="statistics_subtitle">ملخص نشاطك المحفوظ محليًا على الجهاز فقط.</string>

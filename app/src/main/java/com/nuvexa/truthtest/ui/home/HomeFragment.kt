@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.data.QuestionRepository
 import com.nuvexa.truthtest.databinding.FragmentHomeBinding
 import com.nuvexa.truthtest.ui.test.TestActivity
@@ -34,16 +36,27 @@ class HomeFragment : Fragment() {
         val daily = QuestionRepository(requireContext()).dailyQuestion()
         binding.dailyQuestion.text = daily?.text.orEmpty()
         binding.soloCard.setOnClickListener { launch(TestActivity.MODE_SOLO) }
-        binding.duelCard.setOnClickListener { launch(TestActivity.MODE_DUEL) }
+        binding.duelCard.setOnClickListener { launch(TestActivity.MODE_DUEL, playerCount = 2) }
+        binding.groupCard.setOnClickListener { showGroupSizePicker() }
         binding.customCard.setOnClickListener { launch(TestActivity.MODE_CUSTOM) }
-        binding.dailyStart.setOnClickListener { launch(TestActivity.MODE_SOLO, true) }
+        binding.dailyStart.setOnClickListener { launch(TestActivity.MODE_SOLO, daily = true) }
         binding.ambientWaveform.post(animator)
     }
 
-    private fun launch(mode: String, daily: Boolean = false) {
+    private fun showGroupSizePicker() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.choose_group_size)
+            .setItems(arrayOf(getString(R.string.three_players), getString(R.string.four_players))) { _, which ->
+                launch(TestActivity.MODE_GROUP, playerCount = if (which == 0) 3 else 4)
+            }
+            .show()
+    }
+
+    private fun launch(mode: String, daily: Boolean = false, playerCount: Int = 1) {
         startActivity(Intent(requireContext(), TestActivity::class.java).apply {
             putExtra(TestActivity.EXTRA_MODE, mode)
             putExtra(TestActivity.EXTRA_DAILY, daily)
+            putExtra(TestActivity.EXTRA_PLAYER_COUNT, playerCount)
         })
     }
 

@@ -2,6 +2,7 @@ package com.nuvexa.truthtest.ui.test
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.nuvexa.truthtest.data.AchievementRepository
 import com.nuvexa.truthtest.data.HistoryRepository
 import com.nuvexa.truthtest.data.QuestionRepository
 import com.nuvexa.truthtest.data.model.Question
@@ -14,13 +15,24 @@ import kotlinx.coroutines.flow.asStateFlow
 class TestViewModel(application: Application) : AndroidViewModel(application) {
     private val questions = QuestionRepository(application)
     private val history = HistoryRepository(application)
+    private val achievements = AchievementRepository(application)
     private val _state = MutableStateFlow(TestUiState())
     val state: StateFlow<TestUiState> = _state.asStateFlow()
 
-    fun configure(mode: String, daily: Boolean) {
+    fun configure(mode: String, daily: Boolean, requestedPlayerCount: Int = 1) {
         if (_state.value.initialized) return
         val initialStage = if (mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY
-        _state.value = TestUiState(initialized = true, mode = mode, stage = initialStage)
+        val playerCount = when (mode) {
+            TestActivity.MODE_DUEL -> 2
+            TestActivity.MODE_GROUP -> requestedPlayerCount.coerceIn(3, 4)
+            else -> 1
+        }
+        _state.value = TestUiState(
+            initialized = true,
+            mode = mode,
+            stage = initialStage,
+            playerCount = playerCount
+        )
         if (daily) questions.dailyQuestion()?.let(::beginQuestion)
     }
 
@@ -44,24 +56,32 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             stage = TestStage.RECORDING,
             question = question,
             player = 1,
-            firstScore = null,
-            secondScore = null,
+            playerScores = emptyList(),
             finalScore = 0
         )
     }
 
+    /** Returns true when another player still needs to record an answer. */
     fun submitScore(score: Int): Boolean {
         val current = _state.value
         val question = current.question ?: return false
-        if (current.mode == TestActivity.MODE_DUEL && current.player == 1) {
-            save(question, score, "duel_p1")
-            _state.value = current.copy(player = 2, firstScore = score)
+        val cleanScore = score.coerceIn(0, 100)
+        val updatedScores = current.playerScores + cleanScore
+        save(question, cleanScore, historyMode(current))
+
+        if (current.player < current.playerCount) {
+            _state.value = current.copy(
+                player = current.player + 1,
+                playerScores = updatedScores
+            )
             return true
         }
-        save(question, score, if (current.mode == TestActivity.MODE_DUEL) "duel_p2" else current.mode)
-        val second = if (current.mode == TestActivity.MODE_DUEL) score else null
-        val finalScore = if (current.mode == TestActivity.MODE_DUEL) maxOf(current.firstScore ?: 0, score) else score
-        _state.value = current.copy(stage = TestStage.RESULT, secondScore = second, finalScore = finalScore)
+
+        _state.value = current.copy(
+            stage = TestStage.RESULT,
+            playerScores = updatedScores,
+            finalScore = updatedScores.maxOrNull() ?: cleanScore
+        )
         return false
     }
 
@@ -70,11 +90,28 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = TestUiState(
             initialized = true,
             mode = current.mode,
-            stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY
+            stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY,
+            playerCount = current.playerCount
         )
     }
 
+    private fun historyMode(state: TestUiState): String = when (state.mode) {
+        TestActivity.MODE_DUEL -> "duel_p${state.player}"
+        TestActivity.MODE_GROUP -> "group${state.playerCount}_p${state.player}"
+        else -> state.mode
+    }
+
     private fun save(question: Question, score: Int, mode: String) {
-        history.add(TestResult(UUID.randomUUID().toString(), question.text, question.category, score, System.currentTimeMillis(), mode))
+        history.add(
+            TestResult(
+                UUID.randomUUID().toString(),
+                question.text,
+                question.category,
+                score,
+                System.currentTimeMillis(),
+                mode
+            )
+        )
+        achievements.sync(history.getAll())
     }
 }

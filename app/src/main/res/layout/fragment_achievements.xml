@@ -28,9 +28,23 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/progressSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/app_text_secondary"
+            android:textSize="14sp" />
+
         <TextView android:id="@+id/firstBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
         <TextView android:id="@+id/tenBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/fiftyBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/hundredBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
         <TextView android:id="@+id/highBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
         <TextView android:id="@+id/streakBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/streakSevenBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/duelBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/groupBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
+        <TextView android:id="@+id/customBadge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_marginBottom="24dp" android:background="@drawable/bg_surface" android:padding="20dp" android:textSize="20sp" />
     </LinearLayout>
 </ScrollView>

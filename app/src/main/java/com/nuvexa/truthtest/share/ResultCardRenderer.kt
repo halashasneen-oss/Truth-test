@@ -10,6 +10,7 @@ import android.graphics.Shader
 import android.graphics.Typeface
 import androidx.core.content.FileProvider
 import com.nuvexa.truthtest.R
+import com.nuvexa.truthtest.data.PlayerRanking
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.max
@@ -21,6 +22,7 @@ object ResultCardRenderer {
         score: Int,
         firstScore: Int? = null,
         secondScore: Int? = null,
+        groupScores: List<Int> = emptyList(),
         waveform: List<Float> = emptyList()
     ): android.net.Uri {
         val bitmap = Bitmap.createBitmap(1080, 1350, Bitmap.Config.ARGB_8888)
@@ -73,14 +75,15 @@ object ResultCardRenderer {
         paint.typeface = Typeface.DEFAULT
         canvas.drawText(context.getString(R.string.truth_score), 540f, 905f, paint)
 
-        if (firstScore != null && secondScore != null) {
-            drawDuelPanel(canvas, context, firstScore, secondScore, paint)
+        when {
+            groupScores.size >= 3 -> drawGroupPanel(canvas, context, groupScores, paint)
+            firstScore != null && secondScore != null -> drawDuelPanel(canvas, context, firstScore, secondScore, paint)
         }
 
         paint.color = 0x99FFFFFF.toInt()
         paint.textSize = 27f
         paint.typeface = Typeface.DEFAULT
-        drawWrapped(canvas, context.getString(R.string.entertainment_notice), paint, 540f, 1135f, 900f, 37f)
+        drawWrapped(canvas, context.getString(R.string.entertainment_notice), paint, 540f, 1145f, 900f, 37f)
 
         paint.color = 0x66FFFFFF
         paint.textSize = 28f
@@ -110,6 +113,37 @@ object ResultCardRenderer {
             else -> "🏆 ${context.getString(R.string.player_two)}"
         }
         canvas.drawText(winner, 540f, 1052f, paint)
+    }
+
+    private fun drawGroupPanel(canvas: Canvas, context: Context, scores: List<Int>, paint: Paint) {
+        val visibleScores = scores.take(4)
+        val winners = PlayerRanking.winners(visibleScores)
+        val panel = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x16FFFFFF }
+        canvas.drawRoundRect(RectF(95f, 940f, 985f, 1090f), 34f, 34f, panel)
+
+        val cellWidth = 890f / visibleScores.size
+        visibleScores.forEachIndexed { index, playerScore ->
+            val centerX = 95f + cellWidth * index + cellWidth / 2f
+            val isWinner = index + 1 in winners
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            paint.textSize = 28f
+            paint.color = if (isWinner) context.getColor(R.color.cyan) else 0xCCFFFFFF.toInt()
+            canvas.drawText(context.getString(R.string.player_short_format, index + 1), centerX, 990f, paint)
+            paint.textSize = 38f
+            canvas.drawText("$playerScore%", centerX, 1038f, paint)
+        }
+
+        paint.textSize = 25f
+        paint.color = 0xE6FFFFFF.toInt()
+        val winnerText = if (winners.size == 1) {
+            context.getString(R.string.group_winner_format, context.getString(R.string.player_number_format, winners.first()))
+        } else {
+            context.getString(
+                R.string.group_tie_format,
+                winners.joinToString(" • ") { context.getString(R.string.player_number_format, it) }
+            )
+        }
+        canvas.drawText(winnerText, 540f, 1075f, paint)
     }
 
     private fun drawWaveform(

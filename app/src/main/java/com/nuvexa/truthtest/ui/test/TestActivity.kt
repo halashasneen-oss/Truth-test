@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.audio.AudioRecorderEngine
 import com.nuvexa.truthtest.audio.VoiceAnalyzer
+import com.nuvexa.truthtest.data.PlayerRanking
 import com.nuvexa.truthtest.databinding.ActivityTestBinding
 import com.nuvexa.truthtest.share.ResultCardRenderer
 import com.nuvexa.truthtest.share.ResultVideoShareRenderer
@@ -63,7 +64,11 @@ class TestActivity : AppCompatActivity() {
         bindCategories()
         bindActions()
         observeState()
-        viewModel.configure(intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO, intent.getBooleanExtra(EXTRA_DAILY, false))
+        viewModel.configure(
+            mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO,
+            daily = intent.getBooleanExtra(EXTRA_DAILY, false),
+            requestedPlayerCount = intent.getIntExtra(EXTRA_PLAYER_COUNT, 1)
+        )
     }
 
     private fun bindCategories() {
@@ -105,11 +110,25 @@ class TestActivity : AppCompatActivity() {
     private fun render(state: TestUiState) {
         if (!state.initialized) return
         val stageChanged = lastStage != state.stage
-        binding.screenTitle.setText(when (state.mode) { MODE_DUEL -> R.string.duel_mode; MODE_CUSTOM -> R.string.custom_question; else -> R.string.solo_test })
-        setPanels(state.stage == TestStage.CATEGORY, state.stage == TestStage.CUSTOM, state.stage == TestStage.RECORDING, state.stage == TestStage.RESULT)
+        binding.screenTitle.setText(
+            when (state.mode) {
+                MODE_DUEL -> R.string.duel_mode
+                MODE_GROUP -> R.string.group_mode
+                MODE_CUSTOM -> R.string.custom_question
+                else -> R.string.solo_test
+            }
+        )
+        setPanels(
+            state.stage == TestStage.CATEGORY,
+            state.stage == TestStage.CUSTOM,
+            state.stage == TestStage.RECORDING,
+            state.stage == TestStage.RESULT
+        )
         state.question?.let { binding.questionText.text = it.text }
         if (state.stage == TestStage.RECORDING) {
-            binding.playerLabel.text = if (state.mode == MODE_DUEL) getString(if (state.player == 1) R.string.player_one else R.string.player_two) else ""
+            binding.playerLabel.text = if (state.playerCount > 1) {
+                getString(R.string.player_turn_format, state.player, state.playerCount)
+            } else ""
             if (renderedPlayer != state.player) {
                 renderedPlayer = state.player
                 binding.waveform.reset()
@@ -176,7 +195,10 @@ class TestActivity : AppCompatActivity() {
             binding.timerText.text = "00:00"
             return
         }
-        if (viewModel.submitScore(analysis.score)) Toast.makeText(this, R.string.player_two, Toast.LENGTH_SHORT).show()
+        if (viewModel.submitScore(analysis.score)) {
+            val nextPlayer = viewModel.state.value.player
+            Toast.makeText(this, getString(R.string.next_player_ready_format, nextPlayer), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun renderResult(state: TestUiState) {
@@ -188,14 +210,45 @@ class TestActivity : AppCompatActivity() {
         binding.resultProgress.setProgressCompat(score, true)
         binding.resultProgress.setIndicatorColor(getColor(if (score >= 80) R.color.success else if (score >= 55) R.color.warning else R.color.danger))
         binding.resultLabel.setText(if (score >= 85) R.string.result_honest else if (score >= 65) R.string.result_hesitant else if (score >= 45) R.string.result_white_lie else R.string.result_actor)
-        if (state.mode == MODE_DUEL) {
-            val one = state.firstScore ?: 0
-            val two = state.secondScore ?: 0
-            val winner = when { one == two -> "🤝"; one > two -> "🏆 ${getString(R.string.player_one)}"; else -> "🏆 ${getString(R.string.player_two)}" }
-            binding.duelComparison.visibility = View.VISIBLE
-            binding.duelComparison.text = "$winner\n${getString(R.string.player_one)} $one%   VS   ${getString(R.string.player_two)} $two%"
-        } else binding.duelComparison.visibility = View.GONE
+
+        when (state.mode) {
+            MODE_DUEL -> renderDuelResult(state)
+            MODE_GROUP -> renderGroupResult(state)
+            else -> binding.duelComparison.visibility = View.GONE
+        }
     }
+
+    private fun renderDuelResult(state: TestUiState) {
+        val one = state.firstScore ?: 0
+        val two = state.secondScore ?: 0
+        val winner = when {
+            one == two -> "🤝"
+            one > two -> "🏆 ${getString(R.string.player_one)}"
+            else -> "🏆 ${getString(R.string.player_two)}"
+        }
+        binding.duelComparison.visibility = View.VISIBLE
+        binding.duelComparison.text = "$winner\n${getString(R.string.player_one)} $one%   VS   ${getString(R.string.player_two)} $two%"
+    }
+
+    private fun renderGroupResult(state: TestUiState) {
+        val standings = PlayerRanking.standings(state.playerScores)
+        val winners = PlayerRanking.winners(state.playerScores)
+        val headline = if (winners.size == 1) {
+            getString(R.string.group_winner_format, playerName(winners.first()))
+        } else {
+            getString(R.string.group_tie_format, winners.joinToString(" • ") { playerName(it) })
+        }
+        binding.duelComparison.visibility = View.VISIBLE
+        binding.duelComparison.text = buildString {
+            append(headline)
+            standings.forEach { standing ->
+                append('\n')
+                append(getString(R.string.group_ranking_line_format, standing.rank, playerName(standing.playerNumber), standing.score))
+            }
+        }
+    }
+
+    private fun playerName(number: Int): String = getString(R.string.player_number_format, number)
 
     private fun showShareThemePicker(state: TestUiState) {
         if (state.question == null) return
@@ -260,11 +313,12 @@ class TestActivity : AppCompatActivity() {
             context = themedContext,
             question = question.text,
             score = state.finalScore,
-            firstScore = state.firstScore,
-            secondScore = state.secondScore,
+            firstScore = if (state.mode == MODE_DUEL) state.firstScore else null,
+            secondScore = if (state.mode == MODE_DUEL) state.secondScore else null,
+            groupScores = if (state.mode == MODE_GROUP) state.playerScores else emptyList(),
             waveform = binding.waveform.snapshot()
         )
-        launchShare(uri, "image/png", getString(R.string.share_text, question.text, state.finalScore))
+        launchShare(uri, "image/png", shareMessage(state, question.text))
     }
 
     private fun shareVideo(state: TestUiState, theme: ShareTheme, sound: ShareSound) {
@@ -279,12 +333,12 @@ class TestActivity : AppCompatActivity() {
                     context = themedContext,
                     question = question.text,
                     score = state.finalScore,
-                    firstScore = state.firstScore,
-                    secondScore = state.secondScore,
+                    firstScore = if (state.mode == MODE_DUEL) state.firstScore else null,
+                    secondScore = if (state.mode == MODE_DUEL) state.secondScore else null,
                     waveform = waveform,
                     sound = sound
                 )
-                launchShare(uri, "video/mp4", getString(R.string.share_text, question.text, state.finalScore))
+                launchShare(uri, "video/mp4", shareMessage(state, question.text))
             } catch (_: Throwable) {
                 Toast.makeText(this@TestActivity, R.string.video_failed, Toast.LENGTH_LONG).show()
             } finally {
@@ -293,6 +347,13 @@ class TestActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun shareMessage(state: TestUiState, question: String): String =
+        if (state.mode == MODE_GROUP) {
+            getString(R.string.group_share_text, question, state.finalScore, state.playerCount)
+        } else {
+            getString(R.string.share_text, question, state.finalScore)
+        }
 
     private fun launchShare(uri: Uri, mimeType: String, message: String) {
         startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
@@ -313,8 +374,10 @@ class TestActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MODE = "mode"
         const val EXTRA_DAILY = "daily"
+        const val EXTRA_PLAYER_COUNT = "player_count"
         const val MODE_SOLO = "solo"
         const val MODE_DUEL = "duel"
+        const val MODE_GROUP = "group"
         const val MODE_CUSTOM = "custom"
         private const val SHARE_PREFS = "truth_test_share"
         private const val PREF_SHARE_THEME = "share_theme"
