@@ -11,6 +11,12 @@
     <string name="share_card_badge">تحدي أنماط الصوت</string>
     <string name="share_video">مشاركة فيديو متحرك</string>
     <string name="share_image">مشاركة صورة</string>
+    <string name="choose_share_theme">اختر ستايل المشاركة</string>
+    <string name="choose_share_format">كيف بدك تشارك النتيجة؟</string>
+    <string name="theme_neon_purple">نيون بنفسجي</string>
+    <string name="theme_cyber_cyan">سايبر سماوي</string>
+    <string name="theme_romantic_pink">وردي رومانسي</string>
+    <string name="theme_gold_challenge">التحدي الذهبي</string>
     <string name="creating_video">جاري إنشاء الفيديو…</string>
     <string name="video_failed">تعذر إنشاء الفيديو على هذا الجهاز. ما زال بإمكانك مشاركة الصورة.</string>
     <string name="share_video_cta">بتقدر تجيب نتيجة أعلى؟</string>

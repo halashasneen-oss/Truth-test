@@ -22,6 +22,7 @@ Offline-first Android entertainment app built with Kotlin + XML Views. It analyz
 - Shareable PNG result card rendered locally with Canvas and FileProvider.
 - Optional 7-second vertical MP4/H.264 result video rendered fully on-device using Android `MediaCodec` + `MediaMuxer` + EGL/OpenGL ES. No server or FFmpeg binary is required.
 - Video sharing animates the real recorded waveform, score reveal, question and final result; duel exports show both player scores.
+- Four selectable share themes shared by PNG and MP4 export: Neon Purple, Cyber Cyan, Romantic Pink and Gold Challenge. The last selected style is remembered locally.
 - GitHub Actions debug APK build using an installed Gradle version; no Gradle Wrapper JAR is committed.
 
 ## Architecture
@@ -37,7 +38,7 @@ The original FFmpegKit project was retired and its historical Android binaries w
 ## Planned next steps
 
 1. Device-test video encoding on a wider range of Android chipsets and add codec fallback if needed.
-2. Add selectable share themes and optional sound/music that does not require uploading user audio.
+2. Add optional sound/music that does not require uploading user audio.
 3. Add group mode for up to four players.
 4. Add monthly playful PDF report.
 5. Add release signing and AAB workflow when Play Console publishing starts.

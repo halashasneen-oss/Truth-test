@@ -11,6 +11,12 @@
     <string name="share_card_badge">VOICE PATTERN CHALLENGE</string>
     <string name="share_video">Share animated video</string>
     <string name="share_image">Share image</string>
+    <string name="choose_share_theme">Choose a share style</string>
+    <string name="choose_share_format">How do you want to share it?</string>
+    <string name="theme_neon_purple">Neon Purple</string>
+    <string name="theme_cyber_cyan">Cyber Cyan</string>
+    <string name="theme_romantic_pink">Romantic Pink</string>
+    <string name="theme_gold_challenge">Gold Challenge</string>
     <string name="creating_video">Creating video…</string>
     <string name="video_failed">Could not create a video on this device. You can still share the image.</string>
     <string name="share_video_cta">Can your friend beat this score?</string>

@@ -27,6 +27,8 @@ import com.nuvexa.truthtest.audio.VoiceAnalyzer
 import com.nuvexa.truthtest.databinding.ActivityTestBinding
 import com.nuvexa.truthtest.share.ResultCardRenderer
 import com.nuvexa.truthtest.share.ResultVideoRenderer
+import com.nuvexa.truthtest.share.ShareTheme
+import com.nuvexa.truthtest.share.ShareThemeContext
 import kotlinx.coroutines.launch
 
 class TestActivity : AppCompatActivity() {
@@ -90,7 +92,7 @@ class TestActivity : AppCompatActivity() {
         binding.recordButton.setOnClickListener { if (isRecording) stopRecording() else ensureMicAndStart() }
         binding.newTestButton.setOnClickListener { viewModel.reset() }
         binding.homeButton.setOnClickListener { finish() }
-        binding.shareButton.setOnClickListener { showShareOptions(viewModel.state.value) }
+        binding.shareButton.setOnClickListener { showShareThemePicker(viewModel.state.value) }
     }
 
     private fun observeState() {
@@ -194,20 +196,44 @@ class TestActivity : AppCompatActivity() {
         } else binding.duelComparison.visibility = View.GONE
     }
 
-    private fun showShareOptions(state: TestUiState) {
+    private fun showShareThemePicker(state: TestUiState) {
         if (state.question == null) return
+        val themes = ShareTheme.entries
+        val saved = ShareTheme.fromStorage(
+            getSharedPreferences(SHARE_PREFS, MODE_PRIVATE).getString(PREF_SHARE_THEME, null)
+        )
+        var selectedIndex = themes.indexOf(saved).coerceAtLeast(0)
+        val labels = themes.map { "${it.emoji}  ${getString(it.labelRes)}" }.toTypedArray()
+
         MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.share_result)
-            .setItems(arrayOf(getString(R.string.share_video), getString(R.string.share_image))) { _, which ->
-                if (which == 0) shareVideo(state) else shareImage(state)
+            .setTitle(R.string.choose_share_theme)
+            .setSingleChoiceItems(labels, selectedIndex) { _, which -> selectedIndex = which }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.continue_label) { _, _ ->
+                val selectedTheme = themes[selectedIndex]
+                getSharedPreferences(SHARE_PREFS, MODE_PRIVATE)
+                    .edit()
+                    .putString(PREF_SHARE_THEME, selectedTheme.storageKey)
+                    .apply()
+                showShareFormatPicker(state, selectedTheme)
             }
             .show()
     }
 
-    private fun shareImage(state: TestUiState) {
+    private fun showShareFormatPicker(state: TestUiState, theme: ShareTheme) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.choose_share_format)
+            .setItems(arrayOf(getString(R.string.share_video), getString(R.string.share_image))) { _, which ->
+                if (which == 0) shareVideo(state, theme) else shareImage(state, theme)
+            }
+            .show()
+    }
+
+    private fun shareImage(state: TestUiState, theme: ShareTheme) {
         val question = state.question ?: return
+        val themedContext = ShareThemeContext.wrap(this, theme)
         val uri = ResultCardRenderer.render(
-            context = this,
+            context = themedContext,
             question = question.text,
             score = state.finalScore,
             firstScore = state.firstScore,
@@ -217,15 +243,16 @@ class TestActivity : AppCompatActivity() {
         launchShare(uri, "image/png", getString(R.string.share_text, question.text, state.finalScore))
     }
 
-    private fun shareVideo(state: TestUiState) {
+    private fun shareVideo(state: TestUiState, theme: ShareTheme) {
         val question = state.question ?: return
         val waveform = binding.waveform.snapshot()
+        val themedContext = ShareThemeContext.wrap(this, theme)
         binding.shareButton.isEnabled = false
         binding.shareButton.setText(R.string.creating_video)
         lifecycleScope.launch {
             try {
                 val uri = ResultVideoRenderer.render(
-                    context = this@TestActivity,
+                    context = themedContext,
                     question = question.text,
                     score = state.finalScore,
                     firstScore = state.firstScore,
@@ -264,5 +291,7 @@ class TestActivity : AppCompatActivity() {
         const val MODE_SOLO = "solo"
         const val MODE_DUEL = "duel"
         const val MODE_CUSTOM = "custom"
+        private const val SHARE_PREFS = "truth_test_share"
+        private const val PREF_SHARE_THEME = "share_theme"
     }
 }
