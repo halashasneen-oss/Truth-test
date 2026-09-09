@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="solo_card_label">🎙  اختبار فردي</string>
+    <string name="duel_card_label">⚔  تحدي ثنائي</string>
+    <string name="custom_card_label">✎  سؤال مخصص</string>
+    <string name="watermark">كاشف الصدق • Nuvexa</string>
+</resources>

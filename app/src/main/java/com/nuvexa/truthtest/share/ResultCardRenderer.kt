@@ -20,8 +20,8 @@ object ResultCardRenderer {
         paint.color = 0xFFF8FAFC.toInt(); paint.textSize = 54f; drawWrapped(canvas, question, paint, 540f, 260f, 900f, 70f)
         paint.color = context.getColor(R.color.pink); paint.textSize = 180f; canvas.drawText("$score%", 540f, 760f, paint)
         if (secondScore != null) { paint.color = context.getColor(R.color.cyan); paint.textSize = 76f; canvas.drawText("VS  $secondScore%", 540f, 880f, paint) }
-        paint.color = 0xFFA7A7B5.toInt(); paint.textSize = 30f; paint.typeface = Typeface.DEFAULT; canvas.drawText(context.getString(R.string.entertainment_notice), 540f, 1160f, paint)
-        paint.color = 0x66FFFFFF; paint.textSize = 28f; canvas.drawText("Truth Test • Nuvexa", 540f, 1280f, paint)
+        paint.color = 0xFFA7A7B5.toInt(); paint.textSize = 30f; paint.typeface = Typeface.DEFAULT; drawWrapped(canvas, context.getString(R.string.entertainment_notice), paint, 540f, 1120f, 920f, 40f)
+        paint.color = 0x66FFFFFF; paint.textSize = 28f; canvas.drawText(context.getString(R.string.watermark), 540f, 1280f, paint)
         val dir = File(context.cacheDir, "shares").apply { mkdirs() }
         val file = File(dir, "truth_test_${System.currentTimeMillis()}.png")
         FileOutputStream(file).use { bitmap.compress(Bitmap.CompressFormat.PNG, 95, it) }

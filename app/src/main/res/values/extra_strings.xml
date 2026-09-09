@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="solo_card_label">🎙  Solo Test</string>
+    <string name="duel_card_label">⚔  Duel Mode</string>
+    <string name="custom_card_label">✎  Custom Question</string>
+    <string name="watermark">Truth Test • Nuvexa</string>
+</resources>

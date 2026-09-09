@@ -23,15 +23,12 @@ class QuestionRepository(private val context: Context) {
         }.getOrDefault(emptyList())
     }
 
-    fun random(category: String): Question? {
-        val pool = allQuestions().filter { it.category == category }
-        return pool.randomOrNull()
-    }
+    fun random(category: String): Question? = allQuestions().filter { it.category == category }.randomOrNull()
 
     fun dailyQuestion(): Question? {
         val all = allQuestions()
         if (all.isEmpty()) return null
-        val index = LocalDate.now().toEpochDay().mod(all.size.toLong()).toInt()
+        val index = (LocalDate.now().toEpochDay() % all.size.toLong()).toInt()
         return all[index]
     }
 }
