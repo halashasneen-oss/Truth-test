@@ -3,6 +3,7 @@ package com.nuvexa.truthtest.ui.test
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,6 +32,7 @@ class TestActivity : AppCompatActivity() {
     private var isRecording = false
     private var startedAt = 0L
     private var renderedPlayer = 0
+    private var lastStage: TestStage? = null
     private val handler = Handler(Looper.getMainLooper())
 
     private val timer = object : Runnable {
@@ -58,22 +60,25 @@ class TestActivity : AppCompatActivity() {
     }
 
     private fun bindCategories() {
-        val categories = mapOf(
-            binding.categoryEmbarrassing to "embarrassing",
-            binding.categoryFunny to "funny",
-            binding.categoryBold to "bold",
-            binding.categoryRomantic to "romantic",
-            binding.categoryFriendship to "friendship",
-            binding.categoryFamily to "family"
+        val categories = listOf(
+            Triple(binding.categoryEmbarrassing, "embarrassing", R.color.orange),
+            Triple(binding.categoryFunny, "funny", R.color.warning),
+            Triple(binding.categoryBold, "bold", R.color.danger),
+            Triple(binding.categoryRomantic, "romantic", R.color.pink),
+            Triple(binding.categoryFriendship, "friendship", R.color.cyan),
+            Triple(binding.categoryFamily, "family", R.color.success)
         )
-        categories.forEach { (button, category) ->
-            decorateCategory(button, viewModel.categoryCount(category))
+        categories.forEach { (button, category, color) ->
+            decorateCategory(button, viewModel.categoryCount(category), color)
             button.setOnClickListener { viewModel.chooseCategory(category) }
         }
     }
 
-    private fun decorateCategory(button: MaterialButton, count: Int) {
+    private fun decorateCategory(button: MaterialButton, count: Int, colorRes: Int) {
         button.text = getString(R.string.category_count_format, button.text, count)
+        button.backgroundTintList = ColorStateList.valueOf(getColor(colorRes))
+        button.setTextColor(if (colorRes == R.color.warning || colorRes == R.color.cyan) 0xFF111118.toInt() else 0xFFFFFFFF.toInt())
+        button.cornerRadius = (20f * resources.displayMetrics.density).toInt()
     }
 
     private fun bindActions() {
@@ -92,6 +97,7 @@ class TestActivity : AppCompatActivity() {
 
     private fun render(state: TestUiState) {
         if (!state.initialized) return
+        val stageChanged = lastStage != state.stage
         binding.screenTitle.setText(when (state.mode) { MODE_DUEL -> R.string.duel_mode; MODE_CUSTOM -> R.string.custom_question; else -> R.string.solo_test })
         setPanels(state.stage == TestStage.CATEGORY, state.stage == TestStage.CUSTOM, state.stage == TestStage.RECORDING, state.stage == TestStage.RESULT)
         state.question?.let { binding.questionText.text = it.text }
@@ -104,7 +110,20 @@ class TestActivity : AppCompatActivity() {
                 binding.timerText.text = "00:00"
             }
         }
-        if (state.stage == TestStage.RESULT) renderResult(state)
+        if (state.stage == TestStage.RESULT) {
+            renderResult(state)
+            if (stageChanged) animateResultEntrance()
+        }
+        lastStage = state.stage
+    }
+
+    private fun animateResultEntrance() {
+        binding.resultPanel.alpha = 0f
+        binding.resultPanel.translationY = 24f * resources.displayMetrics.density
+        binding.resultPanel.animate().alpha(1f).translationY(0f).setDuration(420L).start()
+        binding.resultScore.scaleX = 0.72f
+        binding.resultScore.scaleY = 0.72f
+        binding.resultScore.animate().scaleX(1f).scaleY(1f).setStartDelay(120L).setDuration(360L).start()
     }
 
     private fun setPanels(category: Boolean = false, custom: Boolean = false, record: Boolean = false, result: Boolean = false) {
@@ -172,7 +191,13 @@ class TestActivity : AppCompatActivity() {
 
     private fun shareResult(state: TestUiState) {
         val question = state.question ?: return
-        val uri = ResultCardRenderer.render(this, question.text, state.finalScore, state.secondScore)
+        val uri = ResultCardRenderer.render(
+            context = this,
+            question = question.text,
+            score = state.finalScore,
+            secondScore = state.secondScore,
+            waveform = binding.waveform.snapshot()
+        )
         startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
             type = "image/png"
             putExtra(Intent.EXTRA_STREAM, uri)

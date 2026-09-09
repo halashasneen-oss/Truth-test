@@ -27,6 +27,8 @@ class WaveformView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun snapshot(): List<Float> = values.toList()
+
     fun reset() {
         values.clear()
         invalidate()

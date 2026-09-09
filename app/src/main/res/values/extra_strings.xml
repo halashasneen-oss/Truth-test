@@ -3,6 +3,12 @@
     <string name="solo_card_label">🎙  Solo Test</string>
     <string name="duel_card_label">⚔  Duel Mode</string>
     <string name="custom_card_label">✎  Custom Question</string>
+    <string name="solo_card_subtitle">Pick a question, answer out loud, get your score</string>
+    <string name="duel_card_subtitle">Same question. Two players. One winner.</string>
+    <string name="custom_card_subtitle">Write the question nobody else dares to ask</string>
+    <string name="home_tagline">Your voice. Your pulse. Your challenge.</string>
+    <string name="offline_badge">100% offline • no account • raw audio not saved</string>
+    <string name="share_card_badge">VOICE PATTERN CHALLENGE</string>
     <string name="watermark">Truth Test • Nuvexa</string>
     <string name="splash_tagline">Speak • Pulse • Share</string>
     <string name="category_count_format">%1$s\n%2$d questions</string>

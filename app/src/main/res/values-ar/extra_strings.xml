@@ -3,6 +3,12 @@
     <string name="solo_card_label">🎙  اختبار فردي</string>
     <string name="duel_card_label">⚔  تحدي ثنائي</string>
     <string name="custom_card_label">✎  سؤال مخصص</string>
+    <string name="solo_card_subtitle">اختر سؤال، جاوب بصوتك، وخذ نتيجتك</string>
+    <string name="duel_card_subtitle">نفس السؤال. لاعبين. فائز واحد.</string>
+    <string name="custom_card_subtitle">اكتب السؤال اللي غيرك ما بجرؤ يسأله</string>
+    <string name="home_tagline">صوتك. نبضك. تحديك.</string>
+    <string name="offline_badge">يعمل بدون إنترنت • بدون حساب • الصوت الخام لا يُحفظ</string>
+    <string name="share_card_badge">تحدي أنماط الصوت</string>
     <string name="watermark">كاشف الصدق • Nuvexa</string>
     <string name="splash_tagline">احكي • شوف النبض • شارك</string>
     <string name="category_count_format">%1$s\n%2$d أسئلة</string>
