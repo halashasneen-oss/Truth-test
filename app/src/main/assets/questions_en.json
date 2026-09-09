@@ -1,0 +1,20 @@
+[
+  {"id":"e1","category":"embarrassing","text":"Have you ever pretended not to see a message so you would not have to reply?"},
+  {"id":"e2","category":"embarrassing","text":"Have you ever searched your own name online?"},
+  {"id":"e3","category":"embarrassing","text":"Have you ever blamed someone else for something you did?"},
+  {"id":"f1","category":"funny","text":"Have you ever laughed at a joke you did not understand?"},
+  {"id":"f2","category":"funny","text":"Do you sing when nobody is listening?"},
+  {"id":"f3","category":"funny","text":"Have you ever talked to yourself in the mirror?"},
+  {"id":"b1","category":"bold","text":"Have you ever sent a message and immediately regretted it?"},
+  {"id":"b2","category":"bold","text":"Would you reveal your last search to your friends right now?"},
+  {"id":"b3","category":"bold","text":"Have you ever acted confident while you were completely nervous?"},
+  {"id":"r1","category":"romantic","text":"Have you ever had a crush on someone your friends would never guess?"},
+  {"id":"r2","category":"romantic","text":"Do you still remember your first crush?"},
+  {"id":"r3","category":"romantic","text":"Have you ever reread an old romantic conversation?"},
+  {"id":"fr1","category":"friendship","text":"Have you ever kept an important secret from your best friend?"},
+  {"id":"fr2","category":"friendship","text":"Would you lend your best friend your phone unlocked for one hour?"},
+  {"id":"fr3","category":"friendship","text":"Have you ever been jealous of a friend's success?"},
+  {"id":"fa1","category":"family","text":"Have you ever hidden a purchase from your family?"},
+  {"id":"fa2","category":"family","text":"Do you have a favorite family member?"},
+  {"id":"fa3","category":"family","text":"Have you ever pretended to be asleep to avoid a family conversation?"}
+]

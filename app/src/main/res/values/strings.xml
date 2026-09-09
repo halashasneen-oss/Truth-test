@@ -1,55 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Truth Test</string>
-    <string name="home">Home</string>
-    <string name="history">History</string>
-    <string name="achievements">Achievements</string>
-    <string name="settings">Settings</string>
-    <string name="welcome">Welcome</string>
-    <string name="solo_test">Solo Test</string>
-    <string name="duel_mode">Duel Mode</string>
-    <string name="custom_question">Custom Question</string>
-    <string name="daily_challenge">Daily Challenge</string>
-    <string name="start_now">Start now</string>
-    <string name="choose_category">Choose a category</string>
-    <string name="embarrassing">Embarrassing</string>
-    <string name="funny">Funny</string>
-    <string name="bold">Bold</string>
-    <string name="romantic">Romantic</string>
-    <string name="friendship">Friendship</string>
-    <string name="family">Family</string>
-    <string name="tap_to_record">Tap to record your answer</string>
-    <string name="stop_recording">Stop recording</string>
-    <string name="retry">Retry</string>
-    <string name="share_result">Share result</string>
-    <string name="new_test">New test</string>
-    <string name="back_home">Back home</string>
-    <string name="truth_score">Truth score</string>
-    <string name="entertainment_notice">For entertainment only. Voice patterns cannot determine whether someone is telling the truth.</string>
-    <string name="permission_audio">Microphone permission is required to analyze your answer.</string>
-    <string name="no_history">No tests yet. Your results stay only on this device.</string>
-    <string name="language">Language</string>
-    <string name="theme">Theme</string>
-    <string name="dark">Dark</string>
-    <string name="light">Light</string>
-    <string name="about">About</string>
-    <string name="rate_app">Rate app</string>
-    <string name="achievement_first">First Truth Test</string>
-    <string name="achievement_ten">10 Tests</string>
-    <string name="achievement_high">95% Club</string>
-    <string name="result_honest">Completely honest 😇</string>
-    <string name="result_hesitant">A little hesitant 🤔</string>
-    <string name="result_white_lie">White lie 🤏</string>
-    <string name="result_actor">Professional actor 🎭</string>
-    <string name="custom_hint">Write your question…</string>
-    <string name="continue_label">Continue</string>
-    <string name="onboarding_1_title">Speak. Watch the pulse.</string>
-    <string name="onboarding_1_body">Answer fun questions while the live waveform reacts to your real voice.</string>
-    <string name="onboarding_2_title">Get a playful score</string>
-    <string name="onboarding_2_body">Truth Test turns voice consistency into an entertainment score — not a scientific lie detector.</string>
-    <string name="onboarding_3_title">Challenge your friends</string>
-    <string name="onboarding_3_body">Compare two answers on one phone and share the funniest result.</string>
-    <string name="get_started">Get started</string>
-    <string name="record_at_least">Record for at least 2 seconds.</string>
-    <string name="share_text">I answered “%1$s” with a Truth Test score of %2$d%%. Try it yourself!</string>
+    <string name="app_name">Truth Test</string><string name="home">Home</string><string name="history">History</string><string name="achievements">Achievements</string><string name="settings">Settings</string>
+    <string name="welcome">Welcome</string><string name="solo_test">Solo Test</string><string name="duel_mode">Duel Mode</string><string name="custom_question">Custom Question</string><string name="daily_challenge">Daily Challenge</string><string name="start_now">Start now</string>
+    <string name="choose_category">Choose a category</string><string name="embarrassing">Embarrassing</string><string name="funny">Funny</string><string name="bold">Bold</string><string name="romantic">Romantic</string><string name="friendship">Friendship</string><string name="family">Family</string>
+    <string name="tap_to_record">Tap to record your answer</string><string name="stop_recording">Stop recording</string><string name="retry">Retry</string><string name="share_result">Share result</string><string name="new_test">New test</string><string name="back_home">Back home</string><string name="truth_score">Truth score</string>
+    <string name="entertainment_notice">For entertainment only. Voice patterns cannot determine whether someone is telling the truth.</string><string name="permission_audio">Microphone permission is required to analyze your answer.</string><string name="no_history">No tests yet. Your results stay only on this device.</string>
+    <string name="language">Language</string><string name="theme">Theme</string><string name="dark">Dark</string><string name="light">Light</string><string name="about">About</string><string name="rate_app">Rate app</string>
+    <string name="achievement_first">First Truth Test</string><string name="achievement_ten">10 Tests</string><string name="achievement_high">95% Club</string>
+    <string name="result_honest">Completely honest 😇</string><string name="result_hesitant">A little hesitant 🤔</string><string name="result_white_lie">White lie 🤏</string><string name="result_actor">Professional actor 🎭</string>
+    <string name="custom_hint">Write your question…</string><string name="continue_label">Continue</string><string name="onboarding_1_title">Speak. Watch the pulse.</string><string name="onboarding_1_body">Answer fun questions while the live waveform reacts to your real voice.</string><string name="onboarding_2_title">Get a playful score</string><string name="onboarding_2_body">Truth Test turns voice consistency into an entertainment score — not a scientific lie detector.</string><string name="onboarding_3_title">Challenge your friends</string><string name="onboarding_3_body">Compare two answers on one phone and share the funniest result.</string><string name="get_started">Get started</string>
+    <string name="record_at_least">Record a clear answer for at least 2 seconds.</string><string name="share_text">I answered “%1$s” with a Truth Test score of %2$d%%. Try it yourself!</string>
+    <string name="daily_notification_fallback">Your daily question is ready.</string><string name="player_one">Player 1</string><string name="player_two">Player 2</string><string name="winner">Winner</string><string name="english">English</string><string name="arabic">العربية</string><string name="privacy_audio">Raw audio is analyzed in memory and is not saved.</string>
 </resources>

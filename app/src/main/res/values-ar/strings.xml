@@ -1,55 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">كاشف الصدق</string>
-    <string name="home">الرئيسية</string>
-    <string name="history">السجل</string>
-    <string name="achievements">الإنجازات</string>
-    <string name="settings">الإعدادات</string>
-    <string name="welcome">أهلاً بك</string>
-    <string name="solo_test">اختبار فردي</string>
-    <string name="duel_mode">تحدي ثنائي</string>
-    <string name="custom_question">سؤال مخصص</string>
-    <string name="daily_challenge">سؤال اليوم</string>
-    <string name="start_now">ابدأ الآن</string>
-    <string name="choose_category">اختر الفئة</string>
-    <string name="embarrassing">محرجة</string>
-    <string name="funny">مضحكة</string>
-    <string name="bold">جريئة</string>
-    <string name="romantic">رومانسية</string>
-    <string name="friendship">صداقة</string>
-    <string name="family">عائلية</string>
-    <string name="tap_to_record">اضغط وسجّل إجابتك</string>
-    <string name="stop_recording">إيقاف التسجيل</string>
-    <string name="retry">إعادة المحاولة</string>
-    <string name="share_result">مشاركة النتيجة</string>
-    <string name="new_test">اختبار جديد</string>
-    <string name="back_home">العودة للرئيسية</string>
-    <string name="truth_score">نسبة الصدق</string>
-    <string name="entertainment_notice">للتسلية فقط. أنماط الصوت لا تستطيع تحديد ما إذا كان الشخص يقول الحقيقة.</string>
-    <string name="permission_audio">يلزم السماح بالميكروفون لتحليل إجابتك.</string>
-    <string name="no_history">لا توجد اختبارات بعد. نتائجك تبقى على هذا الجهاز فقط.</string>
-    <string name="language">اللغة</string>
-    <string name="theme">الثيم</string>
-    <string name="dark">داكن</string>
-    <string name="light">فاتح</string>
-    <string name="about">حول التطبيق</string>
-    <string name="rate_app">تقييم التطبيق</string>
-    <string name="achievement_first">أول اختبار</string>
-    <string name="achievement_ten">10 اختبارات</string>
-    <string name="achievement_high">نادي 95%</string>
-    <string name="result_honest">صادق تمامًا 😇</string>
-    <string name="result_hesitant">متردد شوي 🤔</string>
-    <string name="result_white_lie">كذبة بيضاء 🤏</string>
-    <string name="result_actor">ممثل محترف 🎭</string>
-    <string name="custom_hint">اكتب سؤالك…</string>
-    <string name="continue_label">متابعة</string>
-    <string name="onboarding_1_title">احكي… وشوف النبض</string>
-    <string name="onboarding_1_body">جاوب على أسئلة مسلية بينما تتفاعل الموجة الحية مع صوتك الحقيقي.</string>
-    <string name="onboarding_2_title">خذ نتيجة مرحة</string>
-    <string name="onboarding_2_body">يحوّل كاشف الصدق اتساق الصوت إلى نتيجة ترفيهية، وليس كشف كذب علميًا.</string>
-    <string name="onboarding_3_title">تحدى أصحابك</string>
-    <string name="onboarding_3_body">قارن إجابتين على نفس الهاتف وشارك النتيجة الأظرف.</string>
-    <string name="get_started">ابدأ</string>
-    <string name="record_at_least">سجّل لمدة ثانيتين على الأقل.</string>
-    <string name="share_text">جاوبت على “%1$s” وطلعت نتيجتي في كاشف الصدق %2$d%%. جرّب إنت!</string>
+    <string name="app_name">كاشف الصدق</string><string name="home">الرئيسية</string><string name="history">السجل</string><string name="achievements">الإنجازات</string><string name="settings">الإعدادات</string>
+    <string name="welcome">أهلاً بك</string><string name="solo_test">اختبار فردي</string><string name="duel_mode">تحدي ثنائي</string><string name="custom_question">سؤال مخصص</string><string name="daily_challenge">سؤال اليوم</string><string name="start_now">ابدأ الآن</string>
+    <string name="choose_category">اختر الفئة</string><string name="embarrassing">محرجة</string><string name="funny">مضحكة</string><string name="bold">جريئة</string><string name="romantic">رومانسية</string><string name="friendship">صداقة</string><string name="family">عائلية</string>
+    <string name="tap_to_record">اضغط وسجّل إجابتك</string><string name="stop_recording">إيقاف التسجيل</string><string name="retry">إعادة المحاولة</string><string name="share_result">مشاركة النتيجة</string><string name="new_test">اختبار جديد</string><string name="back_home">العودة للرئيسية</string><string name="truth_score">نسبة الصدق</string>
+    <string name="entertainment_notice">للتسلية فقط. أنماط الصوت لا تستطيع تحديد ما إذا كان الشخص يقول الحقيقة.</string><string name="permission_audio">يلزم السماح بالميكروفون لتحليل إجابتك.</string><string name="no_history">لا توجد اختبارات بعد. نتائجك تبقى على هذا الجهاز فقط.</string>
+    <string name="language">اللغة</string><string name="theme">الثيم</string><string name="dark">داكن</string><string name="light">فاتح</string><string name="about">حول التطبيق</string><string name="rate_app">تقييم التطبيق</string>
+    <string name="achievement_first">أول اختبار</string><string name="achievement_ten">10 اختبارات</string><string name="achievement_high">نادي 95%</string>
+    <string name="result_honest">صادق تمامًا 😇</string><string name="result_hesitant">متردد شوي 🤔</string><string name="result_white_lie">كذبة بيضاء 🤏</string><string name="result_actor">ممثل محترف 🎭</string>
+    <string name="custom_hint">اكتب سؤالك…</string><string name="continue_label">متابعة</string><string name="onboarding_1_title">احكي… وشوف النبض</string><string name="onboarding_1_body">جاوب على أسئلة مسلية بينما تتفاعل الموجة الحية مع صوتك الحقيقي.</string><string name="onboarding_2_title">خذ نتيجة مرحة</string><string name="onboarding_2_body">يحوّل كاشف الصدق اتساق الصوت إلى نتيجة ترفيهية، وليس كشف كذب علميًا.</string><string name="onboarding_3_title">تحدى أصحابك</string><string name="onboarding_3_body">قارن إجابتين على نفس الهاتف وشارك النتيجة الأظرف.</string><string name="get_started">ابدأ</string>
+    <string name="record_at_least">سجّل إجابة واضحة لمدة ثانيتين على الأقل.</string><string name="share_text">جاوبت على “%1$s” وطلعت نتيجتي في كاشف الصدق %2$d%%. جرّب إنت!</string>
+    <string name="daily_notification_fallback">سؤال اليوم جاهز إلك.</string><string name="player_one">اللاعب 1</string><string name="player_two">اللاعب 2</string><string name="winner">الفائز</string><string name="english">English</string><string name="arabic">العربية</string><string name="privacy_audio">الصوت الخام يُحلل داخل الذاكرة ولا يتم حفظه.</string>
 </resources>

@@ -1,0 +1,20 @@
+[
+  {"id":"e1","category":"embarrassing","text":"عمرك عملت حالك مش شايف رسالة عشان ما ترد؟"},
+  {"id":"e2","category":"embarrassing","text":"عمرك بحثت عن اسمك على الإنترنت؟"},
+  {"id":"e3","category":"embarrassing","text":"عمرك لبّست غلطة عملتها لشخص ثاني؟"},
+  {"id":"f1","category":"funny","text":"عمرك ضحكت على نكتة وإنت أصلًا مش فاهمها؟"},
+  {"id":"f2","category":"funny","text":"بتغني لما تكون لحالك؟"},
+  {"id":"f3","category":"funny","text":"عمرك حكيت مع حالك قدام المراية؟"},
+  {"id":"b1","category":"bold","text":"عمرك بعثت رسالة وندمت عليها بنفس اللحظة؟"},
+  {"id":"b2","category":"bold","text":"بتقدر تفرجي أصحابك آخر شيء بحثت عنه هسا؟"},
+  {"id":"b3","category":"bold","text":"عمرك مثّلت إنك واثق وإنت من جوا متوتر جدًا؟"},
+  {"id":"r1","category":"romantic","text":"عمرك أعجبت بشخص أصحابك مستحيل يتوقعوه؟"},
+  {"id":"r2","category":"romantic","text":"لسا بتتذكر أول شخص أعجبت فيه؟"},
+  {"id":"r3","category":"romantic","text":"عمرك رجعت قرأت محادثة رومانسية قديمة؟"},
+  {"id":"fr1","category":"friendship","text":"عمرك خبّيت سر مهم عن أقرب صاحب إلك؟"},
+  {"id":"fr2","category":"friendship","text":"بتعطي أقرب صاحب إلك تلفونك مفتوح لمدة ساعة؟"},
+  {"id":"fr3","category":"friendship","text":"عمرك غرت من نجاح صاحب إلك؟"},
+  {"id":"fa1","category":"family","text":"عمرك خبّيت عن أهلك شيء اشتريته؟"},
+  {"id":"fa2","category":"family","text":"عندك شخص مفضل بالعيلة؟"},
+  {"id":"fa3","category":"family","text":"عمرك عملت حالك نايم عشان تهرب من حكي مع العيلة؟"}
+]
