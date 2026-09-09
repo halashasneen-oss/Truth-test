@@ -4,4 +4,6 @@
     <string name="duel_card_label">⚔  تحدي ثنائي</string>
     <string name="custom_card_label">✎  سؤال مخصص</string>
     <string name="watermark">كاشف الصدق • Nuvexa</string>
+    <string name="splash_tagline">احكي • شوف النبض • شارك</string>
+    <string name="category_count_format">%1$s\n%2$d أسئلة</string>
 </resources>

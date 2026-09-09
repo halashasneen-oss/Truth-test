@@ -4,4 +4,6 @@
     <string name="duel_card_label">⚔  Duel Mode</string>
     <string name="custom_card_label">✎  Custom Question</string>
     <string name="watermark">Truth Test • Nuvexa</string>
+    <string name="splash_tagline">Speak • Pulse • Share</string>
+    <string name="category_count_format">%1$s\n%2$d questions</string>
 </resources>

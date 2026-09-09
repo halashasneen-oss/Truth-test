@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class TestViewModel(application: Application) : AndroidViewModel(application) {
     private val questions = QuestionRepository(application)
     private val history = HistoryRepository(application)
-
     private val _state = MutableStateFlow(TestUiState())
     val state: StateFlow<TestUiState> = _state.asStateFlow()
 
@@ -24,6 +23,8 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = TestUiState(initialized = true, mode = mode, stage = initialStage)
         if (daily) questions.dailyQuestion()?.let(::beginQuestion)
     }
+
+    fun categoryCount(category: String): Int = questions.allQuestions().count { it.category == category }
 
     fun chooseCategory(category: String): Boolean {
         val question = questions.random(category) ?: return false
@@ -49,7 +50,6 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    /** Returns true when Duel Mode should hand the phone to player 2. */
     fun submitScore(score: Int): Boolean {
         val current = _state.value
         val question = current.question ?: return false
@@ -58,15 +58,10 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             _state.value = current.copy(player = 2, firstScore = score)
             return true
         }
-
         save(question, score, if (current.mode == TestActivity.MODE_DUEL) "duel_p2" else current.mode)
         val second = if (current.mode == TestActivity.MODE_DUEL) score else null
         val finalScore = if (current.mode == TestActivity.MODE_DUEL) maxOf(current.firstScore ?: 0, score) else score
-        _state.value = current.copy(
-            stage = TestStage.RESULT,
-            secondScore = second,
-            finalScore = finalScore
-        )
+        _state.value = current.copy(stage = TestStage.RESULT, secondScore = second, finalScore = finalScore)
         return false
     }
 
@@ -80,15 +75,6 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun save(question: Question, score: Int, mode: String) {
-        history.add(
-            TestResult(
-                id = UUID.randomUUID().toString(),
-                question = question.text,
-                category = question.category,
-                score = score,
-                timestamp = System.currentTimeMillis(),
-                mode = mode
-            )
-        )
+        history.add(TestResult(UUID.randomUUID().toString(), question.text, question.category, score, System.currentTimeMillis(), mode))
     }
 }

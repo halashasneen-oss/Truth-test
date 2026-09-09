@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.button.MaterialButton
 import com.nuvexa.truthtest.R
 import com.nuvexa.truthtest.audio.AudioRecorderEngine
 import com.nuvexa.truthtest.audio.VoiceAnalyzer
@@ -30,8 +31,8 @@ class TestActivity : AppCompatActivity() {
     private var isRecording = false
     private var startedAt = 0L
     private var renderedPlayer = 0
-
     private val handler = Handler(Looper.getMainLooper())
+
     private val timer = object : Runnable {
         override fun run() {
             if (!isRecording) return
@@ -53,32 +54,31 @@ class TestActivity : AppCompatActivity() {
         bindCategories()
         bindActions()
         observeState()
-        viewModel.configure(
-            mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO,
-            daily = intent.getBooleanExtra(EXTRA_DAILY, false)
-        )
+        viewModel.configure(intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO, intent.getBooleanExtra(EXTRA_DAILY, false))
     }
 
     private fun bindCategories() {
-        mapOf(
+        val categories = mapOf(
             binding.categoryEmbarrassing to "embarrassing",
             binding.categoryFunny to "funny",
             binding.categoryBold to "bold",
             binding.categoryRomantic to "romantic",
             binding.categoryFriendship to "friendship",
             binding.categoryFamily to "family"
-        ).forEach { (button, category) ->
+        )
+        categories.forEach { (button, category) ->
+            decorateCategory(button, viewModel.categoryCount(category))
             button.setOnClickListener { viewModel.chooseCategory(category) }
         }
     }
 
+    private fun decorateCategory(button: MaterialButton, count: Int) {
+        button.text = getString(R.string.category_count_format, button.text, count)
+    }
+
     private fun bindActions() {
-        binding.customContinue.setOnClickListener {
-            viewModel.useCustomQuestion(binding.customQuestionInput.text?.toString().orEmpty())
-        }
-        binding.recordButton.setOnClickListener {
-            if (isRecording) stopRecording() else ensureMicAndStart()
-        }
+        binding.customContinue.setOnClickListener { viewModel.useCustomQuestion(binding.customQuestionInput.text?.toString().orEmpty()) }
+        binding.recordButton.setOnClickListener { if (isRecording) stopRecording() else ensureMicAndStart() }
         binding.newTestButton.setOnClickListener { viewModel.reset() }
         binding.homeButton.setOnClickListener { finish() }
         binding.shareButton.setOnClickListener { shareResult(viewModel.state.value) }
@@ -86,33 +86,17 @@ class TestActivity : AppCompatActivity() {
 
     private fun observeState() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect(::render)
-            }
+            repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.state.collect(::render) }
         }
     }
 
     private fun render(state: TestUiState) {
         if (!state.initialized) return
-        binding.screenTitle.setText(
-            when (state.mode) {
-                MODE_DUEL -> R.string.duel_mode
-                MODE_CUSTOM -> R.string.custom_question
-                else -> R.string.solo_test
-            }
-        )
-        setPanels(
-            category = state.stage == TestStage.CATEGORY,
-            custom = state.stage == TestStage.CUSTOM,
-            record = state.stage == TestStage.RECORDING,
-            result = state.stage == TestStage.RESULT
-        )
-
+        binding.screenTitle.setText(when (state.mode) { MODE_DUEL -> R.string.duel_mode; MODE_CUSTOM -> R.string.custom_question; else -> R.string.solo_test })
+        setPanels(state.stage == TestStage.CATEGORY, state.stage == TestStage.CUSTOM, state.stage == TestStage.RECORDING, state.stage == TestStage.RESULT)
         state.question?.let { binding.questionText.text = it.text }
         if (state.stage == TestStage.RECORDING) {
-            binding.playerLabel.text = if (state.mode == MODE_DUEL) {
-                getString(if (state.player == 1) R.string.player_one else R.string.player_two)
-            } else ""
+            binding.playerLabel.text = if (state.mode == MODE_DUEL) getString(if (state.player == 1) R.string.player_one else R.string.player_two) else ""
             if (renderedPlayer != state.player) {
                 renderedPlayer = state.player
                 binding.waveform.reset()
@@ -122,12 +106,7 @@ class TestActivity : AppCompatActivity() {
         if (state.stage == TestStage.RESULT) renderResult(state)
     }
 
-    private fun setPanels(
-        category: Boolean = false,
-        custom: Boolean = false,
-        record: Boolean = false,
-        result: Boolean = false
-    ) {
+    private fun setPanels(category: Boolean = false, custom: Boolean = false, record: Boolean = false, result: Boolean = false) {
         binding.categoryPanel.visibility = if (category) View.VISIBLE else View.GONE
         binding.customPanel.visibility = if (custom) View.VISIBLE else View.GONE
         binding.recordPanel.visibility = if (record) View.VISIBLE else View.GONE
@@ -135,9 +114,8 @@ class TestActivity : AppCompatActivity() {
     }
 
     private fun ensureMicAndStart() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            startRecordingInternal()
-        } else micPermission.launch(Manifest.permission.RECORD_AUDIO)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) startRecordingInternal()
+        else micPermission.launch(Manifest.permission.RECORD_AUDIO)
     }
 
     private fun startRecordingInternal() {
@@ -158,15 +136,13 @@ class TestActivity : AppCompatActivity() {
         isRecording = false
         handler.removeCallbacks(timer)
         binding.recordButton.text = "●"
-        val samples = recorder.stop()
-        val analysis = VoiceAnalyzer.analyze(samples)
+        val analysis = VoiceAnalyzer.analyze(recorder.stop())
         if (!analysis.usable) {
             Toast.makeText(this, R.string.record_at_least, Toast.LENGTH_LONG).show()
             binding.timerText.text = "00:00"
             return
         }
-        val handToPlayerTwo = viewModel.submitScore(analysis.score)
-        if (handToPlayerTwo) Toast.makeText(this, R.string.player_two, Toast.LENGTH_SHORT).show()
+        if (viewModel.submitScore(analysis.score)) Toast.makeText(this, R.string.player_two, Toast.LENGTH_SHORT).show()
     }
 
     private fun renderResult(state: TestUiState) {
@@ -175,41 +151,26 @@ class TestActivity : AppCompatActivity() {
         binding.resultQuestion.text = question.text
         binding.resultScore.text = "$score%"
         binding.resultProgress.setProgressCompat(score, true)
-        binding.resultProgress.setIndicatorColor(
-            getColor(if (score >= 80) R.color.success else if (score >= 55) R.color.warning else R.color.danger)
-        )
-        binding.resultLabel.setText(
-            if (score >= 85) R.string.result_honest
-            else if (score >= 65) R.string.result_hesitant
-            else if (score >= 45) R.string.result_white_lie
-            else R.string.result_actor
-        )
-
+        binding.resultProgress.setIndicatorColor(getColor(if (score >= 80) R.color.success else if (score >= 55) R.color.warning else R.color.danger))
+        binding.resultLabel.setText(if (score >= 85) R.string.result_honest else if (score >= 65) R.string.result_hesitant else if (score >= 45) R.string.result_white_lie else R.string.result_actor)
         if (state.mode == MODE_DUEL) {
             val one = state.firstScore ?: 0
             val two = state.secondScore ?: 0
-            val winner = when {
-                one == two -> "🤝"
-                one > two -> "🏆 ${getString(R.string.player_one)}"
-                else -> "🏆 ${getString(R.string.player_two)}"
-            }
+            val winner = when { one == two -> "🤝"; one > two -> "🏆 ${getString(R.string.player_one)}"; else -> "🏆 ${getString(R.string.player_two)}" }
             binding.duelComparison.visibility = View.VISIBLE
             binding.duelComparison.text = "$winner\n${getString(R.string.player_one)} $one%   VS   ${getString(R.string.player_two)} $two%"
-        } else {
-            binding.duelComparison.visibility = View.GONE
-        }
+        } else binding.duelComparison.visibility = View.GONE
     }
 
     private fun shareResult(state: TestUiState) {
         val question = state.question ?: return
         val uri = ResultCardRenderer.render(this, question.text, state.finalScore, state.secondScore)
-        val share = Intent(Intent.ACTION_SEND).apply {
+        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
             type = "image/png"
             putExtra(Intent.EXTRA_STREAM, uri)
             putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text, question.text, state.finalScore))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        startActivity(Intent.createChooser(share, getString(R.string.share_result)))
+        }, getString(R.string.share_result)))
     }
 
     override fun onDestroy() {
