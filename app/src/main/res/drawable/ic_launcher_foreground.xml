@@ -5,35 +5,42 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
+    <!-- Protective shield: trust + challenge identity -->
+    <path
+        android:fillColor="#14000000"
+        android:pathData="M54,16 C67,16 78,20 84,25 L84,49 C84,70 72,85 54,93 C36,85 24,70 24,49 L24,25 C30,20 41,16 54,16 Z"
+        android:strokeColor="#A78BFA"
+        android:strokeLineJoin="round"
+        android:strokeWidth="4" />
+
+    <!-- Eye silhouette -->
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M30,75 L30,33 L78,75 L78,33"
+        android:pathData="M31,52 C37,43 45,38 54,38 C63,38 71,43 77,52 C71,61 63,66 54,66 C45,66 37,61 31,52 Z"
         android:strokeColor="#FFF8FAFC"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:strokeWidth="9" />
+        android:strokeWidth="3.2" />
 
+    <!-- Voice pulse running through the eye -->
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M18,54 L27,54 L34,45 L41,63 L48,50 L55,58 L63,42 L70,54 L90,54"
+        android:pathData="M34,52 L40,52 L44,47 L48,58 L53,43 L58,58 L63,47 L68,52 L74,52"
         android:strokeColor="#22D3EE"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:strokeWidth="4.5" />
+        android:strokeWidth="3.4" />
 
+    <!-- Focus core -->
     <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M42,30 L54,24 L66,30"
-        android:strokeColor="#EC4899"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:strokeWidth="4" />
+        android:fillColor="#EC4899"
+        android:pathData="M54,46 C57.3,46 60,48.7 60,52 C60,55.3 57.3,58 54,58 C50.7,58 48,55.3 48,52 C48,48.7 50.7,46 54,46 Z" />
 
+    <!-- Small energy accents -->
     <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M42,78 L54,84 L66,78"
-        android:strokeColor="#7C3AED"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:strokeWidth="4" />
+        android:fillColor="#7C3AED"
+        android:pathData="M20,38 C22.2,38 24,39.8 24,42 C24,44.2 22.2,46 20,46 C17.8,46 16,44.2 16,42 C16,39.8 17.8,38 20,38 Z" />
+    <path
+        android:fillColor="#22D3EE"
+        android:pathData="M88,61 C90.2,61 92,62.8 92,65 C92,67.2 90.2,69 88,69 C85.8,69 84,67.2 84,65 C84,62.8 85.8,61 88,61 Z" />
 </vector>
