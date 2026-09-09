@@ -29,4 +29,14 @@ class ResultVideoTimelineTest {
         assertTrue(ResultVideoTimeline.resultAlpha(0.60f) == 0f)
         assertTrue(ResultVideoTimeline.resultAlpha(0.90f) >= 0.99f)
     }
+
+    @Test
+    fun groupRowsRevealInOrderAndWinnerFinishesLast() {
+        assertTrue(ResultVideoTimeline.groupRowAlpha(0.64f, 0) > 0f)
+        assertEquals(0f, ResultVideoTimeline.groupRowAlpha(0.64f, 3), 0.0001f)
+        assertTrue(ResultVideoTimeline.groupRowAlpha(0.90f, 3) >= 0.99f)
+        assertTrue(ResultVideoTimeline.groupWinnerAlpha(0.70f) == 0f)
+        assertTrue(ResultVideoTimeline.groupWinnerAlpha(0.95f) >= 0.99f)
+        assertEquals(1f, ResultVideoTimeline.groupWinnerScale(1f), 0.0001f)
+    }
 }
