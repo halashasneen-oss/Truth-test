@@ -100,6 +100,7 @@ class TestActivity : AppCompatActivity() {
             if (renderedPlayer != state.player) {
                 renderedPlayer = state.player
                 binding.waveform.reset()
+                binding.pulseRing.reset()
                 binding.timerText.text = "00:00"
             }
         }
@@ -123,9 +124,15 @@ class TestActivity : AppCompatActivity() {
             isRecording = true
             binding.recordButton.text = "■"
             binding.waveform.reset()
+            binding.pulseRing.reset()
             startedAt = SystemClock.elapsedRealtime()
             handler.post(timer)
-            recorder.start { amplitude -> binding.waveform.post { binding.waveform.addAmplitude(amplitude) } }
+            recorder.start { amplitude ->
+                binding.waveform.post {
+                    binding.waveform.addAmplitude(amplitude)
+                    binding.pulseRing.setAmplitude(amplitude)
+                }
+            }
         }.onFailure {
             isRecording = false
             Toast.makeText(this, R.string.permission_audio, Toast.LENGTH_LONG).show()
@@ -136,6 +143,7 @@ class TestActivity : AppCompatActivity() {
         isRecording = false
         handler.removeCallbacks(timer)
         binding.recordButton.text = "●"
+        binding.pulseRing.reset()
         val analysis = VoiceAnalyzer.analyze(recorder.stop())
         if (!analysis.usable) {
             Toast.makeText(this, R.string.record_at_least, Toast.LENGTH_LONG).show()

@@ -1,37 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="@color/app_background">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-    <TextView android:id="@+id/screenTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/app_text_primary" android:textSize="24sp" android:textStyle="bold" />
-    <LinearLayout android:id="@+id/categoryPanel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:orientation="vertical">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/choose_category" android:textColor="@color/app_text_primary" android:textSize="20sp" />
-        <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:columnCount="2">
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/embarrassing" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/funny" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/bold" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/romantic" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/friendship" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" android:layout_width="0dp" android:layout_height="72dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/family" />
-        </GridLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/screenTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_text_primary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/categoryPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_category"
+                android:textColor="@color/app_text_primary"
+                android:textSize="20sp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:columnCount="2">
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/embarrassing" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/funny" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/bold" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/romantic" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/friendship" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/family" />
+            </GridLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/custom_hint">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/customQuestionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/customContinue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/continue_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recordPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/playerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/questionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textColor="@color/app_text_primary"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <com.nuvexa.truthtest.ui.custom.WaveformView
+                android:id="@+id/waveform"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="22dp" />
+
+            <FrameLayout
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginTop="8dp">
+
+                <com.nuvexa.truthtest.ui.custom.PulseRingView
+                    android:id="@+id/pulseRing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/recordButton"
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:layout_gravity="center"
+                    android:text="●"
+                    android:textSize="30sp"
+                    app:cornerRadius="44dp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/timerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="00:00"
+                android:textColor="@color/app_text_secondary"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="@string/entertainment_notice"
+                android:textColor="@color/app_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView android:id="@+id/resultQuestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="20sp" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/resultProgress" android:layout_width="190dp" android:layout_height="190dp" android:layout_marginTop="24dp" app:indicatorSize="170dp" app:trackThickness="12dp" />
+            <TextView android:id="@+id/resultScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-118dp" android:layout_marginBottom="64dp" android:textColor="@color/app_text_primary" android:textSize="38sp" android:textStyle="bold" />
+            <TextView android:id="@+id/resultLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="22sp" android:textStyle="bold" />
+            <TextView android:id="@+id/duelComparison" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="center" android:textColor="@color/cyan" android:textSize="20sp" android:textStyle="bold" android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/shareButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="24dp" android:text="@string/share_result" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/newTestButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/new_test" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/homeButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/back_home" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:id="@+id/customPanel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:orientation="vertical" android:visibility="gone">
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/custom_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/customQuestionInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:minLines="3" /></com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.button.MaterialButton android:id="@+id/customContinue" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/continue_label" />
-    </LinearLayout>
-    <LinearLayout android:id="@+id/recordPanel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:gravity="center_horizontal" android:orientation="vertical" android:visibility="gone">
-        <TextView android:id="@+id/playerLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/pink" android:textSize="16sp" android:textStyle="bold" />
-        <TextView android:id="@+id/questionText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="27sp" android:textStyle="bold" />
-        <com.nuvexa.truthtest.ui.custom.WaveformView android:id="@+id/waveform" android:layout_width="match_parent" android:layout_height="150dp" android:layout_marginTop="22dp" />
-        <com.google.android.material.button.MaterialButton android:id="@+id/recordButton" android:layout_width="88dp" android:layout_height="88dp" android:layout_marginTop="14dp" android:text="●" android:textSize="30sp" app:cornerRadius="44dp" xmlns:app="http://schemas.android.com/apk/res-auto" />
-        <TextView android:id="@+id/timerText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="00:00" android:textColor="@color/app_text_secondary" android:textSize="18sp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center" android:text="@string/entertainment_notice" android:textColor="@color/app_text_secondary" android:textSize="12sp" />
-    </LinearLayout>
-    <LinearLayout android:id="@+id/resultPanel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:gravity="center_horizontal" android:orientation="vertical" android:visibility="gone">
-        <TextView android:id="@+id/resultQuestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="20sp" />
-        <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/resultProgress" android:layout_width="190dp" android:layout_height="190dp" android:layout_marginTop="24dp" app:indicatorSize="170dp" app:trackThickness="12dp" xmlns:app="http://schemas.android.com/apk/res-auto" />
-        <TextView android:id="@+id/resultScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-118dp" android:layout_marginBottom="64dp" android:textColor="@color/app_text_primary" android:textSize="38sp" android:textStyle="bold" />
-        <TextView android:id="@+id/resultLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="22sp" android:textStyle="bold" />
-        <TextView android:id="@+id/duelComparison" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="center" android:textColor="@color/cyan" android:textSize="20sp" android:textStyle="bold" android:visibility="gone" />
-        <com.google.android.material.button.MaterialButton android:id="@+id/shareButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="24dp" android:text="@string/share_result" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><com.google.android.material.button.MaterialButton android:id="@+id/newTestButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/new_test" /><com.google.android.material.button.MaterialButton android:id="@+id/homeButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/back_home" /></LinearLayout>
-    </LinearLayout>
-</LinearLayout></ScrollView>
+</ScrollView>
