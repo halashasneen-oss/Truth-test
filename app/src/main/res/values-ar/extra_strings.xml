@@ -35,7 +35,7 @@
     <string name="achievement_custom">صانع الأسئلة</string>
     <string name="achievement_progress_format">تم فتح %1$d من أصل %2$d إنجازات</string>
     <string name="current_streak_format">🔥 السلسلة الحالية: %1$d أيام</string>
-    <string name="watermark">كاشف الصدق • Nuvexa</string>
+    <string name="watermark">كاشف الصدق</string>
     <string name="splash_tagline">احكي • شوف النبض • شارك</string>
     <string name="category_count_format">%1$s\n%2$d أسئلة</string>
 
@@ -117,7 +117,7 @@
     <string name="daily_notification_time">وقت الإشعار اليومي</string>
     <string name="daily_notification_time_format">الوقت اليومي: %1$s</string>
     <string name="streak_reminder_toggle">ذكرني قبل ما تنقطع السلسلة</string>
-    <string name="streak_reminder_note">إذا عندك سلسلة فعالة وما لعبت اليوم، يفحص Nuvexa تقريبًا الساعة 9:00 مساءً.</string>
+    <string name="streak_reminder_note">إذا عندك سلسلة فعالة وما لعبت اليوم، يفحص كاشف الصدق تقريبًا الساعة 9:00 مساءً.</string>
     <string name="reminders_channel">تذكيرات كاشف الصدق</string>
     <string name="streak_reminder_title">🔥 حافظ على سلسلتك</string>
     <string name="streak_reminder_text">سلسلتك الحالية %1$d أيام ولسا مستمرة. أكمل اختبار اليوم حتى تحافظ عليها.</string>
