@@ -29,6 +29,12 @@ class WaveformView @JvmOverloads constructor(
 
     fun snapshot(): List<Float> = values.toList()
 
+    fun setValues(newValues: List<Float>) {
+        values.clear()
+        newValues.takeLast(maxPoints).forEach { values.addLast(it.coerceIn(0.03f, 1f)) }
+        invalidate()
+    }
+
     fun reset() {
         values.clear()
         invalidate()

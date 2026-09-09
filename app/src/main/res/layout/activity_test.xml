@@ -40,12 +40,12 @@
                 android:layout_marginTop="12dp"
                 android:columnCount="2">
 
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/embarrassing" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/funny" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/bold" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/romantic" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/friendship" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" android:layout_width="0dp" android:layout_height="76dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/family" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/embarrassing" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/funny" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/bold" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/romantic" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/friendship" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/family" />
             </GridLayout>
         </LinearLayout>
 
@@ -157,13 +157,38 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <TextView android:id="@+id/resultQuestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="20sp" />
-            <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/resultProgress" android:layout_width="190dp" android:layout_height="190dp" android:layout_marginTop="24dp" app:indicatorSize="170dp" app:trackThickness="12dp" />
+            <TextView
+                android:id="@+id/resultQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/app_text_primary"
+                android:textSize="20sp" />
+
+            <com.nuvexa.truthtest.ui.custom.WaveformView
+                android:id="@+id/resultWaveform"
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:layout_marginTop="10dp"
+                android:alpha="0.48" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/resultProgress"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
+                android:layout_marginTop="12dp"
+                app:indicatorSize="170dp"
+                app:trackThickness="12dp" />
+
             <TextView android:id="@+id/resultScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-118dp" android:layout_marginBottom="64dp" android:textColor="@color/app_text_primary" android:textSize="38sp" android:textStyle="bold" />
             <TextView android:id="@+id/resultLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="22sp" android:textStyle="bold" />
             <TextView android:id="@+id/duelComparison" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="center" android:textColor="@color/cyan" android:textSize="20sp" android:textStyle="bold" android:visibility="gone" />
             <com.google.android.material.button.MaterialButton android:id="@+id/shareButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="24dp" android:text="@string/share_result" />
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <com.google.android.material.button.MaterialButton android:id="@+id/newTestButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/new_test" />
                 <com.google.android.material.button.MaterialButton android:id="@+id/homeButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/back_home" />
             </LinearLayout>

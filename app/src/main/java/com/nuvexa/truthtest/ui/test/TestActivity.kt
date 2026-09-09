@@ -176,6 +176,7 @@ class TestActivity : AppCompatActivity() {
         val question = state.question ?: return
         val score = state.finalScore
         binding.resultQuestion.text = question.text
+        binding.resultWaveform.setValues(binding.waveform.snapshot())
         binding.resultScore.text = "$score%"
         binding.resultProgress.setProgressCompat(score, true)
         binding.resultProgress.setIndicatorColor(getColor(if (score >= 80) R.color.success else if (score >= 55) R.color.warning else R.color.danger))
