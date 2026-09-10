@@ -25,12 +25,13 @@ jobs:
           set -euo pipefail
 
           OLD='com.nuvexa.truthtest'
-          NEW='com.halashasneen.truthtest'
 
-          # Replace the old package/namespace in every tracked text file.
+          # Replace the old package/namespace in tracked text files, but never
+          # rewrite this one-time workflow itself (GitHub blocks workflows from
+          # self-modifying without the separate workflows permission).
           while IFS= read -r file; do
             perl -pi -e 's/com\.nuvexa\.truthtest/com.halashasneen.truthtest/g' "$file"
-          done < <(git grep -Il "$OLD" || true)
+          done < <(git grep -Il "$OLD" -- ':!.github/workflows/one-time-package-icon-fix.yml' || true)
 
           # Move Kotlin source trees so their filesystem path matches the package.
           if [ -d app/src/main/java/com/nuvexa/truthtest ]; then
@@ -42,8 +43,8 @@ jobs:
             git mv app/src/test/java/com/nuvexa/truthtest app/src/test/java/com/halashasneen/truthtest
           fi
 
-          # Use the supplied artwork directly as the launcher icon so all launchers
-          # display the actual image instead of falling back to a missing/adaptive layer.
+          # Use the supplied artwork directly as the launcher icon so the actual
+          # image is always visible instead of depending on adaptive icon layers.
           python3 - <<'PY'
           from pathlib import Path
           manifest = Path('app/src/main/AndroidManifest.xml')
@@ -53,12 +54,12 @@ jobs:
           manifest.write_text(text, encoding='utf-8')
           PY
 
-          # Keep legacy mipmap aliases as an additional fallback for launchers/tools.
+          # Keep mipmap aliases as a fallback for launchers and packaging tools.
           mkdir -p app/src/main/res/mipmap-nodpi
           cp app/src/main/res/drawable-nodpi/ic_launcher_art.webp app/src/main/res/mipmap-nodpi/ic_launcher.webp
           cp app/src/main/res/drawable-nodpi/ic_launcher_art.webp app/src/main/res/mipmap-nodpi/ic_launcher_round.webp
 
-          # Make adaptive-icon resources use the supplied artwork as the visible layer.
+          # Keep adaptive resources valid and make the supplied artwork visible.
           cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
@@ -68,7 +69,7 @@ jobs:
           EOF
           cp app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 
-          # Fail if the old package remains anywhere in tracked app/build sources.
+          # Fail if the old identifier remains in the actual app sources/config.
           if git grep -n "$OLD" -- app ':!app/build' ':!app/.gradle'; then
             echo 'Old package identifier still exists in app sources.'
             exit 1
