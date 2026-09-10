@@ -104,5 +104,13 @@
             android:padding="18dp"
             android:textColor="@color/app_text_secondary"
             android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/privacyPolicyButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/privacy_policy" />
     </LinearLayout>
 </ScrollView>

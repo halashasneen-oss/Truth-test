@@ -3,7 +3,9 @@ package com.nuvexa.truthtest.ui.settings
 import android.Manifest
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -81,6 +83,9 @@ class SettingsFragment : Fragment() {
             DailyChallengeScheduler.schedule(requireContext())
         }
         binding.dailyTimeButton.setOnClickListener { showTimePicker() }
+        binding.privacyPolicyButton.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL)))
+        }
     }
 
     private fun showTimePicker() {
@@ -121,5 +126,9 @@ class SettingsFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val PRIVACY_POLICY_URL = "https://halashasneen-oss.github.io/truth-test-privacy/"
     }
 }
