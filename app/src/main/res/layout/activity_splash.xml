@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="32dp">
 
-    <com.nuvexa.truthtest.ui.custom.WaveformView
+    <com.halashasneen.truthtest.ui.custom.WaveformView
         android:id="@+id/splashWaveform"
         android:layout_width="220dp"
         android:layout_height="110dp" />

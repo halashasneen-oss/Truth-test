@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nuvexa.truthtest"
+    namespace = "com.halashasneen.truthtest"
     compileSdk = 36
 
     defaultConfig {

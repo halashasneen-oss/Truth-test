@@ -145,7 +145,7 @@
                 android:textSize="27sp"
                 android:textStyle="bold" />
 
-            <com.nuvexa.truthtest.ui.custom.WaveformView
+            <com.halashasneen.truthtest.ui.custom.WaveformView
                 android:id="@+id/waveform"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -156,7 +156,7 @@
                 android:layout_height="128dp"
                 android:layout_marginTop="8dp">
 
-                <com.nuvexa.truthtest.ui.custom.PulseRingView
+                <com.halashasneen.truthtest.ui.custom.PulseRingView
                     android:id="@+id/pulseRing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -207,7 +207,7 @@
                 android:textColor="@color/app_text_primary"
                 android:textSize="20sp" />
 
-            <com.nuvexa.truthtest.ui.custom.WaveformView
+            <com.halashasneen.truthtest.ui.custom.WaveformView
                 android:id="@+id/resultWaveform"
                 android:layout_width="match_parent"
                 android:layout_height="84dp"

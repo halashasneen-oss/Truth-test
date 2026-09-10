@@ -143,7 +143,7 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/stats_recent_scores" android:textColor="@color/app_text_primary" android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="@string/stats_recent_scores_note" android:textColor="@color/app_text_secondary" android:textSize="12sp" />
-                <com.nuvexa.truthtest.ui.statistics.ScoreTrendView android:id="@+id/trendView" android:layout_width="match_parent" android:layout_height="190dp" android:layout_marginTop="10dp" />
+                <com.halashasneen.truthtest.ui.statistics.ScoreTrendView android:id="@+id/trendView" android:layout_width="match_parent" android:layout_height="190dp" android:layout_marginTop="10dp" />
                 <TextView android:id="@+id/trendEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:gravity="center" android:padding="18dp" android:text="@string/stats_no_data_short" android:textColor="@color/app_text_secondary" android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
