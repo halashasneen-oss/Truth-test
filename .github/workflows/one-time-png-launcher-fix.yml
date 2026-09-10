@@ -23,36 +23,34 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --quiet pillow
+
+          SRC='app/src/main/res/drawable-nodpi/ic_launcher_art.webp'
+          TMP="$RUNNER_TEMP/truth-test-launcher.png"
+
+          ffmpeg -hide_banner -loglevel error -y -i "$SRC" "$TMP"
+          file "$TMP" | grep -q 'PNG image data'
+
+          declare -A sizes=(
+            [mipmap-mdpi]=48
+            [mipmap-hdpi]=72
+            [mipmap-xhdpi]=96
+            [mipmap-xxhdpi]=144
+            [mipmap-xxxhdpi]=192
+          )
+
+          for folder in "${!sizes[@]}"; do
+            size="${sizes[$folder]}"
+            mkdir -p "app/src/main/res/$folder"
+            ffmpeg -hide_banner -loglevel error -y -i "$TMP" -vf "scale=${size}:${size}:flags=lanczos" "app/src/main/res/$folder/ic_launcher.png"
+            cp "app/src/main/res/$folder/ic_launcher.png" "app/src/main/res/$folder/ic_launcher_round.png"
+          done
+
+          mkdir -p app/src/main/res/mipmap-nodpi
+          ffmpeg -hide_banner -loglevel error -y -i "$TMP" -vf 'scale=256:256:flags=lanczos' app/src/main/res/mipmap-nodpi/ic_launcher.png
+          cp app/src/main/res/mipmap-nodpi/ic_launcher.png app/src/main/res/mipmap-nodpi/ic_launcher_round.png
+
           python3 - <<'PY'
           from pathlib import Path
-          from PIL import Image
-
-          src = Path('app/src/main/res/drawable-nodpi/ic_launcher_art.webp')
-          image = Image.open(src).convert('RGBA')
-          image.load()
-
-          sizes = {
-              'mipmap-mdpi': 48,
-              'mipmap-hdpi': 72,
-              'mipmap-xhdpi': 96,
-              'mipmap-xxhdpi': 144,
-              'mipmap-xxxhdpi': 192,
-          }
-          for folder, size in sizes.items():
-              out_dir = Path('app/src/main/res') / folder
-              out_dir.mkdir(parents=True, exist_ok=True)
-              icon = image.resize((size, size), Image.Resampling.LANCZOS)
-              icon.save(out_dir / 'ic_launcher.png', format='PNG', optimize=True)
-              icon.save(out_dir / 'ic_launcher_round.png', format='PNG', optimize=True)
-
-          # Keep a high-resolution PNG master for tooling/inspection as well.
-          master_dir = Path('app/src/main/res/mipmap-nodpi')
-          master_dir.mkdir(parents=True, exist_ok=True)
-          master = image.resize((256, 256), Image.Resampling.LANCZOS)
-          master.save(master_dir / 'ic_launcher.png', format='PNG', optimize=True)
-          master.save(master_dir / 'ic_launcher_round.png', format='PNG', optimize=True)
-
           manifest = Path('app/src/main/AndroidManifest.xml')
           text = manifest.read_text(encoding='utf-8')
           text = text.replace('android:icon="@drawable/ic_launcher_art"', 'android:icon="@mipmap/ic_launcher"')
@@ -60,7 +58,6 @@ jobs:
           manifest.write_text(text, encoding='utf-8')
           PY
 
-          # Remove formats/layers that caused inconsistent previews on some devices.
           rm -f app/src/main/res/mipmap-nodpi/ic_launcher.webp
           rm -f app/src/main/res/mipmap-nodpi/ic_launcher_round.webp
           rm -f app/src/main/res/drawable-nodpi/ic_launcher_art.webp
