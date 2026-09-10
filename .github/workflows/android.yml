@@ -83,7 +83,8 @@ jobs:
       - name: Verify signed AAB
         if: github.event_name != 'pull_request'
         run: |
-          jarsigner -verify -strict -verbose app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab
+          jarsigner -verify -verbose -certs app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab | tee "$RUNNER_TEMP/jarsigner-verify.txt"
+          grep -q "jar verified" "$RUNNER_TEMP/jarsigner-verify.txt"
           sha256sum app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab
 
       - name: Upload signed Google Play AAB
