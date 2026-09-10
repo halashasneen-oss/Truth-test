@@ -1,0 +1,89 @@
+name: One-time package and launcher icon fix
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/one-time-package-icon-fix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Migrate internal package and harden launcher icon
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          OLD='com.nuvexa.truthtest'
+          NEW='com.halashasneen.truthtest'
+
+          # Replace the old package/namespace in every tracked text file.
+          while IFS= read -r file; do
+            perl -pi -e 's/com\.nuvexa\.truthtest/com.halashasneen.truthtest/g' "$file"
+          done < <(git grep -Il "$OLD" || true)
+
+          # Move Kotlin source trees so their filesystem path matches the package.
+          if [ -d app/src/main/java/com/nuvexa/truthtest ]; then
+            mkdir -p app/src/main/java/com/halashasneen
+            git mv app/src/main/java/com/nuvexa/truthtest app/src/main/java/com/halashasneen/truthtest
+          fi
+          if [ -d app/src/test/java/com/nuvexa/truthtest ]; then
+            mkdir -p app/src/test/java/com/halashasneen
+            git mv app/src/test/java/com/nuvexa/truthtest app/src/test/java/com/halashasneen/truthtest
+          fi
+
+          # Use the supplied artwork directly as the launcher icon so all launchers
+          # display the actual image instead of falling back to a missing/adaptive layer.
+          python3 - <<'PY'
+          from pathlib import Path
+          manifest = Path('app/src/main/AndroidManifest.xml')
+          text = manifest.read_text(encoding='utf-8')
+          text = text.replace('android:icon="@mipmap/ic_launcher"', 'android:icon="@drawable/ic_launcher_art"')
+          text = text.replace('android:roundIcon="@mipmap/ic_launcher_round"', 'android:roundIcon="@drawable/ic_launcher_art"')
+          manifest.write_text(text, encoding='utf-8')
+          PY
+
+          # Keep legacy mipmap aliases as an additional fallback for launchers/tools.
+          mkdir -p app/src/main/res/mipmap-nodpi
+          cp app/src/main/res/drawable-nodpi/ic_launcher_art.webp app/src/main/res/mipmap-nodpi/ic_launcher.webp
+          cp app/src/main/res/drawable-nodpi/ic_launcher_art.webp app/src/main/res/mipmap-nodpi/ic_launcher_round.webp
+
+          # Make adaptive-icon resources use the supplied artwork as the visible layer.
+          cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@drawable/ic_launcher_art" />
+              <foreground android:drawable="@android:color/transparent" />
+          </adaptive-icon>
+          EOF
+          cp app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+
+          # Fail if the old package remains anywhere in tracked app/build sources.
+          if git grep -n "$OLD" -- app ':!app/build' ':!app/.gradle'; then
+            echo 'Old package identifier still exists in app sources.'
+            exit 1
+          fi
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'fix: restore launcher icon and migrate internal package'
+          git push origin HEAD:main
