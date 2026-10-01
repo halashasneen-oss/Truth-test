@@ -37,9 +37,11 @@ object AdsManager {
 
     fun attachBanner(activity: Activity, container: FrameLayout): AdView? {
         val prefs = MonetizationPreferences(activity)
+        val host = container.parent as? View
         if (!ConsentManager.canRequestAds() || prefs.adsSuppressed()) {
             container.removeAllViews()
             container.visibility = View.GONE
+            host?.visibility = View.GONE
             return null
         }
         val widthPx = container.width.takeIf { it > 0 }
@@ -50,11 +52,13 @@ object AdsManager {
             setAdSize(AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(activity, widthDp))
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
+                    host?.visibility = View.VISIBLE
                     container.visibility = View.VISIBLE
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     container.visibility = View.GONE
+                    host?.visibility = View.GONE
                 }
             }
         }
@@ -67,12 +71,18 @@ object AdsManager {
             )
         )
         container.visibility = View.GONE
+        host?.visibility = View.GONE
         adView.loadAd(AdRequest.Builder().build())
         return adView
     }
 
     fun maybeShowInterstitial(activity: Activity, onComplete: () -> Unit) {
         val prefs = MonetizationPreferences(activity)
+        if (!ConsentManager.canRequestAds() || prefs.adsSuppressed()) {
+            interstitialAd = null
+            onComplete()
+            return
+        }
         val count = prefs.recordNaturalBreak()
         val now = System.currentTimeMillis()
         val eligible = MonetizationPolicy.interstitialEligible(
@@ -82,7 +92,7 @@ object AdsManager {
             now = now
         )
         val ad = interstitialAd
-        if (!eligible || ad == null || !ConsentManager.canRequestAds()) {
+        if (!eligible || ad == null) {
             loadInterstitial(activity)
             onComplete()
             return
@@ -131,6 +141,7 @@ object AdsManager {
             if (!granted) {
                 granted = true
                 val until = MonetizationPreferences(activity).grantRewardedAdFree()
+                interstitialAd = null
                 onReward(until)
             }
         }

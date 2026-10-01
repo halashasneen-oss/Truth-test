@@ -38,18 +38,6 @@
     <string name="daily_streak_format">🔥 سلسلة %1$d أيام</string>
     <string name="play_today_truth">العب Truth اليوم</string>
 
-    <string name="feature_preview_kicker">تجربة قادمة</string>
-    <string name="feature_preview_back">العودة للتجارب</string>
-    <string name="feature_preview_local">مصممة لتبقى محلية وبدون حساب.</string>
-    <string name="feature_couples_title">وضع الأزواج</string>
-    <string name="feature_couples_body">تجربة علاقات مستقلة بأسئلة مرحة وجريئة وجدية سيتم تنفيذها في مرحلة المنتج التالية.</string>
-    <string name="feature_friends_title">وضع الأصدقاء</string>
-    <string name="feature_friends_body">تجربة مخصصة لأقرب الأصدقاء بجولات مشتركة وجوائز مرحة مجهزة للمرحلة التالية.</string>
-    <string name="feature_challenges_title">التحديات</string>
-    <string name="feature_challenges_body">أكواد التحدي وأساليب منافسة محلية أوسع مجهزة لمرحلة لاحقة بدون تغيير بياناتك الحالية.</string>
-    <string name="feature_share_title">استوديو المشاركة</string>
-    <string name="feature_share_body">مشاركة الصور والفيديو تعمل حاليًا بعد النتيجة. الاستوديو الكامل متعدد المقاسات سيتم توسيعه في مرحلة المشاركة الفيروسية.</string>
-
     <string name="more_title">المزيد</string>
     <string name="more_subtitle">الإنجازات والمظهر واللغة والإشعارات والخصوصية.</string>
     <string name="more_achievements_title">الإنجازات</string>

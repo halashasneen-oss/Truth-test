@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4, truth-test-phase5 ]
+    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4, truth-test-phase5, truth-test-phase6 ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -36,14 +36,46 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Release contract audit
+        run: |
+          grep -Fq 'applicationId = "com.halahasneen.truthtest"' app/build.gradle.kts
+          grep -Fq 'versionCode = 2' app/build.gradle.kts
+          grep -Fq 'versionName = "2.0.0"' app/build.gradle.kts
+          grep -Fq 'android:usesCleartextTraffic="false"' app/src/main/AndroidManifest.xml
+          test ! -e app/src/main/java/com/halashasneen/truthtest/monetization/BillingManager.kt
+          ! grep -R -nE 'BillingClient|billing-ktx|REMOVE_ADS_PRODUCT_ID|remove_ads|premiumCached|KEY_PREMIUM_CACHED' app/src app/build.gradle.kts
+          grep -Fq 'ca-app-pub-3940256099942544/9214589741' app/build.gradle.kts
+          grep -Fq 'ca-app-pub-3940256099942544/1033173712' app/build.gradle.kts
+          grep -Fq 'ca-app-pub-3940256099942544/5224354917' app/build.gradle.kts
+          grep -Fq 'ca-app-pub-5961173995415325/3434852042' app/build.gradle.kts
+          grep -Fq 'ca-app-pub-5961173995415325/7149812330' app/build.gradle.kts
+          grep -Fq 'ca-app-pub-5961173995415325/5836730662' app/build.gradle.kts
+
       - name: Phase quality gate
         run: gradle :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease :app:bundleRelease --stacktrace --no-daemon
+
+      - name: Release candidate checksums
+        if: github.ref == 'refs/heads/truth-test-phase6'
+        run: |
+          find app/build/outputs -type f \( -name '*.apk' -o -name '*.aab' \) -print0 | sort -z | xargs -0 sha256sum > release-candidate-sha256.txt
+          cat release-candidate-sha256.txt
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: truth-test-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload release candidate builds
+        if: github.ref == 'refs/heads/truth-test-phase6'
+        uses: actions/upload-artifact@v4
+        with:
+          name: truth-test-release-candidate-builds
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/app-release.aab
+            release-candidate-sha256.txt
+          if-no-files-found: error
 
       - name: Validate signing secrets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

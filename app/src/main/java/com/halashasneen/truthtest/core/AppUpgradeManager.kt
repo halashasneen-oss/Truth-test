@@ -5,9 +5,9 @@ import android.content.Context
 /**
  * Central place for non-destructive migrations between Play Store releases.
  *
- * Phase 5 advances the local schema marker to version 4 only. Monetization preferences
- * live in a new independent store. Legacy settings, history, achievements, profiles,
- * sessions and sharing data are not rewritten or deleted.
+ * Phase 6 keeps schema version 4. The release candidate adds no destructive migration.
+ * Legacy settings, history, achievements, profiles, sessions, sharing and monetization
+ * timestamps remain untouched across the final 2.0 upgrade.
  */
 object AppUpgradeManager {
     fun migrate(context: Context) {

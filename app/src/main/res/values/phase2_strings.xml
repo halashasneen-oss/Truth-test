@@ -38,18 +38,6 @@
     <string name="daily_streak_format">🔥 %1$d day streak</string>
     <string name="play_today_truth">Play today’s Truth</string>
 
-    <string name="feature_preview_kicker">NEXT EXPERIENCE</string>
-    <string name="feature_preview_back">Back to experiences</string>
-    <string name="feature_preview_local">Designed to stay local and account-free.</string>
-    <string name="feature_couples_title">Couples Mode</string>
-    <string name="feature_couples_body">A dedicated relationship experience with playful, spicy and serious packs will be added in the next product phase.</string>
-    <string name="feature_friends_title">Friends Mode</string>
-    <string name="feature_friends_body">A dedicated best-friends experience with shared rounds and fun awards is prepared for the next product phase.</string>
-    <string name="feature_challenges_title">Challenges</string>
-    <string name="feature_challenges_body">Challenge codes and richer local competition flows are prepared for a later phase without changing your current data.</string>
-    <string name="feature_share_title">Share Studio</string>
-    <string name="feature_share_body">Image and video sharing already work after results. The dedicated multi-format studio will be expanded in the viral sharing phase.</string>
-
     <string name="more_title">More</string>
     <string name="more_subtitle">Achievements, appearance, language, notifications and privacy.</string>
     <string name="more_achievements_title">Achievements</string>
