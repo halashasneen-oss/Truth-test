@@ -5,9 +5,9 @@ import android.content.Context
 /**
  * Central place for non-destructive migrations between Play Store releases.
  *
- * Phase 4 advances the local schema marker to version 3 only. Share Studio metadata
- * is additive inside the existing share preferences, while profiles/social sessions
- * remain independent. Legacy settings, history, achievements and questions are not rewritten.
+ * Phase 5 advances the local schema marker to version 4 only. Monetization preferences
+ * live in a new independent store. Legacy settings, history, achievements, profiles,
+ * sessions and sharing data are not rewritten or deleted.
  */
 object AppUpgradeManager {
     fun migrate(context: Context) {

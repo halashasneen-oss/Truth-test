@@ -21,14 +21,19 @@ import androidx.fragment.app.Fragment
 import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.FragmentSettingsBinding
+import com.halashasneen.truthtest.monetization.AdsManager
+import com.halashasneen.truthtest.monetization.ConsentManager
+import com.halashasneen.truthtest.monetization.MonetizationPreferences
 import com.halashasneen.truthtest.notifications.DailyChallengeScheduler
 import com.halashasneen.truthtest.notifications.NotificationSettings
 import java.util.Calendar
+import kotlin.math.ceil
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var notificationSettings: NotificationSettings
+    private lateinit var monetizationPrefs: MonetizationPreferences
 
     private val notificationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -46,7 +51,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, state: Bundle?) {
         val prefs = requireContext().getSharedPreferences(AppStorageContract.PREFS_SETTINGS, Context.MODE_PRIVATE)
         notificationSettings = NotificationSettings(requireContext())
-        binding.aboutText.text = getString(R.string.entertainment_notice) + "\n\n" + getString(R.string.privacy_audio)
+        monetizationPrefs = MonetizationPreferences(requireContext())
+        binding.aboutText.text = getString(R.string.entertainment_notice) + "\n\n" +
+            getString(R.string.privacy_audio) + "\n\n" + getString(R.string.p5_ads_privacy_summary)
 
         binding.arabicButton.setOnClickListener {
             prefs.edit().putString(AppStorageContract.KEY_LANGUAGE, "ar").apply()
@@ -83,6 +90,51 @@ class SettingsFragment : Fragment() {
         binding.privacyPolicyButton.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_POLICY_URL)))
         }
+
+        binding.rewardedAdButton.setOnClickListener {
+            AdsManager.showRewarded(
+                requireActivity(),
+                onReward = {
+                    if (_binding != null) {
+                        refreshMonetization()
+                        Toast.makeText(requireContext(), R.string.p5_reward_granted, Toast.LENGTH_LONG).show()
+                    }
+                },
+                onUnavailable = {
+                    if (_binding != null) {
+                        Toast.makeText(requireContext(), R.string.p5_reward_unavailable, Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
+        }
+        binding.privacyOptionsButton.setOnClickListener {
+            ConsentManager.showPrivacyOptions(requireActivity()) { shown ->
+                if (!shown && isAdded) {
+                    Toast.makeText(requireContext(), R.string.p5_privacy_not_required, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        refreshMonetization()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (_binding != null && ::monetizationPrefs.isInitialized) refreshMonetization()
+    }
+
+    private fun refreshMonetization() {
+        val remaining = monetizationPrefs.remainingAdFreeMs()
+        binding.adStatusText.text = if (remaining > 0L) {
+            getString(
+                R.string.p5_ad_free_remaining,
+                ceil(remaining / 60_000.0).toInt()
+            )
+        } else {
+            getString(R.string.p5_ads_active)
+        }
+        binding.rewardedAdButton.isEnabled = remaining <= 0L
+        binding.privacyOptionsButton.visibility =
+            if (ConsentManager.privacyOptionsRequired()) View.VISIBLE else View.GONE
     }
 
     private fun showTimePicker() {

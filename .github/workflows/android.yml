@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4 ]
+    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4, truth-test-phase5 ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -31,10 +31,10 @@ jobs:
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
 
-      - name: Set up Gradle 8.11.1
+      - name: Set up Gradle 8.13
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.11.1'
+          gradle-version: '8.13'
 
       - name: Phase quality gate
         run: gradle :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease :app:bundleRelease --stacktrace --no-daemon

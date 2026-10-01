@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="p5_monetization">Ads &amp; Ad-free</string>
+    <string name="p5_monetization_body">Core Truth Test gameplay stays available without payment. Watch one rewarded ad whenever you want one hour without banner and interstitial ads.</string>
+    <string name="p5_reward_title">One hour without ads</string>
+    <string name="p5_reward_body">Watch one rewarded ad to hide banner and interstitial ads for one hour.</string>
+    <string name="p5_watch_rewarded">Watch ad • 1 hour ad-free</string>
+    <string name="p5_reward_unavailable">A rewarded ad is not ready right now. Try again later.</string>
+    <string name="p5_reward_granted">One hour without ads is active.</string>
+    <string name="p5_ad_free_remaining">Ad-free • %1$d min remaining</string>
+    <string name="p5_ads_active">Ads active</string>
+    <string name="p5_privacy_options">Ad privacy options</string>
+    <string name="p5_privacy_not_required">Additional ad privacy options are not required for this account right now.</string>
+    <string name="p5_ads_privacy_summary">Ads are provided through Google Mobile Ads. Ad requests follow the privacy choices available for your region. Raw microphone audio is never sent to the ad SDK. There are no paid in-app purchases.</string>
+    <string name="p5_banner_label">Advertisement</string>
+</resources>

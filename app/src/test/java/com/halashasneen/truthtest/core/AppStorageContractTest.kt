@@ -32,6 +32,10 @@ class AppStorageContractTest {
         assertEquals("share_history", AppStorageContract.KEY_SHARE_HISTORY)
         assertEquals("share_template", AppStorageContract.KEY_SHARE_TEMPLATE)
         assertEquals("share_format", AppStorageContract.KEY_SHARE_FORMAT)
-        assertEquals(3, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
+        assertEquals("truth_test_monetization", AppStorageContract.PREFS_MONETIZATION)
+        assertEquals("ad_free_until", AppStorageContract.KEY_AD_FREE_UNTIL)
+        assertEquals("interstitial_event_count", AppStorageContract.KEY_INTERSTITIAL_EVENT_COUNT)
+        assertEquals("last_interstitial_at", AppStorageContract.KEY_LAST_INTERSTITIAL_AT)
+        assertEquals(4, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
     }
 }

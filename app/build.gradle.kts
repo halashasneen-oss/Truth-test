@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -19,8 +21,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            resValue("string", "admob_app_id", "ca-app-pub-3940256099942544~3347511713")
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/9214589741\"")
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
+        }
         release {
             isMinifyEnabled = false
+            resValue("string", "admob_app_id", "ca-app-pub-5961173995415325~9185872171")
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-5961173995415325/3434852042\"")
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-5961173995415325/7149812330\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-5961173995415325/5836730662\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,8 +50,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -59,6 +74,8 @@ dependencies {
     implementation("com.github.wendykierp:JTransforms:3.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:core:3.5.3")
+    implementation("com.google.android.gms:play-services-ads:25.5.0")
+    implementation("com.google.android.ump:user-messaging-platform:4.0.0")
 
     testImplementation("junit:junit:4.13.2")
 }

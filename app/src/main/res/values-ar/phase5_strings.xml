@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="p5_monetization">الإعلانات وبدون إعلانات</string>
+    <string name="p5_monetization_body">اللعب الأساسي في Truth Test يبقى متاحًا بدون أي دفع. شاهد إعلان مكافأة عندما تريد ساعة كاملة بدون بانر أو إعلان بيني.</string>
+    <string name="p5_reward_title">ساعة بدون إعلانات</string>
+    <string name="p5_reward_body">شاهد إعلان مكافأة واحد لإخفاء البانر والإعلانات البينية لمدة ساعة.</string>
+    <string name="p5_watch_rewarded">شاهد إعلانًا • ساعة بدون إعلانات</string>
+    <string name="p5_reward_unavailable">إعلان المكافأة غير جاهز حاليًا. حاول لاحقًا.</string>
+    <string name="p5_reward_granted">تم تفعيل ساعة بدون إعلانات.</string>
+    <string name="p5_ad_free_remaining">بدون إعلانات • متبقي %1$d دقيقة</string>
+    <string name="p5_ads_active">الإعلانات مفعلة</string>
+    <string name="p5_privacy_options">خيارات خصوصية الإعلانات</string>
+    <string name="p5_privacy_not_required">لا توجد خيارات خصوصية إضافية مطلوبة لهذا الحساب حاليًا.</string>
+    <string name="p5_ads_privacy_summary">يتم عرض الإعلانات عبر Google Mobile Ads وتخضع طلبات الإعلانات لخيارات الخصوصية المتاحة لمنطقتك. لا يتم إرسال الصوت الخام إلى حزمة الإعلانات. لا توجد مشتريات مدفوعة داخل التطبيق.</string>
+    <string name="p5_banner_label">إعلان</string>
+</resources>

@@ -15,6 +15,7 @@ object AppStorageContract {
 
     const val PREFS_PROFILES = "truth_test_profiles"
     const val PREFS_SOCIAL = "truth_test_social"
+    const val PREFS_MONETIZATION = "truth_test_monetization"
 
     const val KEY_LANGUAGE = "language"
     const val KEY_LIGHT_THEME = "light_theme"
@@ -40,6 +41,10 @@ object AppStorageContract {
     const val KEY_ACTIVE_SOCIAL_SESSION = "active_social_session"
     const val KEY_COMPLETED_SOCIAL_SESSIONS = "completed_social_sessions"
 
+    const val KEY_AD_FREE_UNTIL = "ad_free_until"
+    const val KEY_INTERSTITIAL_EVENT_COUNT = "interstitial_event_count"
+    const val KEY_LAST_INTERSTITIAL_AT = "last_interstitial_at"
+
     const val KEY_DATA_SCHEMA_VERSION = "data_schema_version"
-    const val CURRENT_DATA_SCHEMA_VERSION = 3
+    const val CURRENT_DATA_SCHEMA_VERSION = 4
 }

@@ -36,6 +36,7 @@ import com.halashasneen.truthtest.share.ResultVideoShareRenderer
 import com.halashasneen.truthtest.share.ShareSound
 import com.halashasneen.truthtest.share.ShareTheme
 import com.halashasneen.truthtest.share.ShareThemeContext
+import com.halashasneen.truthtest.monetization.AdsManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -161,6 +162,8 @@ class TestActivity : AppCompatActivity() {
             val state = viewModel.state.value
             if (state.externalSession && state.stage == TestStage.RESULT) {
                 returnSessionResult(state)
+            } else if (state.stage == TestStage.RESULT) {
+                AdsManager.maybeShowInterstitial(this) { finish() }
             } else {
                 finish()
             }

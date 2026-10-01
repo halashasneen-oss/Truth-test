@@ -20,12 +20,15 @@ import com.halashasneen.truthtest.ui.profiles.ProfilesFragment
 import com.halashasneen.truthtest.ui.social.SocialSessionActivity
 import com.halashasneen.truthtest.ui.share.ShareStudioFragment
 import com.halashasneen.truthtest.ui.test.TestActivity
+import com.halashasneen.truthtest.monetization.AdsManager
+import com.google.android.gms.ads.AdView
 import kotlin.math.sin
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var phase = 0.0
+    private var bannerAd: AdView? = null
 
     private val animator = object : Runnable {
         override fun run() {
@@ -87,6 +90,10 @@ class HomeFragment : Fragment() {
             refreshDaily()
             refreshProgress()
             refreshActiveSession()
+            binding.homeAdContainer.post {
+                bannerAd?.destroy()
+                bannerAd = AdsManager.attachBanner(requireActivity(), binding.homeAdContainer)
+            }
         }
     }
 
@@ -150,6 +157,8 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         binding.ambientWaveform.removeCallbacks(animator)
+        bannerAd?.destroy()
+        bannerAd = null
         _binding = null
         super.onDestroyView()
     }

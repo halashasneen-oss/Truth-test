@@ -15,6 +15,7 @@ import com.halashasneen.truthtest.ui.history.HistoryFragment
 import com.halashasneen.truthtest.ui.home.HomeFragment
 import com.halashasneen.truthtest.ui.more.MoreFragment
 import com.halashasneen.truthtest.ui.statistics.StatisticsFragment
+import com.halashasneen.truthtest.monetization.MonetizationCoordinator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        MonetizationCoordinator.startAds(this)
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             val fragment = when (item.itemId) {
