@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -25,6 +27,17 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".ui.challenge.ChallengeImportActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="truthtest" android:host="challenge" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.social.SocialSessionActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity android:name=".ui.test.TestActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity android:name=".ui.onboarding.OnboardingActivity" android:screenOrientation="portrait" android:exported="false" />

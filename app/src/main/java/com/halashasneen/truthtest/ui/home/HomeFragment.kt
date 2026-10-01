@@ -16,9 +16,9 @@ import com.halashasneen.truthtest.data.model.SocialMode
 import com.halashasneen.truthtest.databinding.FragmentHomeBinding
 import com.halashasneen.truthtest.ui.MainActivity
 import com.halashasneen.truthtest.ui.achievements.AchievementsFragment
-import com.halashasneen.truthtest.ui.preview.FeaturePreviewFragment
 import com.halashasneen.truthtest.ui.profiles.ProfilesFragment
 import com.halashasneen.truthtest.ui.social.SocialSessionActivity
+import com.halashasneen.truthtest.ui.share.ShareStudioFragment
 import com.halashasneen.truthtest.ui.test.TestActivity
 import kotlin.math.sin
 
@@ -53,7 +53,9 @@ class HomeFragment : Fragment() {
         binding.couplesExperienceCard.setOnClickListener { launchSocial(SocialMode.COUPLES) }
         binding.friendsExperienceCard.setOnClickListener { launchSocial(SocialMode.FRIENDS) }
         binding.challengesExperienceCard.setOnClickListener { launchSocial(SocialMode.CHALLENGE) }
-        binding.shareExperienceCard.setOnClickListener { showPreview(ExperienceSection.SHARE_STUDIO) }
+        binding.shareExperienceCard.setOnClickListener {
+            (activity as? MainActivity)?.showSecondary(ShareStudioFragment())
+        }
 
         binding.dailyExperienceCard.setOnClickListener { launch(TestActivity.MODE_SOLO, daily = true) }
         binding.dailyStart.setOnClickListener { launch(TestActivity.MODE_SOLO, daily = true) }
@@ -97,10 +99,6 @@ class HomeFragment : Fragment() {
             if (history.hasDailyResultToday()) R.string.daily_completed else R.string.daily_ready
         )
         binding.dailyStreak.text = getString(R.string.daily_streak_format, history.currentStreak())
-    }
-
-    private fun showPreview(section: ExperienceSection) {
-        (activity as? MainActivity)?.showSecondary(FeaturePreviewFragment.newInstance(section))
     }
 
     private fun refreshProgress() {

@@ -29,6 +29,9 @@ class AppStorageContractTest {
         assertEquals("player_profiles", AppStorageContract.KEY_PLAYER_PROFILES)
         assertEquals("active_social_session", AppStorageContract.KEY_ACTIVE_SOCIAL_SESSION)
         assertEquals("completed_social_sessions", AppStorageContract.KEY_COMPLETED_SOCIAL_SESSIONS)
-        assertEquals(2, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
+        assertEquals("share_history", AppStorageContract.KEY_SHARE_HISTORY)
+        assertEquals("share_template", AppStorageContract.KEY_SHARE_TEMPLATE)
+        assertEquals("share_format", AppStorageContract.KEY_SHARE_FORMAT)
+        assertEquals(3, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
     }
 }

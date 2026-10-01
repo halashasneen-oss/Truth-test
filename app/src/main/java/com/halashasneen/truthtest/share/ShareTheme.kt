@@ -18,6 +18,17 @@ enum class ShareTheme(
     val emoji: String,
     val palette: SharePalette
 ) {
+    MINIMAL(
+        storageKey = "minimal",
+        labelRes = R.string.p4_template_minimal,
+        emoji = "◻",
+        palette = SharePalette(
+            background = 0xFFF4F4F7.toInt(),
+            primary = 0xFF17131F.toInt(),
+            secondary = 0xFF625E6D.toInt(),
+            accent = 0xFF6D4AFF.toInt()
+        )
+    ),
     NEON_PURPLE(
         storageKey = "neon_purple",
         labelRes = R.string.theme_neon_purple,
@@ -60,6 +71,17 @@ enum class ShareTheme(
             primary = 0xFFD97706.toInt(),
             secondary = 0xFFFACC15.toInt(),
             accent = 0xFFFDE68A.toInt()
+        )
+    ),
+    DARK_PREMIUM(
+        storageKey = "dark_premium",
+        labelRes = R.string.p4_template_dark_premium,
+        emoji = "◆",
+        palette = SharePalette(
+            background = 0xFF080A0F.toInt(),
+            primary = 0xFFB8A8FF.toInt(),
+            secondary = 0xFF5C6270.toInt(),
+            accent = 0xFFF5B942.toInt()
         )
     );
 

@@ -18,7 +18,8 @@ object ResultVideoShareRenderer {
         secondScore: Int? = null,
         groupScores: List<Int> = emptyList(),
         waveform: List<Float> = emptyList(),
-        sound: ShareSound = ShareSound.NEON_BEAT
+        sound: ShareSound = ShareSound.NEON_BEAT,
+        cta: String? = null
     ): Uri {
         val silentUri = ResultVideoRenderer.render(
             context = context,
@@ -27,7 +28,8 @@ object ResultVideoShareRenderer {
             firstScore = firstScore,
             secondScore = secondScore,
             groupScores = groupScores,
-            waveform = waveform
+            waveform = waveform,
+            cta = cta
         )
         if (!sound.enabled) return silentUri
 

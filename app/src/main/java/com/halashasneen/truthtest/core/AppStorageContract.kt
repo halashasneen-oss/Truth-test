@@ -31,6 +31,9 @@ object AppStorageContract {
     const val KEY_QUESTION_INTENSITY = "preferred_intensity"
     const val KEY_SHARE_THEME = "share_theme"
     const val KEY_SHARE_SOUND = "share_sound"
+    const val KEY_SHARE_HISTORY = "share_history"
+    const val KEY_SHARE_TEMPLATE = "share_template"
+    const val KEY_SHARE_FORMAT = "share_format"
 
     const val KEY_PLAYER_PROFILES = "player_profiles"
     const val KEY_ACTIVE_PROFILE_ID = "active_profile_id"
@@ -38,5 +41,5 @@ object AppStorageContract {
     const val KEY_COMPLETED_SOCIAL_SESSIONS = "completed_social_sessions"
 
     const val KEY_DATA_SCHEMA_VERSION = "data_schema_version"
-    const val CURRENT_DATA_SCHEMA_VERSION = 2
+    const val CURRENT_DATA_SCHEMA_VERSION = 3
 }

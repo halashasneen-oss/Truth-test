@@ -86,9 +86,18 @@ class SocialSessionActivity : AppCompatActivity() {
     }
 
     private fun initializeSetup() {
-        selectedPack = questions.availablePacks(selectedMode).first()
-        selectedChallenge = ChallengeType.HIGHEST_SCORE
-        selectedRounds = defaultRounds(selectedMode)
+        val availablePacks = questions.availablePacks(selectedMode)
+        selectedPack = QuestionPack.fromStorage(
+            intent.getStringExtra(EXTRA_INITIAL_PACK)
+        ).takeIf { it in availablePacks } ?: availablePacks.first()
+        selectedChallenge = ChallengeType.fromStorage(
+            intent.getStringExtra(EXTRA_INITIAL_CHALLENGE)
+        )
+        selectedRounds = if (selectedMode == SocialMode.CHALLENGE) {
+            selectedChallenge.rounds
+        } else {
+            defaultRounds(selectedMode)
+        }
         selectedProfileIds.clear()
 
         val (minPlayers, _) = playerLimits(selectedMode)
@@ -259,6 +268,9 @@ class SocialSessionActivity : AppCompatActivity() {
             playerIds = chosen.map { it.id },
             playerNames = chosen.map { it.name },
             targetRounds = rounds,
+            pendingQuestionId = intent.getStringExtra(EXTRA_IMPORTED_QUESTION_ID),
+            pendingQuestionText = intent.getStringExtra(EXTRA_IMPORTED_QUESTION_TEXT),
+            pendingQuestionIntensity = intent.getStringExtra(EXTRA_IMPORTED_QUESTION_INTENSITY),
             startedAt = System.currentTimeMillis()
         )
         sessions.saveActive(session)
@@ -589,5 +601,10 @@ class SocialSessionActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MODE = "social_mode"
         const val EXTRA_RESUME = "resume_social"
+        const val EXTRA_INITIAL_PACK = "initial_pack"
+        const val EXTRA_INITIAL_CHALLENGE = "initial_challenge"
+        const val EXTRA_IMPORTED_QUESTION_ID = "imported_question_id"
+        const val EXTRA_IMPORTED_QUESTION_TEXT = "imported_question_text"
+        const val EXTRA_IMPORTED_QUESTION_INTENSITY = "imported_question_intensity"
     }
 }

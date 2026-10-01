@@ -42,13 +42,14 @@ object ResultVideoRenderer {
         firstScore: Int? = null,
         secondScore: Int? = null,
         groupScores: List<Int> = emptyList(),
-        waveform: List<Float> = emptyList()
+        waveform: List<Float> = emptyList(),
+        cta: String? = null
     ): android.net.Uri = withContext(Dispatchers.Default) {
         val appContext = context.applicationContext
         val dir = File(appContext.cacheDir, "shares").apply { mkdirs() }
         cleanupOldVideos(dir)
         val output = File(dir, "truth_test_${System.currentTimeMillis()}.mp4")
-        encode(appContext, output, question, score, firstScore, secondScore, groupScores, waveform)
+        encode(appContext, output, question, score, firstScore, secondScore, groupScores, waveform, cta)
         FileProvider.getUriForFile(appContext, "${appContext.packageName}.files", output)
     }
 
@@ -60,7 +61,8 @@ object ResultVideoRenderer {
         firstScore: Int?,
         secondScore: Int?,
         groupScores: List<Int>,
-        waveform: List<Float>
+        waveform: List<Float>,
+        cta: String?
     ) {
         val format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, WIDTH, HEIGHT).apply {
             setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
@@ -130,7 +132,8 @@ object ResultVideoRenderer {
                     secondScore = secondScore,
                     groupScores = groupScores,
                     waveform = waveform,
-                    progress = progress
+                    progress = progress,
+                    cta = cta
                 )
                 inputSurface.drawBitmap(frameBitmap)
                 inputSurface.setPresentationTime(frame * 1_000_000_000L / ResultVideoTimeline.FPS)
@@ -160,7 +163,8 @@ object ResultVideoRenderer {
         secondScore: Int?,
         groupScores: List<Int>,
         waveform: List<Float>,
-        progress: Float
+        progress: Float,
+        cta: String?
     ) {
         val background = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             shader = LinearGradient(
@@ -228,7 +232,7 @@ object ResultVideoRenderer {
         paint.color = context.getColor(R.color.cyan)
         paint.textSize = if (isGroup) 22f else 24f
         paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-        canvas.drawText(context.getString(R.string.share_video_cta), WIDTH / 2f, if (isGroup) 1100f else 1030f, paint)
+        canvas.drawText(cta ?: context.getString(R.string.share_video_cta), WIDTH / 2f, if (isGroup) 1100f else 1030f, paint)
 
         paint.color = 0x8FFFFFFF.toInt()
         paint.textSize = 17f
