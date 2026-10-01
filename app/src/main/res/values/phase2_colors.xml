@@ -22,4 +22,5 @@
     <color name="p2_scrim">#66000000</color>
     <color name="p2_chip_bg">#EDE8FF</color>
     <color name="p2_glow">#247C3AED</color>
+    <color name="p2_nav_selected_bg">#337D57F7</color>
 </resources>

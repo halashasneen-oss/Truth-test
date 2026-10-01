@@ -43,6 +43,11 @@ object AdsManager {
     private var appContext: Context? = null
     private val initCallbacks = mutableListOf<() -> Unit>()
     private val rewardedObservers = linkedSetOf<(RewardedState) -> Unit>()
+    private var bannerDiagnostic = "not requested"
+    private var interstitialDiagnostic = "not requested"
+    private var rewardedDiagnostic = "not requested"
+    private var initializationDiagnostic = "not initialized"
+    private var initializedAtElapsed = 0L
 
     var rewardedState = RewardedState.WAITING_FOR_CONSENT
         private set
@@ -73,6 +78,7 @@ object AdsManager {
 
     fun reportConsentUnavailable() {
         main.post {
+            initializationDiagnostic = "UMP blocked ad requests"
             interstitial = null
             rewarded = null
             interstitialRetry?.let(main::removeCallbacks)
@@ -101,10 +107,14 @@ object AdsManager {
         if (onReady != null) initCallbacks += onReady
         if (!initializing.compareAndSet(false, true)) return
         setRewardedState(RewardedState.INITIALIZING)
+        initializationDiagnostic = "initializing"
+        initializedAtElapsed = SystemClock.elapsedRealtime()
         Log.i(TAG, "Initializing Google Mobile Ads after UMP approval")
         MobileAds.initialize(app) {
             main.post {
                 sdkReady = true
+                initializationDiagnostic = "ready, elapsedMs=" +
+                    (SystemClock.elapsedRealtime() - initializedAtElapsed)
                 Log.i(TAG, "Google Mobile Ads SDK initialization completed")
                 loadInterstitial(app)
                 loadRewarded(app)
@@ -169,6 +179,7 @@ object AdsManager {
                         !MonetizationPreferences(activity).adsSuppressed()
                     host?.visibility = if (allowed) View.VISIBLE else View.GONE
                     container.visibility = if (allowed) View.VISIBLE else View.GONE
+                    bannerDiagnostic = "loaded, visible=$allowed"
                     Log.i(TAG, "Banner onAdLoaded; visible=$allowed")
                     if (allowed) onLoaded?.invoke()
                 }
@@ -177,7 +188,8 @@ object AdsManager {
                     container.visibility = View.GONE
                     host?.visibility = View.GONE
                     val failure = AdRetryPolicy.classify(error.code)
-                    Log.w(TAG, "Banner failed: code=${error.code} domain=${error.domain} type=$failure")
+                    bannerDiagnostic = "failed code=${error.code} domain=${error.domain} type=$failure"
+                    Log.w(TAG, "Banner $bannerDiagnostic")
                     onLoadFailure?.invoke(failure)
                 }
             }
@@ -191,7 +203,8 @@ object AdsManager {
         )
         container.visibility = View.INVISIBLE
         host?.visibility = View.INVISIBLE
-        Log.d(TAG, "Requesting anchored adaptive banner, widthDp=$widthDp")
+        bannerDiagnostic = "requesting anchored banner, widthDp=$widthDp"
+        Log.d(TAG, bannerDiagnostic)
         adView.loadAd(AdRequest.Builder().build())
         return adView
     }
@@ -239,6 +252,50 @@ object AdsManager {
         }
         Log.i(TAG, "Showing interstitial at a completed-result transition")
         ad.show(activity)
+    }
+
+    /** Debug UI only; no diagnostics entry point is exposed in Release. */
+    fun debugSnapshot(context: Context): String {
+        if (!BuildConfig.DEBUG) return "Diagnostics unavailable in Release"
+        val remaining = MonetizationPreferences(context).remainingAdFreeMs()
+        return buildString {
+            append("UMP: ").append(ConsentManager.debugStatus()).append('\n')
+            append("SDK: ").append(initializationDiagnostic).append('\n')
+            append("Rewarded: ").append(rewardedDiagnostic).append('\n')
+            append("Interstitial: ").append(interstitialDiagnostic).append('\n')
+            append("Banner: ").append(bannerDiagnostic).append('\n')
+            append("Ad-free minutes: ").append(remaining / 60_000L)
+        }
+    }
+
+    fun launchDebugAdInspector(activity: Activity, onResult: (String?) -> Unit) {
+        if (!BuildConfig.DEBUG) return
+        if (!sdkReady) {
+            onResult("SDK not ready")
+            return
+        }
+        MobileAds.openAdInspector(activity) { error ->
+            onResult(error?.let { "Ad Inspector code=${it.code}, domain=${it.domain}" })
+        }
+    }
+
+    fun debugRetryAll(context: Context) {
+        if (!BuildConfig.DEBUG || !isReadyForAds()) return
+        val app = context.applicationContext
+        if (!rewardedLoading && rewarded == null) {
+            rewardedRetry?.let(main::removeCallbacks)
+            rewardedRetry = null
+            rewardedFailures = 0
+            nextRewardedAttemptAt = 0L
+            loadRewarded(app)
+        }
+        if (!interstitialLoading && interstitial == null) {
+            interstitialRetry?.let(main::removeCallbacks)
+            interstitialRetry = null
+            interstitialFailures = 0
+            nextInterstitialAttemptAt = 0L
+            loadInterstitial(app)
+        }
     }
 
     fun preloadRewarded(context: Context) {
@@ -306,6 +363,7 @@ object AdsManager {
         rewardedRetry = null
         rewardedLoading = true
         setRewardedState(RewardedState.LOADING)
+        rewardedDiagnostic = "requesting"
         Log.d(TAG, "Loading Rewarded Ad from AdMob")
         RewardedAd.load(
             context, BuildConfig.ADMOB_REWARDED_ID, AdRequest.Builder().build(),
@@ -315,6 +373,7 @@ object AdsManager {
                     rewarded = ad
                     rewardedFailures = 0
                     nextRewardedAttemptAt = 0L
+                    rewardedDiagnostic = "loaded"
                     Log.i(TAG, "Rewarded onAdLoaded")
                     setRewardedState(RewardedState.READY)
                 }
@@ -323,7 +382,8 @@ object AdsManager {
                     rewardedLoading = false
                     rewarded = null
                     val kind = AdRetryPolicy.classify(error.code)
-                    Log.w(TAG, "Rewarded failed: code=${error.code} domain=${error.domain} type=$kind")
+                    rewardedDiagnostic = "failed code=${error.code} domain=${error.domain} type=$kind"
+                    Log.w(TAG, "Rewarded $rewardedDiagnostic")
                     rewardedFailures++
                     scheduleRewardedRetry(context.applicationContext, kind)
                     setRewardedState(
@@ -365,6 +425,7 @@ object AdsManager {
         interstitialRetry?.let(main::removeCallbacks)
         interstitialRetry = null
         interstitialLoading = true
+        interstitialDiagnostic = "requesting"
         Log.d(TAG, "Loading Interstitial Ad")
         InterstitialAd.load(
             context, BuildConfig.ADMOB_INTERSTITIAL_ID, AdRequest.Builder().build(),
@@ -375,6 +436,7 @@ object AdsManager {
                         ad.takeUnless { MonetizationPreferences(context).adsSuppressed() }
                     interstitialFailures = 0
                     nextInterstitialAttemptAt = 0L
+                    interstitialDiagnostic = "loaded"
                     Log.i(TAG, "Interstitial onAdLoaded")
                 }
 
@@ -383,7 +445,8 @@ object AdsManager {
                     interstitial = null
                     val kind = AdRetryPolicy.classify(error.code)
                     interstitialFailures++
-                    Log.w(TAG, "Interstitial failed: code=${error.code} domain=${error.domain} type=$kind")
+                    interstitialDiagnostic = "failed code=${error.code} domain=${error.domain} type=$kind"
+                    Log.w(TAG, "Interstitial $interstitialDiagnostic")
                     val delay = AdRetryPolicy.retryDelayMs(interstitialFailures, kind)
                     nextInterstitialAttemptAt =
                         if (kind == AdRetryPolicy.Failure.CONFIGURATION) Long.MAX_VALUE

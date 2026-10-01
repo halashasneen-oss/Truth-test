@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_app_phase2">
-
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
@@ -12,8 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"/>
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomNavCard"
         android:layout_width="0dp"
@@ -23,29 +21,180 @@
         android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/p2_surface"
         app:cardCornerRadius="24dp"
-        app:cardElevation="10dp"
+        app:cardElevation="6dp"
         app:strokeColor="@color/p2_border"
         app:strokeWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNav"
+        <LinearLayout
+            android:id="@+id/customBottomNav"
             android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:background="@android:color/transparent"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            app:itemIconSize="23dp"
-            app:itemPaddingTop="13dp"
-            app:itemPaddingBottom="10dp"
-            app:itemHorizontalTranslationEnabled="false"
-            app:itemTextAppearanceActive="@style/TextAppearance.TruthTest.BottomNav"
-            app:itemTextAppearanceInactive="@style/TextAppearance.TruthTest.BottomNav"
-            app:itemIconTint="@color/nav_item_color"
-            app:itemTextColor="@color/nav_item_color"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav" />
+            android:layout_height="wrap_content"
+            android:minHeight="94dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layoutDirection="locale"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+            <LinearLayout
+                android:id="@+id/navHomeItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="78dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/home"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+                <FrameLayout
+                    android:id="@+id/navHomeIconHolder"
+                    android:layout_width="54dp"
+                    android:layout_height="36dp">
+                    <ImageView
+                        android:id="@+id/navHomeIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_nav_home"
+                        android:importantForAccessibility="no"/>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/navHomeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/home"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:importantForAccessibility="no"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/navHistoryItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="78dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/history"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+                <FrameLayout
+                    android:id="@+id/navHistoryIconHolder"
+                    android:layout_width="54dp"
+                    android:layout_height="36dp">
+                    <ImageView
+                        android:id="@+id/navHistoryIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_nav_history"
+                        android:importantForAccessibility="no"/>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/navHistoryLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/history"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:importantForAccessibility="no"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/navStatsItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="78dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/statistics"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+                <FrameLayout
+                    android:id="@+id/navStatsIconHolder"
+                    android:layout_width="54dp"
+                    android:layout_height="36dp">
+                    <ImageView
+                        android:id="@+id/navStatsIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_nav_stats"
+                        android:importantForAccessibility="no"/>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/navStatsLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/statistics"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:importantForAccessibility="no"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/navMoreItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="78dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/nav_more"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+                <FrameLayout
+                    android:id="@+id/navMoreIconHolder"
+                    android:layout_width="54dp"
+                    android:layout_height="36dp">
+                    <ImageView
+                        android:id="@+id/navMoreIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_nav_more"
+                        android:importantForAccessibility="no"/>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/navMoreLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/nav_more"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:importantForAccessibility="no"/>
+            </LinearLayout>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,4 +25,7 @@
   <string name="hotfix_reward_config">AdMob rejected the ad request. Configuration needs checking.</string>
   <string name="hotfix_reward_error">An ad could not be loaded. We’ll retry shortly.</string>
   <string name="hotfix_reward_loading_button">Preparing ad…</string>
+  <string name="hotfix_debug_ads_title">Debug: AdMob diagnostics (test ads only)</string>
+  <string name="hotfix_debug_retry">Refresh consent and ad requests</string>
+  <string name="hotfix_debug_inspector">Open Google Ad Inspector</string>
 </resources>

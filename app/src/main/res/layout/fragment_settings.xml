@@ -106,6 +106,47 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/debugAdsCard"
+            style="@style/Widget.TruthTest.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hotfix_debug_ads_title"
+                    android:textColor="@color/p2_text_primary"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+                <TextView android:id="@+id/debugAdsStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/p2_text_secondary"
+                    android:textSize="12sp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/debugRefreshAdsButton"
+                    style="@style/Widget.TruthTest.SecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/hotfix_debug_retry"
+                    android:layout_marginTop="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/debugInspectorButton"
+                    style="@style/Widget.TruthTest.SecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/hotfix_debug_inspector"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/settings_privacy" android:textAppearance="@style/TextAppearance.TruthTest.Title" />
 
         <com.google.android.material.card.MaterialCardView style="@style/Widget.TruthTest.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">

@@ -25,4 +25,7 @@
   <string name="hotfix_reward_config">رفض AdMob طلب الإعلان. يلزم فحص الإعدادات.</string>
   <string name="hotfix_reward_error">تعذر تحميل الإعلان، وسنحاول مجددًا قريبًا.</string>
   <string name="hotfix_reward_loading_button">جاري تجهيز الإعلان…</string>
+  <string name="hotfix_debug_ads_title">تشخيص AdMob في النسخة التجريبية فقط</string>
+  <string name="hotfix_debug_retry">تحديث الموافقة وطلبات الإعلانات</string>
+  <string name="hotfix_debug_inspector">فتح أداة Google Ad Inspector</string>
 </resources>

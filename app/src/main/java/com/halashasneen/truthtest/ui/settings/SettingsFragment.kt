@@ -18,12 +18,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
+import com.halashasneen.truthtest.BuildConfig
 import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.FragmentSettingsBinding
 import com.halashasneen.truthtest.monetization.AdsManager
 import com.halashasneen.truthtest.monetization.ConsentManager
 import com.halashasneen.truthtest.monetization.MonetizationPreferences
+import com.halashasneen.truthtest.monetization.MonetizationCoordinator
 import com.halashasneen.truthtest.notifications.DailyChallengeScheduler
 import com.halashasneen.truthtest.notifications.NotificationSettings
 import java.util.Calendar
@@ -127,6 +129,27 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+        if (BuildConfig.DEBUG) {
+            binding.debugAdsCard.visibility = View.VISIBLE
+            binding.debugRefreshAdsButton.setOnClickListener {
+                MonetizationCoordinator.startAds(requireActivity()) {
+                    if (_binding != null) {
+                        AdsManager.debugRetryAll(requireContext())
+                        binding.debugAdsStatus.text = AdsManager.debugSnapshot(requireContext())
+                    }
+                }
+            }
+            binding.debugInspectorButton.setOnClickListener {
+                AdsManager.launchDebugAdInspector(requireActivity()) { error ->
+                    if (error != null && isAdded) Toast.makeText(
+                        requireContext(), error, Toast.LENGTH_LONG
+                    ).show()
+                    if (_binding != null) {
+                        binding.debugAdsStatus.text = AdsManager.debugSnapshot(requireContext())
+                    }
+                }
+            }
+        }
         AdsManager.registerRewardedObserver(rewardStateObserver)
         refreshMonetization()
     }
@@ -160,6 +183,8 @@ class SettingsFragment : Fragment() {
                 "\n" + getString(AdsManager.rewardStatusText(AdsManager.rewardedState))
             )
         }
+        if (BuildConfig.DEBUG) binding.debugAdsStatus.text =
+            AdsManager.debugSnapshot(requireContext())
         binding.privacyOptionsButton.visibility =
             if (ConsentManager.privacyOptionsRequired()) View.VISIBLE else View.GONE
     }
