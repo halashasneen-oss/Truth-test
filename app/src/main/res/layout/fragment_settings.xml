@@ -1,116 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background">
+    android:background="@drawable/bg_app_phase2">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="@dimen/tt_screen_horizontal" android:paddingTop="24dp" android:paddingEnd="@dimen/tt_screen_horizontal" android:paddingBottom="28dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/settings" android:textAppearance="@style/TextAppearance.TruthTest.Hero" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:textColor="@color/app_text_primary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="@string/settings_language" android:textAppearance="@style/TextAppearance.TruthTest.Title" />
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.TruthTest.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/arabicButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/arabic" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/englishButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/english" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/language"
-            android:textColor="@color/app_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/settings_appearance" android:textAppearance="@style/TextAppearance.TruthTest.Title" />
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.TruthTest.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/darkButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/dark" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/lightButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/light" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton android:id="@+id/arabicButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/arabic" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/englishButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/english" />
-        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/notifications_settings" android:textAppearance="@style/TextAppearance.TruthTest.Title" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/notifications_settings_subtitle" android:textAppearance="@style/TextAppearance.TruthTest.Body" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/theme"
-            android:textColor="@color/app_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.TruthTest.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/dailyNotificationsSwitch" android:layout_width="match_parent" android:layout_height="56dp" android:text="@string/daily_notifications_toggle" android:textColor="@color/p2_text_primary" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/dailyTimeButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="4dp" android:text="@string/daily_notification_time" />
+                <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/streakReminderSwitch" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="6dp" android:text="@string/streak_reminder_toggle" android:textColor="@color/p2_text_primary" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/streak_reminder_note" android:textColor="@color/p2_text_secondary" android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton android:id="@+id/darkButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/dark" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/lightButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="@string/light" />
-        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/settings_privacy" android:textAppearance="@style/TextAppearance.TruthTest.Title" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:text="@string/notifications_settings"
-            android:textColor="@color/app_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/notifications_settings_subtitle"
-            android:textColor="@color/app_text_secondary"
-            android:textSize="13sp" />
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/dailyNotificationsSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/daily_notifications_toggle"
-            android:textColor="@color/app_text_primary" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/dailyTimeButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/daily_notification_time" />
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/streakReminderSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/streak_reminder_toggle"
-            android:textColor="@color/app_text_primary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/streak_reminder_note"
-            android:textColor="@color/app_text_secondary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/aboutText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/bg_surface"
-            android:padding="18dp"
-            android:textColor="@color/app_text_secondary"
-            android:textSize="14sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/privacyPolicyButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/privacy_policy" />
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.TruthTest.Card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/settings_local_processing" android:textColor="@color/p2_text_primary" android:textSize="14sp" android:textStyle="bold" />
+                <TextView android:id="@+id/aboutText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/privacyPolicyButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="14dp" android:text="@string/privacy_policy" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

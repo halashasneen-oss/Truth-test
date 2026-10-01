@@ -2,30 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_dark"
+    android:background="@drawable/bg_app_phase2"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="32dp">
 
-    <com.halashasneen.truthtest.ui.custom.WaveformView
-        android:id="@+id/splashWaveform"
-        android:layout_width="220dp"
-        android:layout_height="110dp" />
-
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
-        android:textSize="34sp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_score_phase2"
+        android:gravity="center"
+        android:text="◎"
+        android:textColor="@color/p2_purple"
+        android:textSize="38sp"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/app_name"
+        android:textColor="@color/p2_text_primary"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <com.halashasneen.truthtest.ui.custom.WaveformView
+        android:id="@+id/splashWaveform"
+        android:layout_width="230dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="10dp"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:text="@string/splash_tagline"
-        android:textColor="@color/cyan"
-        android:textSize="14sp" />
+        android:textColor="@color/p2_cyan"
+        android:textSize="13sp"
+        android:textStyle="bold" />
 </LinearLayout>

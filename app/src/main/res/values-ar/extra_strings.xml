@@ -35,7 +35,7 @@
     <string name="achievement_custom">صانع الأسئلة</string>
     <string name="achievement_progress_format">تم فتح %1$d من أصل %2$d إنجازات</string>
     <string name="current_streak_format">🔥 السلسلة الحالية: %1$d أيام</string>
-    <string name="watermark">كاشف الصدق</string>
+    <string name="watermark">Truth Test</string>
     <string name="splash_tagline">احكي • شوف النبض • شارك</string>
     <string name="category_count_format">%1$s\n%2$d أسئلة</string>
 
@@ -50,7 +50,7 @@
     <string name="group_winner_format">🏆 الفائز: %1$s</string>
     <string name="group_tie_format">🤝 تعادل: %1$s</string>
     <string name="group_ranking_line_format">%1$d. %2$s — %3$d%%</string>
-    <string name="group_share_text">تحدينا %3$d لاعبين على “%1$s”. أعلى نتيجة في كاشف الصدق كانت %2$d%%. جرّبوا التحدي!</string>
+    <string name="group_share_text">تحدينا %3$d لاعبين على “%1$s”. أعلى نتيجة في Truth Test كانت %2$d%%. جرّبوا التحدي!</string>
 
     <string name="choose_intensity">مستوى جرأة السؤال</string>
     <string name="intensity_light">خفيف</string>
@@ -70,7 +70,7 @@
     <string name="history_delete">حذف</string>
     <string name="history_delete_title">حذف هذه النتيجة؟</string>
     <string name="history_delete_message">سيتم حذف هذه النتيجة فقط من الجهاز.</string>
-    <string name="history_share_text">نتيجتي المحفوظة في كاشف الصدق كانت %1$d%%. بتقدر تجيب أعلى؟</string>
+    <string name="history_share_text">نتيجتي المحفوظة في Truth Test كانت %1$d%%. بتقدر تجيب أعلى؟</string>
 
     <string name="statistics">الإحصائيات</string>
     <string name="statistics_subtitle">ملخص نشاطك المحفوظ محليًا على الجهاز فقط.</string>
@@ -91,7 +91,7 @@
     <string name="stats_days_format">%1$d أيام</string>
 
     <string name="monthly_report_export">تصدير تقرير PDF شهري</string>
-    <string name="monthly_report_title">التقرير الشهري لكاشف الصدق</string>
+    <string name="monthly_report_title">التقرير الشهري لTruth Test</string>
     <string name="monthly_report_choose_month">اختر الشهر</string>
     <string name="monthly_report_no_data">أكمل اختبارًا أولًا حتى تنشئ التقرير.</string>
     <string name="monthly_report_creating">جاري إنشاء PDF…</string>
@@ -117,8 +117,8 @@
     <string name="daily_notification_time">وقت الإشعار اليومي</string>
     <string name="daily_notification_time_format">الوقت اليومي: %1$s</string>
     <string name="streak_reminder_toggle">ذكرني قبل ما تنقطع السلسلة</string>
-    <string name="streak_reminder_note">إذا عندك سلسلة فعالة وما لعبت اليوم، يفحص كاشف الصدق تقريبًا الساعة 9:00 مساءً.</string>
-    <string name="reminders_channel">تذكيرات كاشف الصدق</string>
+    <string name="streak_reminder_note">إذا عندك سلسلة فعالة وما لعبت اليوم، يفحص Truth Test تقريبًا الساعة 9:00 مساءً.</string>
+    <string name="reminders_channel">تذكيرات Truth Test</string>
     <string name="streak_reminder_title">🔥 حافظ على سلسلتك</string>
     <string name="streak_reminder_text">سلسلتك الحالية %1$d أيام ولسا مستمرة. أكمل اختبار اليوم حتى تحافظ عليها.</string>
     <string name="notification_permission_needed">يجب السماح بالإشعارات حتى تعمل التذكيرات.</string>

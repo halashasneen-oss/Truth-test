@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_more">المزيد</string>
+    <string name="home_eyebrow">TRUTH TEST 2.0</string>
+    <string name="home_hero_title">قديش صوتك مقنع اليوم؟</string>
+    <string name="home_hero_body">اختر سؤال، احكِ بشكل طبيعي، وشوف نتيجة ترفيهية مبنية على أنماط الصوت.</string>
+    <string name="home_start_truth">ابدأ TRUTH TEST</string>
+    <string name="home_private_badge">خاص</string>
+    <string name="home_offline_badge">الأساس بدون إنترنت</string>
+    <string name="home_no_account_badge">بدون حساب</string>
+    <string name="quick_play">لعب سريع</string>
+    <string name="quick_duel">ثنائي</string>
+    <string name="quick_party">حفلة</string>
+    <string name="quick_custom">مخصص</string>
+    <string name="choose_experience">اختر تجربتك</string>
+    <string name="choose_experience_subtitle">طرق مختلفة للعب والتحدي ومراجعة نتائجك المحلية.</string>
+    <string name="experience_truth">Truth Test</string>
+    <string name="experience_truth_subtitle">تحدي أنماط الصوت الكلاسيكي</string>
+    <string name="experience_party">حفلة</string>
+    <string name="experience_party_subtitle">3–4 لاعبين على نفس الهاتف</string>
+    <string name="experience_couples">للأزواج</string>
+    <string name="experience_couples_subtitle">أسئلة علاقات وجولات مرحة</string>
+    <string name="experience_friends">الأصدقاء</string>
+    <string name="experience_friends_subtitle">تحديات لأقرب الأصدقاء</string>
+    <string name="experience_daily">Truth اليوم</string>
+    <string name="experience_daily_subtitle">سؤال واحد كل يوم</string>
+    <string name="experience_challenges">التحديات</string>
+    <string name="experience_challenges_subtitle">طرق جديدة للمنافسة</string>
+    <string name="experience_share">استوديو المشاركة</string>
+    <string name="experience_share_subtitle">أنشئها بعد ظهور النتيجة</string>
+    <string name="experience_insights">الإحصائيات</string>
+    <string name="experience_insights_subtitle">إحصائياتك الخاصة والمحلية</string>
+    <string name="experience_achievements">الإنجازات</string>
+    <string name="experience_achievements_subtitle">شارات وسلاسل ومحطات</string>
+    <string name="today_truth">Truth اليوم</string>
+    <string name="daily_ready">جاهز لليوم</string>
+    <string name="daily_completed">مكتمل اليوم</string>
+    <string name="daily_streak_format">🔥 سلسلة %1$d أيام</string>
+    <string name="play_today_truth">العب Truth اليوم</string>
+
+    <string name="feature_preview_kicker">تجربة قادمة</string>
+    <string name="feature_preview_back">العودة للتجارب</string>
+    <string name="feature_preview_local">مصممة لتبقى محلية وبدون حساب.</string>
+    <string name="feature_couples_title">وضع الأزواج</string>
+    <string name="feature_couples_body">تجربة علاقات مستقلة بأسئلة مرحة وجريئة وجدية سيتم تنفيذها في مرحلة المنتج التالية.</string>
+    <string name="feature_friends_title">وضع الأصدقاء</string>
+    <string name="feature_friends_body">تجربة مخصصة لأقرب الأصدقاء بجولات مشتركة وجوائز مرحة مجهزة للمرحلة التالية.</string>
+    <string name="feature_challenges_title">التحديات</string>
+    <string name="feature_challenges_body">أكواد التحدي وأساليب منافسة محلية أوسع مجهزة لمرحلة لاحقة بدون تغيير بياناتك الحالية.</string>
+    <string name="feature_share_title">استوديو المشاركة</string>
+    <string name="feature_share_body">مشاركة الصور والفيديو تعمل حاليًا بعد النتيجة. الاستوديو الكامل متعدد المقاسات سيتم توسيعه في مرحلة المشاركة الفيروسية.</string>
+
+    <string name="more_title">المزيد</string>
+    <string name="more_subtitle">الإنجازات والمظهر واللغة والإشعارات والخصوصية.</string>
+    <string name="more_achievements_title">الإنجازات</string>
+    <string name="more_achievements_body">شاهد الشارات المفتوحة والسلاسل والمحطات.</string>
+    <string name="more_settings_title">الإعدادات والخصوصية</string>
+    <string name="more_settings_body">اللغة والثيم والتذكيرات ومعلومات البيانات المحلية.</string>
+
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_progress_format">%1$d من 3</string>
+    <string name="onboarding_new_1_title">اسأل أي شيء</string>
+    <string name="onboarding_new_1_body">اختر سؤالًا ممتعًا، اكتب سؤالك، أو تحدَّ الآخرين على نفس الهاتف.</string>
+    <string name="onboarding_new_2_title">احكِ بطبيعتك</string>
+    <string name="onboarding_new_2_body">يتم تحليل أنماط الصوت محليًا على هاتفك، والصوت الخام لا يتم حفظه.</string>
+    <string name="onboarding_new_3_title">اكشف النتيجة وشاركها</string>
+    <string name="onboarding_new_3_body">خذ نتيجة ترفيهية، قارنها، وشارك اللحظة.</string>
+
+    <string name="test_back">رجوع</string>
+    <string name="question_stage">السؤال</string>
+    <string name="answer_when_ready">جاوب بشكل طبيعي لما تكون جاهز.</string>
+    <string name="record_idle">اضغط على الماسح للبدء</string>
+    <string name="record_live">جاري الاستماع… اضغط للإيقاف</string>
+    <string name="truth_engine">Truth Engine</string>
+    <string name="truth_engine_subtitle">جاري تحليل إشارات أنماط الصوت محليًا…</string>
+    <string name="analysis_stability">ثبات الصوت</string>
+    <string name="analysis_pitch">تغيّر النبرة</string>
+    <string name="analysis_pauses">نمط التوقفات</string>
+    <string name="analysis_energy">ثبات الطاقة</string>
+    <string name="analysis_flow">تدفق الإجابة</string>
+    <string name="result_playful_label">نتيجة ترفيهية لأنماط الصوت</string>
+    <string name="result_very_convincing">مقنع جدًا</string>
+    <string name="result_hard_to_read">صعب القراءة</string>
+    <string name="result_few_wobbles">فيها شوية تردد</string>
+    <string name="result_poker_loading">وجه البوكر قيد التحميل</string>
+    <string name="result_breakdown">تفاصيل النمط</string>
+    <string name="metric_value_format">%1$d</string>
+    <string name="metric_voice_stability">ثبات الصوت</string>
+    <string name="metric_confidence_pattern">نمط الثقة</string>
+    <string name="metric_hesitation_control">التحكم بالتردد</string>
+    <string name="metric_energy">الطاقة</string>
+    <string name="metric_response_flow">تدفق الإجابة</string>
+    <string name="badge_truth_rookie">Truth Rookie</string>
+    <string name="badge_smooth_talker">Smooth Talker</string>
+    <string name="badge_poker_face">Poker Face</string>
+    <string name="badge_unshakable">Unshakable</string>
+    <string name="badge_truth_master">Truth Master</string>
+    <string name="share_my_result">شارك نتيجتي</string>
+    <string name="try_again">جرّب من جديد</string>
+
+    <string name="history_subtitle">خط زمني خاص لكل إجاباتك المكتملة.</string>
+    <string name="history_empty_title">سجلك يبدأ من هنا</string>
+    <string name="history_empty_body">أكمل أول Truth Test وستظهر النتيجة هنا على هذا الجهاز.</string>
+    <string name="history_item_meta_format">%1$s • %2$s</string>
+
+    <string name="achievements_subtitle">اجمع محطات محلية كلما استمريت باللعب.</string>
+    <string name="achievement_unlocked">مفتوح</string>
+    <string name="achievement_locked">مغلق</string>
+    <string name="achievement_req_first">أكمل أول نتيجة</string>
+    <string name="achievement_req_ten">أكمل 10 إجابات</string>
+    <string name="achievement_req_fifty">أكمل 50 إجابة</string>
+    <string name="achievement_req_hundred">أكمل 100 إجابة</string>
+    <string name="achievement_req_high">وصل إلى نتيجة 95</string>
+    <string name="achievement_req_streak3">حافظ على سلسلة 3 أيام</string>
+    <string name="achievement_req_streak7">حافظ على سلسلة 7 أيام</string>
+    <string name="achievement_req_duel">أنهِ تحديًا ثنائيًا</string>
+    <string name="achievement_req_group">أنهِ تحديًا جماعيًا</string>
+    <string name="achievement_req_custom">أكمل سؤالًا مخصصًا</string>
+    <string name="achievement_card_format">%1$s  %2$s
+%3$s • %4$s</string>
+
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_privacy">الخصوصية وحول التطبيق</string>
+    <string name="settings_local_processing">يتم تحليل تسجيلاتك محليًا ولا يتم حفظ الصوت الخام.</string>
+</resources>

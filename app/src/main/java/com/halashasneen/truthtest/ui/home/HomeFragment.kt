@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.data.HistoryRepository
 import com.halashasneen.truthtest.data.QuestionRepository
 import com.halashasneen.truthtest.databinding.FragmentHomeBinding
+import com.halashasneen.truthtest.ui.MainActivity
+import com.halashasneen.truthtest.ui.achievements.AchievementsFragment
+import com.halashasneen.truthtest.ui.preview.FeaturePreviewFragment
 import com.halashasneen.truthtest.ui.test.TestActivity
 import kotlin.math.sin
 
@@ -17,13 +21,14 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var phase = 0.0
+
     private val animator = object : Runnable {
         override fun run() {
             if (_binding == null) return
-            val value = (0.08 + (sin(phase) + 1.0) * 0.025).toFloat()
+            val value = (0.08 + (sin(phase) + 1.0) * 0.026).toFloat()
             binding.ambientWaveform.addAmplitude(value)
-            phase += 0.45
-            binding.ambientWaveform.postDelayed(this, 90)
+            phase += 0.42
+            binding.ambientWaveform.postDelayed(this, 88)
         }
     }
 
@@ -33,14 +38,50 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, state: Bundle?) {
-        val daily = QuestionRepository(requireContext()).dailyQuestion()
-        binding.dailyQuestion.text = daily?.text.orEmpty()
-        binding.soloCard.setOnClickListener { launch(TestActivity.MODE_SOLO) }
-        binding.duelCard.setOnClickListener { launch(TestActivity.MODE_DUEL, playerCount = 2) }
-        binding.groupCard.setOnClickListener { showGroupSizePicker() }
-        binding.customCard.setOnClickListener { launch(TestActivity.MODE_CUSTOM) }
+        binding.startTruthButton.setOnClickListener { launch(TestActivity.MODE_SOLO) }
+        binding.truthExperienceCard.setOnClickListener { launch(TestActivity.MODE_SOLO) }
+        binding.duelButton.setOnClickListener { launch(TestActivity.MODE_DUEL, playerCount = 2) }
+        binding.partyButton.setOnClickListener { showGroupSizePicker() }
+        binding.partyExperienceCard.setOnClickListener { showGroupSizePicker() }
+        binding.customButton.setOnClickListener { launch(TestActivity.MODE_CUSTOM) }
+
+        binding.couplesExperienceCard.setOnClickListener { showPreview(ExperienceSection.COUPLES) }
+        binding.friendsExperienceCard.setOnClickListener { showPreview(ExperienceSection.FRIENDS) }
+        binding.challengesExperienceCard.setOnClickListener { showPreview(ExperienceSection.CHALLENGES) }
+        binding.shareExperienceCard.setOnClickListener { showPreview(ExperienceSection.SHARE_STUDIO) }
+
+        binding.dailyExperienceCard.setOnClickListener { launch(TestActivity.MODE_SOLO, daily = true) }
         binding.dailyStart.setOnClickListener { launch(TestActivity.MODE_SOLO, daily = true) }
+
+        binding.insightsExperienceCard.setOnClickListener {
+            (activity as? MainActivity)?.selectTab(R.id.nav_statistics)
+        }
+        binding.achievementsExperienceCard.setOnClickListener {
+            (activity as? MainActivity)?.showSecondary(AchievementsFragment())
+        }
+
         binding.ambientWaveform.post(animator)
+        refreshDaily()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (_binding != null) refreshDaily()
+    }
+
+    private fun refreshDaily() {
+        val context = requireContext()
+        val daily = QuestionRepository(context).dailyQuestion()
+        val history = HistoryRepository(context)
+        binding.dailyQuestion.text = daily?.text.orEmpty()
+        binding.dailyStatus.setText(
+            if (history.hasDailyResultToday()) R.string.daily_completed else R.string.daily_ready
+        )
+        binding.dailyStreak.text = getString(R.string.daily_streak_format, history.currentStreak())
+    }
+
+    private fun showPreview(section: ExperienceSection) {
+        (activity as? MainActivity)?.showSecondary(FeaturePreviewFragment.newInstance(section))
     }
 
     private fun showGroupSizePicker() {

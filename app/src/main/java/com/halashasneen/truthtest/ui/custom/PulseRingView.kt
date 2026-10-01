@@ -3,7 +3,6 @@ package com.halashasneen.truthtest.ui.custom
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Shader
 import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.view.View
@@ -27,10 +26,10 @@ class PulseRingView @JvmOverloads constructor(
             w / 2f,
             h / 2f,
             intArrayOf(
-                context.getColor(R.color.purple),
-                context.getColor(R.color.pink),
-                context.getColor(R.color.cyan),
-                context.getColor(R.color.purple)
+                context.getColor(R.color.p2_purple),
+                context.getColor(R.color.p2_pink),
+                context.getColor(R.color.p2_cyan),
+                context.getColor(R.color.p2_purple)
             ),
             null
         )

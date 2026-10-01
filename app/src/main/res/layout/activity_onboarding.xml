@@ -1,7 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/app_background" android:gravity="center" android:orientation="vertical" android:padding="30dp">
-    <TextView android:id="@+id/onboardingIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="〰️" android:textSize="72sp" />
-    <TextView android:id="@+id/onboardingTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="30sp" android:textStyle="bold" />
-    <TextView android:id="@+id/onboardingBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:textColor="@color/app_text_secondary" android:textSize="17sp" />
-    <com.google.android.material.button.MaterialButton android:id="@+id/nextButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="40dp" android:text="@string/continue_label" />
-</LinearLayout>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_phase2"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/p2_text_secondary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/skipButton"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/onboarding_skip"
+        android:textColor="@color/p2_text_secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="12dp"
+        android:max="3"
+        android:progress="1"
+        app:indicatorColor="@color/p2_purple"
+        app:trackColor="@color/p2_surface_strong"
+        app:trackCornerRadius="3dp"
+        app:layout_constraintTop_toBottomOf="@id/skipButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/onboardingIcon"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
+        android:background="@drawable/bg_score_phase2"
+        android:gravity="center"
+        android:textSize="48sp"
+        app:layout_constraintTop_toBottomOf="@id/progressIndicator"
+        app:layout_constraintBottom_toTopOf="@id/onboardingTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.46" />
+
+    <TextView
+        android:id="@+id/onboardingTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/p2_text_primary"
+        android:textSize="31sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/onboardingBody"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/onboardingBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textColor="@color/p2_text_secondary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/noticeText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/noticeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_panel_phase2"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="@string/entertainment_notice"
+        android:textColor="@color/p2_text_secondary"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        style="@style/Widget.TruthTest.PrimaryButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/continue_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

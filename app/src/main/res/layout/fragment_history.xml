@@ -2,32 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:background="@drawable/bg_app_phase2"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingStart="@dimen/tt_screen_horizontal"
+    android:paddingTop="24dp"
+    android:paddingEnd="@dimen/tt_screen_horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/history" android:textAppearance="@style/TextAppearance.TruthTest.Hero" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/history_subtitle" android:textAppearance="@style/TextAppearance.TruthTest.Body" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/history"
-            android:textColor="@color/app_text_primary"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/historyFilterButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/history_filter_all" />
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/historyFilterButton"
+        style="@style/Widget.TruthTest.SecondaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/history_filter_all" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,17 +30,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="12dp" />
+            android:paddingBottom="24dp" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/emptyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
-            android:text="@string/no_history"
-            android:textColor="@color/app_text_secondary"
-            android:textSize="16sp" />
+            android:orientation="vertical"
+            android:padding="24dp">
+            <TextView android:layout_width="72dp" android:layout_height="72dp" android:background="@drawable/bg_score_phase2" android:gravity="center" android:text="⌁" android:textColor="@color/p2_cyan" android:textSize="30sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:text="@string/history_empty_title" android:textColor="@color/p2_text_primary" android:textSize="20sp" android:textStyle="bold" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:gravity="center" android:text="@string/history_empty_body" android:textColor="@color/p2_text_secondary" android:textSize="14sp" />
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

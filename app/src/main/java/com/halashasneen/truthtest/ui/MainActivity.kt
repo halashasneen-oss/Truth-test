@@ -11,15 +11,15 @@ import androidx.fragment.app.Fragment
 import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivityMainBinding
-import com.halashasneen.truthtest.ui.achievements.AchievementsFragment
 import com.halashasneen.truthtest.ui.history.HistoryFragment
 import com.halashasneen.truthtest.ui.home.HomeFragment
-import com.halashasneen.truthtest.ui.settings.SettingsFragment
+import com.halashasneen.truthtest.ui.more.MoreFragment
 import com.halashasneen.truthtest.ui.statistics.StatisticsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val notificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+    private val notificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,25 +27,49 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNav.setOnItemSelectedListener { item ->
-            val fragment: Fragment = when (item.itemId) {
+            val fragment = when (item.itemId) {
                 R.id.nav_history -> HistoryFragment()
                 R.id.nav_statistics -> StatisticsFragment()
-                R.id.nav_achievements -> AchievementsFragment()
-                R.id.nav_settings -> SettingsFragment()
+                R.id.nav_more -> MoreFragment()
                 else -> HomeFragment()
             }
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .commit()
+            openRoot(fragment)
             true
         }
-        if (savedInstanceState == null) binding.bottomNav.selectedItemId = R.id.nav_home
+
+        if (savedInstanceState == null) {
+            binding.bottomNav.selectedItemId = R.id.nav_home
+        }
+    }
+
+    fun selectTab(itemId: Int) {
+        binding.bottomNav.selectedItemId = itemId
+    }
+
+    fun showSecondary(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack("secondary")
+            .commit()
+    }
+
+    private fun openRoot(fragment: Fragment) {
+        supportFragmentManager.popBackStack(
+            null,
+            androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
     }
 
     override fun onResume() {
         super.onResume()
         val prefs = getSharedPreferences(AppStorageContract.PREFS_SETTINGS, MODE_PRIVATE)
-        if (Build.VERSION.SDK_INT >= 33 &&
+        if (
+            Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
             !prefs.getBoolean(AppStorageContract.KEY_NOTIFICATION_ASKED, false)
         ) {

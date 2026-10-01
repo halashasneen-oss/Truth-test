@@ -1,93 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/app_background">
+    android:background="@drawable/bg_app_phase2"
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="@dimen/tt_screen_horizontal"
+        android:paddingTop="14dp"
+        android:paddingEnd="@dimen/tt_screen_horizontal"
+        android:paddingBottom="32dp">
 
-        <TextView
-            android:id="@+id/screenTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/app_text_primary"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/testBackButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/test_back"
+                android:minWidth="48dp"
+                android:text="‹"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/screenTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/categoryPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="14dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_category"
-                android:textColor="@color/app_text_primary"
-                android:textSize="20sp" />
+                android:text="@string/question_stage"
+                android:textAppearance="@style/TextAppearance.TruthTest.Eyebrow" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/choose_intensity"
-                android:textColor="@color/app_text_secondary"
-                android:textSize="14sp" />
+                android:layout_marginTop="6dp"
+                android:text="@string/choose_category"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/intensityGroup"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:layout_marginTop="5dp"
+                android:text="@string/answer_when_ready"
+                android:textColor="@color/p2_text_secondary"
+                android:textSize="14sp" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/intensityLight"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="@string/intensity_light" />
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.TruthTest.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_intensity"
+                        android:textColor="@color/p2_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/intensityMedium"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:checked="true"
-                    android:text="@string/intensity_medium" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/intensityGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/intensityBold"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="@string/intensity_bold" />
-            </com.google.android.material.chip.ChipGroup>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/intensityLight"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            android:text="@string/intensity_light" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/intensityMedium"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            android:checked="true"
+                            android:text="@string/intensity_medium" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/intensityBold"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            android:text="@string/intensity_bold" />
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:columnCount="2">
 
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/embarrassing" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/funny" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/bold" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/romantic" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/friendship" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" android:layout_width="0dp" android:layout_height="80dp" android:layout_columnWeight="1" android:layout_margin="4dp" android:text="@string/family" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryEmbarrassing" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFunny" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryBold" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryRomantic" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFriendship" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/categoryFamily" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="82dp" android:layout_columnWeight="1" android:layout_margin="5dp" android:gravity="start|center_vertical" />
             </GridLayout>
         </LinearLayout>
 
@@ -95,26 +143,39 @@
             android:id="@+id/customPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:visibility="gone">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/question_stage" android:textAppearance="@style/TextAppearance.TruthTest.Eyebrow" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="@string/custom_question" android:textColor="@color/p2_text_primary" android:textSize="28sp" android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/custom_hint">
+                android:layout_marginTop="18dp"
+                android:hint="@string/custom_hint"
+                app:boxBackgroundColor="@color/p2_surface"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customQuestionInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minLines="3" />
+                    android:minHeight="120dp"
+                    android:gravity="top|start"
+                    android:minLines="3"
+                    android:textColor="@color/p2_text_primary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/customContinue"
+                style="@style/Widget.TruthTest.PrimaryButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/continue_label" />
         </LinearLayout>
 
@@ -122,7 +183,7 @@
             android:id="@+id/recordPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="18dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:visibility="gone">
@@ -131,54 +192,288 @@
                 android:id="@+id/playerLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/pink"
-                android:textSize="16sp"
+                android:background="@drawable/bg_badge_phase2"
+                android:paddingStart="12dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="6dp"
+                android:textColor="@color/p2_purple"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/questionText"
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.TruthTest.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:textColor="@color/app_text_primary"
-                android:textSize="27sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="14dp"
+                app:strokeColor="@color/p2_border_strong">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/question_stage" android:textAppearance="@style/TextAppearance.TruthTest.Eyebrow" />
+                    <TextView
+                        android:id="@+id/questionMeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:textColor="@color/p2_purple"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/questionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:textColor="@color/p2_text_primary"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.halashasneen.truthtest.ui.custom.WaveformView
                 android:id="@+id/waveform"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="22dp" />
+                android:layout_height="130dp"
+                android:layout_marginTop="14dp"
+                android:importantForAccessibility="no" />
 
             <FrameLayout
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_marginTop="8dp">
+                android:layout_width="152dp"
+                android:layout_height="152dp"
+                android:layout_marginTop="2dp">
 
                 <com.halashasneen.truthtest.ui.custom.PulseRingView
                     android:id="@+id/pulseRing"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/recordButton"
-                    android:layout_width="88dp"
-                    android:layout_height="88dp"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/tap_to_record"
+                    android:minWidth="94dp"
                     android:text="●"
+                    android:textColor="@android:color/white"
                     android:textSize="30sp"
-                    app:cornerRadius="44dp" />
+                    app:backgroundTint="@color/p2_purple"
+                    app:cornerRadius="47dp" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/timerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="00:00"
-                android:textColor="@color/app_text_secondary"
-                android:textSize="18sp" />
+                android:textColor="@color/p2_text_primary"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/recordHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/record_idle"
+                android:textColor="@color/p2_text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/entertainment_notice"
+                android:textColor="@color/p2_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/analysisPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/analysisProgress"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:indeterminate="true"
+                app:indicatorColor="@color/p2_purple"
+                app:trackColor="@color/p2_surface_strong"
+                app:trackThickness="6dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/truth_engine"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/truth_engine_subtitle"
+                android:textColor="@color/p2_text_secondary"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/bg_panel_phase2"
+                android:orientation="vertical"
+                android:padding="18dp">
+                <TextView android:id="@+id/analysisStepStability" android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:text="@string/analysis_stability" android:textColor="@color/p2_text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/analysisStepPitch" android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:text="@string/analysis_pitch" android:textColor="@color/p2_text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/analysisStepPauses" android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:text="@string/analysis_pauses" android:textColor="@color/p2_text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/analysisStepEnergy" android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:text="@string/analysis_energy" android:textColor="@color/p2_text_primary" android:textSize="15sp" />
+                <TextView android:id="@+id/analysisStepFlow" android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:text="@string/analysis_flow" android:textColor="@color/p2_text_primary" android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/result_playful_label" android:textAppearance="@style/TextAppearance.TruthTest.Eyebrow" />
+
+            <TextView
+                android:id="@+id/resultQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="206dp"
+                android:layout_height="206dp"
+                android:layout_marginTop="14dp">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/resultProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:progress="0"
+                    app:indicatorSize="190dp"
+                    app:trackColor="@color/p2_surface_strong"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/resultScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/p2_text_primary"
+                    android:textSize="43sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/resultLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/p2_text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/resultBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_badge_phase2"
+                android:paddingStart="14dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="7dp"
+                android:textColor="@color/p2_gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/duelComparison"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_panel_phase2"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textColor="@color/p2_cyan"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <com.halashasneen.truthtest.ui.custom.WaveformView
+                android:id="@+id/resultWaveform"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginTop="10dp"
+                android:alpha="0.58"
+                android:importantForAccessibility="no" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.TruthTest.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/result_breakdown" android:textColor="@color/p2_text_primary" android:textSize="18sp" android:textStyle="bold" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center_vertical" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/metric_voice_stability" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                        <TextView android:id="@+id/stabilityValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/p2_text_primary" android:textStyle="bold" />
+                    </LinearLayout>
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/stabilityBar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" app:indicatorColor="@color/p2_purple" app:trackColor="@color/p2_surface_strong" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/metric_confidence_pattern" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                        <TextView android:id="@+id/confidenceValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/p2_text_primary" android:textStyle="bold" />
+                    </LinearLayout>
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/confidenceBar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" app:indicatorColor="@color/p2_cyan" app:trackColor="@color/p2_surface_strong" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/metric_hesitation_control" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                        <TextView android:id="@+id/hesitationValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/p2_text_primary" android:textStyle="bold" />
+                    </LinearLayout>
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/hesitationBar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" app:indicatorColor="@color/p2_pink" app:trackColor="@color/p2_surface_strong" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/metric_energy" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                        <TextView android:id="@+id/energyValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/p2_text_primary" android:textStyle="bold" />
+                    </LinearLayout>
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/energyBar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" app:indicatorColor="@color/p2_gold" app:trackColor="@color/p2_surface_strong" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/metric_response_flow" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                        <TextView android:id="@+id/flowValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/p2_text_primary" android:textStyle="bold" />
+                    </LinearLayout>
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/flowBar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" app:indicatorColor="@color/p2_success" app:trackColor="@color/p2_surface_strong" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -186,54 +481,21 @@
                 android:layout_marginTop="14dp"
                 android:gravity="center"
                 android:text="@string/entertainment_notice"
-                android:textColor="@color/app_text_secondary"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:textColor="@color/p2_text_muted"
+                android:textSize="11sp" />
 
-        <LinearLayout
-            android:id="@+id/resultPanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/resultQuestion"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.TruthTest.PrimaryButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/app_text_primary"
-                android:textSize="20sp" />
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/share_my_result" />
 
-            <com.halashasneen.truthtest.ui.custom.WaveformView
-                android:id="@+id/resultWaveform"
-                android:layout_width="match_parent"
-                android:layout_height="84dp"
-                android:layout_marginTop="10dp"
-                android:alpha="0.48" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/resultProgress"
-                android:layout_width="190dp"
-                android:layout_height="190dp"
-                android:layout_marginTop="12dp"
-                app:indicatorSize="170dp"
-                app:trackThickness="12dp" />
-
-            <TextView android:id="@+id/resultScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="-118dp" android:layout_marginBottom="64dp" android:textColor="@color/app_text_primary" android:textSize="38sp" android:textStyle="bold" />
-            <TextView android:id="@+id/resultLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/app_text_primary" android:textSize="22sp" android:textStyle="bold" />
-            <TextView android:id="@+id/duelComparison" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="center" android:textColor="@color/cyan" android:textSize="20sp" android:textStyle="bold" android:visibility="gone" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/shareButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="24dp" android:text="@string/share_result" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.button.MaterialButton android:id="@+id/newTestButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/new_test" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/homeButton" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/back_home" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/newTestButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/try_again" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/homeButton" style="@style/Widget.TruthTest.SecondaryButton" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp" android:layout_weight="1" android:text="@string/back_home" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

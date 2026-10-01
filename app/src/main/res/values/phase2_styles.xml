@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.TruthTest.Eyebrow" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">@color/p2_purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="TextAppearance.TruthTest.Hero" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textColor">@color/p2_text_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.TruthTest.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/p2_text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.TruthTest.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/p2_text_secondary</item>
+    </style>
+
+    <style name="Widget.TruthTest.PrimaryButton" parent="Widget.Material3.Button">
+        <item name="android:minHeight">56dp</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="backgroundTint">@color/p2_purple</item>
+        <item name="android:textColor">@color/p2_on_brand</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.TruthTest.SecondaryButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">52dp</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="strokeColor">@color/p2_border_strong</item>
+        <item name="android:textColor">@color/p2_text_primary</item>
+    </style>
+
+    <style name="Widget.TruthTest.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/p2_surface</item>
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/p2_border</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+</resources>

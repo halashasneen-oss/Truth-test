@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import com.halashasneen.truthtest.R
 import kotlin.math.max
@@ -16,19 +17,22 @@ class ScoreTrendView @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : View(context, attrs) {
     private val density = resources.displayMetrics.density
-    private val scaledDensity = resources.displayMetrics.scaledDensity
     private var scores: List<Int> = emptyList()
 
     private val baselinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getColor(R.color.app_text_secondary)
-        alpha = 70
+        color = context.getColor(R.color.p2_text_muted)
+        alpha = 80
         strokeWidth = density
     }
 
     private val labelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getColor(R.color.app_text_secondary)
+        color = context.getColor(R.color.p2_text_secondary)
         textAlign = Paint.Align.CENTER
-        textSize = 11f * scaledDensity
+        textSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            11f,
+            resources.displayMetrics
+        )
     }
 
     fun setScores(values: List<Int>) {
@@ -52,7 +56,9 @@ class ScoreTrendView @JvmOverloads constructor(
         val barWidth = availableWidth / (scores.size * 1.65f)
         val gap = if (scores.size > 1) {
             (availableWidth - barWidth * scores.size) / (scores.size - 1)
-        } else 0f
+        } else {
+            0f
+        }
         val radius = 9f * density
 
         scores.forEachIndexed { index, score ->
@@ -65,13 +71,18 @@ class ScoreTrendView @JvmOverloads constructor(
                     y,
                     0f,
                     bottom,
-                    context.getColor(R.color.cyan),
-                    context.getColor(R.color.purple),
+                    context.getColor(R.color.p2_cyan),
+                    context.getColor(R.color.p2_purple),
                     Shader.TileMode.CLAMP
                 )
             }
             canvas.drawRoundRect(RectF(x, y, x + barWidth, bottom), radius, radius, barPaint)
-            canvas.drawText("$score%", x + barWidth / 2f, max(14f * density, y - 7f * density), labelPaint)
+            canvas.drawText(
+                score.toString() + "%",
+                x + barWidth / 2f,
+                max(14f * density, y - 7f * density),
+                labelPaint
+            )
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.HistoryRepository
 import com.halashasneen.truthtest.data.QuestionRepository
 import com.halashasneen.truthtest.data.model.TestResult
@@ -57,6 +58,7 @@ class HistoryFragment : Fragment() {
         val items = repository.getAll().filter(activeFilter::matches)
         adapter.submit(items)
         binding.emptyText.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+        binding.historyList.visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
     }
 
     private fun showFilterPicker() {
@@ -85,6 +87,7 @@ class HistoryFragment : Fragment() {
         when (filter) {
             HistoryFilter.ALL -> R.string.history_filter_all
             HistoryFilter.SOLO -> R.string.solo_test
+            HistoryFilter.DAILY -> R.string.daily_challenge
             HistoryFilter.DUEL -> R.string.duel_mode
             HistoryFilter.GROUP -> R.string.group_mode
             HistoryFilter.CUSTOM -> R.string.custom_question
@@ -131,8 +134,14 @@ class HistoryFragment : Fragment() {
 
     private fun shareResult(item: TestResult) {
         val appContext = requireContext().applicationContext
-        val sharePrefs = appContext.getSharedPreferences("truth_test_share", Context.MODE_PRIVATE)
-        val theme = ShareTheme.fromStorage(sharePrefs.getString("share_theme", null))
+        val sharePrefs = appContext.getSharedPreferences(
+            AppStorageContract.PREFS_SHARE,
+            Context.MODE_PRIVATE
+        )
+        val theme = ShareTheme.fromStorage(
+            sharePrefs.getString(AppStorageContract.KEY_SHARE_THEME, null)
+        )
+
         viewLifecycleOwner.lifecycleScope.launch {
             val uri = withContext(Dispatchers.Default) {
                 ResultCardRenderer.render(
@@ -141,19 +150,29 @@ class HistoryFragment : Fragment() {
                     score = item.score
                 )
             }
-            startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-                type = "image/png"
-                putExtra(Intent.EXTRA_STREAM, uri)
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.history_share_text, item.score))
-                clipData = ClipData.newUri(requireContext().contentResolver, getString(R.string.share_result), uri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }, getString(R.string.share_result)))
+            startActivity(
+                Intent.createChooser(
+                    Intent(Intent.ACTION_SEND).apply {
+                        type = "image/png"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        putExtra(Intent.EXTRA_TEXT, getString(R.string.history_share_text, item.score))
+                        clipData = ClipData.newUri(
+                            requireContext().contentResolver,
+                            getString(R.string.share_result),
+                            uri
+                        )
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    },
+                    getString(R.string.share_result)
+                )
+            )
         }
     }
 
     private fun modeName(mode: String): String = when {
         mode == "solo" -> getString(R.string.solo_test)
         mode == "custom" -> getString(R.string.custom_question)
+        mode == HistoryRepository.MODE_DAILY -> getString(R.string.daily_challenge)
         mode.startsWith("duel_") -> getString(R.string.duel_mode)
         mode.startsWith("group") -> getString(R.string.group_mode)
         else -> mode

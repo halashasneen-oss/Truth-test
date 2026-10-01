@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="p2_bg_top">#F9F8FD</color>
+    <color name="p2_bg_bottom">#F0F3FA</color>
+    <color name="p2_surface">#FFFFFFFF</color>
+    <color name="p2_surface_soft">#F4F1FA</color>
+    <color name="p2_surface_strong">#ECE8F7</color>
+    <color name="p2_border">#1F5B4BB7</color>
+    <color name="p2_border_strong">#5A7C3AED</color>
+    <color name="p2_text_primary">#17131F</color>
+    <color name="p2_text_secondary">#625E6D</color>
+    <color name="p2_text_muted">#878391</color>
+    <color name="p2_purple">#6D4AFF</color>
+    <color name="p2_purple_deep">#4C2CCF</color>
+    <color name="p2_cyan">#00B8D9</color>
+    <color name="p2_pink">#D946EF</color>
+    <color name="p2_gold">#D88B00</color>
+    <color name="p2_success">#169B55</color>
+    <color name="p2_warning">#D49100</color>
+    <color name="p2_danger">#D33A4A</color>
+    <color name="p2_on_brand">#FFFFFFFF</color>
+    <color name="p2_scrim">#66000000</color>
+    <color name="p2_chip_bg">#EDE8FF</color>
+    <color name="p2_glow">#247C3AED</color>
+</resources>

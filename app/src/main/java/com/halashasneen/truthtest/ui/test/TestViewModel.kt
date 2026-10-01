@@ -2,6 +2,7 @@ package com.halashasneen.truthtest.ui.test
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.halashasneen.truthtest.audio.VoiceAnalysis
 import com.halashasneen.truthtest.data.AchievementRepository
 import com.halashasneen.truthtest.data.HistoryRepository
 import com.halashasneen.truthtest.data.QuestionRepository
@@ -31,6 +32,7 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = TestUiState(
             initialized = true,
             mode = mode,
+            daily = daily,
             stage = initialStage,
             selectedIntensity = intensity,
             playerCount = playerCount
@@ -41,7 +43,11 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     fun categoryCount(category: String): Int = questions.count(category, _state.value.selectedIntensity)
 
     fun setIntensity(intensity: String) {
-        val clean = if (intensity in QuestionRepository.INTENSITIES) intensity else QuestionRepository.INTENSITY_MEDIUM
+        val clean = if (intensity in QuestionRepository.INTENSITIES) {
+            intensity
+        } else {
+            QuestionRepository.INTENSITY_MEDIUM
+        }
         questions.setPreferredIntensity(clean)
         _state.value = _state.value.copy(selectedIntensity = clean)
     }
@@ -55,8 +61,48 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     fun useCustomQuestion(text: String): Boolean {
         val clean = text.trim()
         if (clean.isBlank()) return false
-        beginQuestion(Question("custom-${System.currentTimeMillis()}", "custom", clean, null))
+        beginQuestion(Question("custom-" + System.currentTimeMillis(), "custom", clean, null))
         return true
+    }
+
+    fun beginAnalysis(analysis: VoiceAnalysis) {
+        val current = _state.value
+        if (current.stage != TestStage.RECORDING) return
+        _state.value = current.copy(stage = TestStage.ANALYZING, analysis = analysis)
+    }
+
+    fun completeAnalysis(): Boolean {
+        val current = _state.value
+        val analysis = current.analysis ?: return false
+        if (current.stage != TestStage.ANALYZING) return false
+        return commitScore(analysis)
+    }
+
+    fun reset() {
+        val current = _state.value
+        if (current.daily) {
+            val dailyQuestion = questions.dailyQuestion(current.selectedIntensity)
+            if (dailyQuestion != null) {
+                _state.value = TestUiState(
+                    initialized = true,
+                    mode = current.mode,
+                    daily = true,
+                    stage = TestStage.RECORDING,
+                    question = dailyQuestion,
+                    selectedIntensity = current.selectedIntensity,
+                    playerCount = 1
+                )
+                return
+            }
+        }
+        _state.value = TestUiState(
+            initialized = true,
+            mode = current.mode,
+            daily = false,
+            stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY,
+            selectedIntensity = current.selectedIntensity,
+            playerCount = current.playerCount
+        )
     }
 
     private fun beginQuestion(question: Question) {
@@ -65,48 +111,46 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             question = question,
             player = 1,
             playerScores = emptyList(),
+            playerAnalyses = emptyList(),
+            analysis = null,
             finalScore = 0
         )
     }
 
-    /** Returns true when another player still needs to record an answer. */
-    fun submitScore(score: Int): Boolean {
+    private fun commitScore(analysis: VoiceAnalysis): Boolean {
         val current = _state.value
         val question = current.question ?: return false
-        val cleanScore = score.coerceIn(0, 100)
+        val cleanScore = analysis.score.coerceIn(0, 100)
         val updatedScores = current.playerScores + cleanScore
+        val updatedAnalyses = current.playerAnalyses + analysis
         save(question, cleanScore, historyMode(current))
 
         if (current.player < current.playerCount) {
             _state.value = current.copy(
+                stage = TestStage.RECORDING,
                 player = current.player + 1,
-                playerScores = updatedScores
+                playerScores = updatedScores,
+                playerAnalyses = updatedAnalyses,
+                analysis = null
             )
             return true
         }
 
+        val bestIndex = updatedScores.indices.maxByOrNull { updatedScores[it] } ?: 0
         _state.value = current.copy(
             stage = TestStage.RESULT,
             playerScores = updatedScores,
-            finalScore = updatedScores.maxOrNull() ?: cleanScore
+            playerAnalyses = updatedAnalyses,
+            analysis = updatedAnalyses.getOrNull(bestIndex),
+            finalScore = updatedScores.getOrElse(bestIndex) { cleanScore }
         )
         return false
     }
 
-    fun reset() {
-        val current = _state.value
-        _state.value = TestUiState(
-            initialized = true,
-            mode = current.mode,
-            stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY,
-            selectedIntensity = current.selectedIntensity,
-            playerCount = current.playerCount
-        )
-    }
-
-    private fun historyMode(state: TestUiState): String = when (state.mode) {
-        TestActivity.MODE_DUEL -> "duel_p${state.player}"
-        TestActivity.MODE_GROUP -> "group${state.playerCount}_p${state.player}"
+    private fun historyMode(state: TestUiState): String = when {
+        state.daily && state.mode == TestActivity.MODE_SOLO -> HistoryRepository.MODE_DAILY
+        state.mode == TestActivity.MODE_DUEL -> "duel_p" + state.player
+        state.mode == TestActivity.MODE_GROUP -> "group" + state.playerCount + "_p" + state.player
         else -> state.mode
     }
 

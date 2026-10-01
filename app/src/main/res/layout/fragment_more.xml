@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_phase2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/tt_screen_horizontal"
+        android:paddingTop="24dp"
+        android:paddingEnd="@dimen/tt_screen_horizontal"
+        android:paddingBottom="28dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/more_title"
+            android:textAppearance="@style/TextAppearance.TruthTest.Hero" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/more_subtitle"
+            android:textAppearance="@style/TextAppearance.TruthTest.Body" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/achievementsCard"
+            style="@style/Widget.TruthTest.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal" android:padding="20dp">
+                <TextView android:layout_width="52dp" android:layout_height="52dp" android:background="@drawable/bg_score_phase2" android:gravity="center" android:text="★" android:textColor="@color/p2_gold" android:textSize="24sp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/more_achievements_title" android:textColor="@color/p2_text_primary" android:textSize="19sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/more_achievements_body" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/p2_text_muted" android:textSize="28sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/settingsCard"
+            style="@style/Widget.TruthTest.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal" android:padding="20dp">
+                <TextView android:layout_width="52dp" android:layout_height="52dp" android:background="@drawable/bg_score_phase2" android:gravity="center" android:text="⚙" android:textColor="@color/p2_cyan" android:textSize="24sp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/more_settings_title" android:textColor="@color/p2_text_primary" android:textSize="19sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/more_settings_body" android:textColor="@color/p2_text_secondary" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textColor="@color/p2_text_muted" android:textSize="28sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_panel_phase2"
+            android:padding="18dp"
+            android:text="@string/settings_local_processing"
+            android:textColor="@color/p2_text_secondary"
+            android:textSize="13sp" />
+    </LinearLayout>
+</ScrollView>

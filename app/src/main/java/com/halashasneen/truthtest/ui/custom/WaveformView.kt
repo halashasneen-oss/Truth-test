@@ -2,7 +2,9 @@ package com.halashasneen.truthtest.ui.custom
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.LinearGradient
 import android.graphics.Paint
+import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
 import com.halashasneen.truthtest.R
@@ -15,7 +17,7 @@ class WaveformView @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         strokeWidth = resources.displayMetrics.density * 2f
         strokeCap = Paint.Cap.ROUND
-        color = context.getColor(R.color.cyan)
+        color = context.getColor(R.color.p2_cyan)
     }
     private val values = ArrayDeque<Float>()
     private val maxPoints = 80
@@ -38,6 +40,21 @@ class WaveformView @JvmOverloads constructor(
     fun reset() {
         values.clear()
         invalidate()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (w > 0) {
+            paint.shader = LinearGradient(
+                0f,
+                0f,
+                w.toFloat(),
+                0f,
+                context.getColor(R.color.p2_purple),
+                context.getColor(R.color.p2_cyan),
+                Shader.TileMode.CLAMP
+            )
+        }
     }
 
     override fun onDraw(canvas: Canvas) {

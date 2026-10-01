@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
             val amplitude = (0.08 + (sin(phase) + 1.0) * 0.045).toFloat()
             binding.splashWaveform.addAmplitude(amplitude)
             phase += 0.55
-            binding.splashWaveform.postDelayed(this, 70)
+            binding.splashWaveform.postDelayed(this, 65)
         }
     }
 
@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.splashWaveform.post(pulse)
-        binding.root.postDelayed(openApp, 1250)
+        binding.root.postDelayed(openApp, 700)
     }
 
     override fun onDestroy() {

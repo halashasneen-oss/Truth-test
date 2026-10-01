@@ -33,10 +33,21 @@ class HistoryRepository(context: Context) {
         return true
     }
 
-    fun hasResultToday(nowMillis: Long = System.currentTimeMillis()): Boolean {
+    fun hasResultToday(nowMillis: Long = System.currentTimeMillis()): Boolean =
+        hasResultTodayMatching(nowMillis) { true }
+
+    fun hasDailyResultToday(nowMillis: Long = System.currentTimeMillis()): Boolean =
+        hasResultTodayMatching(nowMillis) { it.mode == MODE_DAILY }
+
+    private fun hasResultTodayMatching(
+        nowMillis: Long,
+        predicate: (TestResult) -> Boolean
+    ): Boolean {
         val zone = ZoneId.systemDefault()
         val today = Instant.ofEpochMilli(nowMillis).atZone(zone).toLocalDate()
-        return getAll().any { Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate() == today }
+        return getAll().any {
+            predicate(it) && Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate() == today
+        }
     }
 
     fun currentStreak(nowMillis: Long = System.currentTimeMillis()): Int {
@@ -74,6 +85,7 @@ class HistoryRepository(context: Context) {
     }
 
     companion object {
+        const val MODE_DAILY = "daily"
         private const val MAX_RESULTS = 500
     }
 }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_more">More</string>
+    <string name="home_eyebrow">TRUTH TEST 2.0</string>
+    <string name="home_hero_title">How honest are you today?</string>
+    <string name="home_hero_body">Pick a question, speak naturally, and reveal a playful voice-pattern score.</string>
+    <string name="home_start_truth">START TRUTH TEST</string>
+    <string name="home_private_badge">Private</string>
+    <string name="home_offline_badge">Offline core</string>
+    <string name="home_no_account_badge">No account</string>
+    <string name="quick_play">Quick play</string>
+    <string name="quick_duel">Duel</string>
+    <string name="quick_party">Party</string>
+    <string name="quick_custom">Custom</string>
+    <string name="choose_experience">Choose your experience</string>
+    <string name="choose_experience_subtitle">Different ways to play, challenge and review your local results.</string>
+    <string name="experience_truth">Truth Test</string>
+    <string name="experience_truth_subtitle">Classic voice-pattern challenge</string>
+    <string name="experience_party">Party</string>
+    <string name="experience_party_subtitle">3–4 players on one phone</string>
+    <string name="experience_couples">Couples</string>
+    <string name="experience_couples_subtitle">Relationship questions &amp; playful rounds</string>
+    <string name="experience_friends">Friends</string>
+    <string name="experience_friends_subtitle">Best-friend challenges</string>
+    <string name="experience_daily">Daily Truth</string>
+    <string name="experience_daily_subtitle">One question. Every day.</string>
+    <string name="experience_challenges">Challenges</string>
+    <string name="experience_challenges_subtitle">New ways to compete</string>
+    <string name="experience_share">Share Studio</string>
+    <string name="experience_share_subtitle">Create after a completed result</string>
+    <string name="experience_insights">Insights</string>
+    <string name="experience_insights_subtitle">Your private local stats</string>
+    <string name="experience_achievements">Achievements</string>
+    <string name="experience_achievements_subtitle">Badges, streaks and milestones</string>
+    <string name="today_truth">Today’s Truth</string>
+    <string name="daily_ready">Ready for today</string>
+    <string name="daily_completed">Completed today</string>
+    <string name="daily_streak_format">🔥 %1$d day streak</string>
+    <string name="play_today_truth">Play today’s Truth</string>
+
+    <string name="feature_preview_kicker">NEXT EXPERIENCE</string>
+    <string name="feature_preview_back">Back to experiences</string>
+    <string name="feature_preview_local">Designed to stay local and account-free.</string>
+    <string name="feature_couples_title">Couples Mode</string>
+    <string name="feature_couples_body">A dedicated relationship experience with playful, spicy and serious packs will be added in the next product phase.</string>
+    <string name="feature_friends_title">Friends Mode</string>
+    <string name="feature_friends_body">A dedicated best-friends experience with shared rounds and fun awards is prepared for the next product phase.</string>
+    <string name="feature_challenges_title">Challenges</string>
+    <string name="feature_challenges_body">Challenge codes and richer local competition flows are prepared for a later phase without changing your current data.</string>
+    <string name="feature_share_title">Share Studio</string>
+    <string name="feature_share_body">Image and video sharing already work after results. The dedicated multi-format studio will be expanded in the viral sharing phase.</string>
+
+    <string name="more_title">More</string>
+    <string name="more_subtitle">Achievements, appearance, language, notifications and privacy.</string>
+    <string name="more_achievements_title">Achievements</string>
+    <string name="more_achievements_body">View unlocked badges, streaks and milestones.</string>
+    <string name="more_settings_title">Settings &amp; Privacy</string>
+    <string name="more_settings_body">Language, theme, reminders and local-data information.</string>
+
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_progress_format">%1$d of 3</string>
+    <string name="onboarding_new_1_title">Ask Anything</string>
+    <string name="onboarding_new_1_body">Choose a fun question, create your own, or challenge people on the same phone.</string>
+    <string name="onboarding_new_2_title">Speak Naturally</string>
+    <string name="onboarding_new_2_body">Voice patterns are analyzed locally on your phone. Raw audio is not saved.</string>
+    <string name="onboarding_new_3_title">Reveal &amp; Share</string>
+    <string name="onboarding_new_3_body">Get a playful score, compare results and share the moment.</string>
+
+    <string name="test_back">Back</string>
+    <string name="question_stage">QUESTION</string>
+    <string name="answer_when_ready">Answer naturally when you’re ready.</string>
+    <string name="record_idle">Tap the scanner to start</string>
+    <string name="record_live">Listening… tap to stop</string>
+    <string name="truth_engine">Truth Engine</string>
+    <string name="truth_engine_subtitle">Analyzing local voice-pattern signals…</string>
+    <string name="analysis_stability">Voice stability</string>
+    <string name="analysis_pitch">Pitch variation</string>
+    <string name="analysis_pauses">Pause pattern</string>
+    <string name="analysis_energy">Energy consistency</string>
+    <string name="analysis_flow">Response flow</string>
+    <string name="result_playful_label">PLAYFUL VOICE-PATTERN SCORE</string>
+    <string name="result_very_convincing">Very convincing</string>
+    <string name="result_hard_to_read">Hard to read</string>
+    <string name="result_few_wobbles">A few wobbles</string>
+    <string name="result_poker_loading">Poker face loading</string>
+    <string name="result_breakdown">Pattern breakdown</string>
+    <string name="metric_value_format">%1$d</string>
+    <string name="metric_voice_stability">Voice Stability</string>
+    <string name="metric_confidence_pattern">Confidence Pattern</string>
+    <string name="metric_hesitation_control">Hesitation Control</string>
+    <string name="metric_energy">Energy</string>
+    <string name="metric_response_flow">Response Flow</string>
+    <string name="badge_truth_rookie">Truth Rookie</string>
+    <string name="badge_smooth_talker">Smooth Talker</string>
+    <string name="badge_poker_face">Poker Face</string>
+    <string name="badge_unshakable">Unshakable</string>
+    <string name="badge_truth_master">Truth Master</string>
+    <string name="share_my_result">Share My Result</string>
+    <string name="try_again">Try Again</string>
+
+    <string name="history_subtitle">Your private timeline of completed answers.</string>
+    <string name="history_empty_title">Your timeline starts here</string>
+    <string name="history_empty_body">Complete a Truth Test and the result will appear here on this device.</string>
+    <string name="history_item_meta_format">%1$s • %2$s</string>
+
+    <string name="achievements_subtitle">Collect local milestones as you keep playing.</string>
+    <string name="achievement_unlocked">Unlocked</string>
+    <string name="achievement_locked">Locked</string>
+    <string name="achievement_req_first">Complete your first result</string>
+    <string name="achievement_req_ten">Complete 10 answers</string>
+    <string name="achievement_req_fifty">Complete 50 answers</string>
+    <string name="achievement_req_hundred">Complete 100 answers</string>
+    <string name="achievement_req_high">Reach a 95 score</string>
+    <string name="achievement_req_streak3">Keep a 3-day streak</string>
+    <string name="achievement_req_streak7">Keep a 7-day streak</string>
+    <string name="achievement_req_duel">Finish a duel</string>
+    <string name="achievement_req_group">Finish a group challenge</string>
+    <string name="achievement_req_custom">Complete a custom question</string>
+    <string name="achievement_card_format">%1$s  %2$s
+%3$s • %4$s</string>
+
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_privacy">Privacy &amp; About</string>
+    <string name="settings_local_processing">Your recordings are processed locally and raw audio is not saved.</string>
+</resources>

@@ -39,23 +39,38 @@ class AchievementsFragment : Fragment() {
             AchievementKey.entries.size
         )
 
-        bind(binding.firstBadge, AchievementKey.FIRST in unlocked, R.string.achievement_first, "🎯")
-        bind(binding.tenBadge, AchievementKey.TEN in unlocked, R.string.achievement_ten, "🔟")
-        bind(binding.fiftyBadge, AchievementKey.FIFTY in unlocked, R.string.achievement_fifty, "⚡")
-        bind(binding.hundredBadge, AchievementKey.HUNDRED in unlocked, R.string.achievement_hundred, "💯")
-        bind(binding.highBadge, AchievementKey.HIGH in unlocked, R.string.achievement_high, "👑")
-        bind(binding.streakBadge, AchievementKey.STREAK_3 in unlocked, R.string.achievement_streak, "🔥")
-        bind(binding.streakSevenBadge, AchievementKey.STREAK_7 in unlocked, R.string.achievement_streak_seven, "🚀")
-        bind(binding.duelBadge, AchievementKey.DUEL in unlocked, R.string.achievement_duel, "⚔️")
-        bind(binding.groupBadge, AchievementKey.GROUP in unlocked, R.string.achievement_group, "👥")
-        bind(binding.customBadge, AchievementKey.CUSTOM in unlocked, R.string.achievement_custom, "✍️")
+        bind(binding.firstBadge, AchievementKey.FIRST in unlocked, R.string.achievement_first, "◎", R.string.achievement_req_first)
+        bind(binding.tenBadge, AchievementKey.TEN in unlocked, R.string.achievement_ten, "10", R.string.achievement_req_ten)
+        bind(binding.fiftyBadge, AchievementKey.FIFTY in unlocked, R.string.achievement_fifty, "⚡", R.string.achievement_req_fifty)
+        bind(binding.hundredBadge, AchievementKey.HUNDRED in unlocked, R.string.achievement_hundred, "100", R.string.achievement_req_hundred)
+        bind(binding.highBadge, AchievementKey.HIGH in unlocked, R.string.achievement_high, "★", R.string.achievement_req_high)
+        bind(binding.streakBadge, AchievementKey.STREAK_3 in unlocked, R.string.achievement_streak, "🔥", R.string.achievement_req_streak3)
+        bind(binding.streakSevenBadge, AchievementKey.STREAK_7 in unlocked, R.string.achievement_streak_seven, "◆", R.string.achievement_req_streak7)
+        bind(binding.duelBadge, AchievementKey.DUEL in unlocked, R.string.achievement_duel, "⚔", R.string.achievement_req_duel)
+        bind(binding.groupBadge, AchievementKey.GROUP in unlocked, R.string.achievement_group, "◈", R.string.achievement_req_group)
+        bind(binding.customBadge, AchievementKey.CUSTOM in unlocked, R.string.achievement_custom, "✎", R.string.achievement_req_custom)
     }
 
-    private fun bind(view: TextView, unlocked: Boolean, labelRes: Int, icon: String) {
-        val label = getString(labelRes)
-        view.text = if (unlocked) "$icon  $label" else "🔒  $label"
-        view.alpha = if (unlocked) 1f else 0.42f
-        view.setTextColor(requireContext().getColor(R.color.app_text_primary))
+    private fun bind(
+        view: TextView,
+        unlocked: Boolean,
+        labelRes: Int,
+        icon: String,
+        requirementRes: Int
+    ) {
+        val status = getString(
+            if (unlocked) R.string.achievement_unlocked else R.string.achievement_locked
+        )
+        val displayIcon = if (unlocked) icon else "◇"
+        view.text = getString(
+            R.string.achievement_card_format,
+            displayIcon,
+            getString(labelRes),
+            getString(requirementRes),
+            status
+        )
+        view.alpha = if (unlocked) 1f else 0.72f
+        view.setTextColor(requireContext().getColor(R.color.p2_text_primary))
     }
 
     override fun onDestroyView() {
