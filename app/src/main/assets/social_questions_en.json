@@ -1,0 +1,362 @@
+[
+  {
+    "id": "classic-01",
+    "pack": "classic",
+    "text": "What is one habit you pretend does not bother you?",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-02",
+    "pack": "classic",
+    "text": "When was the last time you changed your mind because of someone here?",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-03",
+    "pack": "classic",
+    "text": "What compliment do you secretly love hearing?",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-04",
+    "pack": "classic",
+    "text": "What is one promise you have postponed keeping?",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-05",
+    "pack": "classic",
+    "text": "What is the funniest excuse you have used recently?",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-06",
+    "pack": "classic",
+    "text": "What opinion do you usually keep to yourself?",
+    "intensity": "bold"
+  },
+  {
+    "id": "classic-07",
+    "pack": "classic",
+    "text": "What is one thing you would redo from this week?",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-08",
+    "pack": "classic",
+    "text": "Who here would you trust with an embarrassing secret?",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-09",
+    "pack": "classic",
+    "text": "What is one thing people misunderstand about you?",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-10",
+    "pack": "classic",
+    "text": "Have you ever pretended to know something you did not?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-11",
+    "pack": "funny",
+    "text": "What is the weirdest thing you have searched for online?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-12",
+    "pack": "funny",
+    "text": "What food combination would you defend no matter what?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-13",
+    "pack": "funny",
+    "text": "What is your most useless hidden talent?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-14",
+    "pack": "funny",
+    "text": "What is the silliest thing you have done to avoid a task?",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-15",
+    "pack": "funny",
+    "text": "Which emoji do you overuse the most?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-16",
+    "pack": "funny",
+    "text": "What song would expose your secret music taste?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-17",
+    "pack": "funny",
+    "text": "What is the strangest nickname you have ever had?",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-18",
+    "pack": "funny",
+    "text": "What harmless lie do you tell when you are late?",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-19",
+    "pack": "funny",
+    "text": "What is the funniest message you almost sent to the wrong person?",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-20",
+    "pack": "funny",
+    "text": "What trend did you try and instantly regret?",
+    "intensity": "light"
+  },
+  {
+    "id": "bold-21",
+    "pack": "bold",
+    "text": "Have you ever muted someone instead of confronting them?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-22",
+    "pack": "bold",
+    "text": "What is one thing you judged someone for and later did yourself?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-23",
+    "pack": "bold",
+    "text": "Have you ever taken credit for an idea that was not fully yours?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-24",
+    "pack": "bold",
+    "text": "What truth about yourself took you too long to admit?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-25",
+    "pack": "bold",
+    "text": "Have you ever avoided replying because you did not know what to say?",
+    "intensity": "medium"
+  },
+  {
+    "id": "bold-26",
+    "pack": "bold",
+    "text": "What is one boundary you wish you had set earlier?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-27",
+    "pack": "bold",
+    "text": "Have you ever been jealous of a close friend?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-28",
+    "pack": "bold",
+    "text": "What is one thing you would never post publicly?",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-29",
+    "pack": "bold",
+    "text": "Have you ever acted confident while feeling completely lost?",
+    "intensity": "medium"
+  },
+  {
+    "id": "bold-30",
+    "pack": "bold",
+    "text": "What apology do you still owe someone?",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-31",
+    "pack": "deep",
+    "text": "What makes you feel most understood?",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-32",
+    "pack": "deep",
+    "text": "What fear influences more of your decisions than you admit?",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-33",
+    "pack": "deep",
+    "text": "What part of your personality are you still learning to accept?",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-34",
+    "pack": "deep",
+    "text": "What relationship taught you the most about yourself?",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-35",
+    "pack": "deep",
+    "text": "When do you feel most like yourself?",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-36",
+    "pack": "deep",
+    "text": "What does loyalty mean to you in practice?",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-37",
+    "pack": "deep",
+    "text": "What is one belief you have changed in the last few years?",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-38",
+    "pack": "deep",
+    "text": "What kind of support is hardest for you to ask for?",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-39",
+    "pack": "deep",
+    "text": "What memory still shapes how you react today?",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-40",
+    "pack": "deep",
+    "text": "What do you want people closest to you to understand better?",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-41",
+    "pack": "couples",
+    "text": "What small thing does your partner do that makes you feel cared for?",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-42",
+    "pack": "couples",
+    "text": "What moment made you feel closest to your partner?",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-43",
+    "pack": "couples",
+    "text": "What is one thing you wish you did together more often?",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-44",
+    "pack": "couples",
+    "text": "What habit of your partner secretly makes you smile?",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-45",
+    "pack": "couples",
+    "text": "What topic do you both avoid more than you should?",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-46",
+    "pack": "couples",
+    "text": "What makes you feel safest in this relationship?",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-47",
+    "pack": "couples",
+    "text": "What is one quality in your partner you admire most?",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-48",
+    "pack": "couples",
+    "text": "When do you feel most appreciated by your partner?",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-49",
+    "pack": "couples",
+    "text": "What is one misunderstanding you would like to clear up?",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-50",
+    "pack": "couples",
+    "text": "What future plan are you most excited to share together?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-51",
+    "pack": "friends",
+    "text": "What is the first memory that made you trust this friend?",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-52",
+    "pack": "friends",
+    "text": "What is one thing your friend does better than you?",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-53",
+    "pack": "friends",
+    "text": "What is the funniest memory you have together?",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-54",
+    "pack": "friends",
+    "text": "What advice from this friend have you actually followed?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-55",
+    "pack": "friends",
+    "text": "What is one thing you would call this friend for at 3 AM?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-56",
+    "pack": "friends",
+    "text": "What harmless habit of this friend annoys you the most?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-57",
+    "pack": "friends",
+    "text": "What is one quality you hope this friendship never loses?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-58",
+    "pack": "friends",
+    "text": "Have you ever been upset with this friend and not said it?",
+    "intensity": "bold"
+  },
+  {
+    "id": "friends-59",
+    "pack": "friends",
+    "text": "What challenge have you both handled well together?",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-60",
+    "pack": "friends",
+    "text": "What is one thing you think this friend underestimates about themselves?",
+    "intensity": "medium"
+  }
+]

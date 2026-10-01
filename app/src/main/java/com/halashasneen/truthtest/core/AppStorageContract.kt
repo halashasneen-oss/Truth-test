@@ -3,8 +3,8 @@ package com.halashasneen.truthtest.core
 /**
  * Stable storage names used by the already-published app.
  *
- * These values are part of the upgrade contract. Renaming them would make existing
- * installs look like fresh installs and could hide the user's local history/settings.
+ * Existing values are part of the Play Store upgrade contract and must never be renamed.
+ * Phase 3 only adds new local stores; it does not rewrite legacy user data.
  */
 object AppStorageContract {
     const val PREFS_SETTINGS = "truth_test_settings"
@@ -12,6 +12,9 @@ object AppStorageContract {
     const val PREFS_HISTORY = "truth_test_history"
     const val PREFS_ACHIEVEMENTS = "truth_test_achievements"
     const val PREFS_SHARE = "truth_test_share"
+
+    const val PREFS_PROFILES = "truth_test_profiles"
+    const val PREFS_SOCIAL = "truth_test_social"
 
     const val KEY_LANGUAGE = "language"
     const val KEY_LIGHT_THEME = "light_theme"
@@ -29,6 +32,11 @@ object AppStorageContract {
     const val KEY_SHARE_THEME = "share_theme"
     const val KEY_SHARE_SOUND = "share_sound"
 
+    const val KEY_PLAYER_PROFILES = "player_profiles"
+    const val KEY_ACTIVE_PROFILE_ID = "active_profile_id"
+    const val KEY_ACTIVE_SOCIAL_SESSION = "active_social_session"
+    const val KEY_COMPLETED_SOCIAL_SESSIONS = "completed_social_sessions"
+
     const val KEY_DATA_SCHEMA_VERSION = "data_schema_version"
-    const val CURRENT_DATA_SCHEMA_VERSION = 1
+    const val CURRENT_DATA_SCHEMA_VERSION = 2
 }

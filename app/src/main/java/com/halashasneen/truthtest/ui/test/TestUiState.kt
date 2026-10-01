@@ -18,7 +18,10 @@ data class TestUiState(
     val playerScores: List<Int> = emptyList(),
     val playerAnalyses: List<VoiceAnalysis> = emptyList(),
     val analysis: VoiceAnalysis? = null,
-    val finalScore: Int = 0
+    val finalScore: Int = 0,
+    val historyModeOverride: String? = null,
+    val sessionPlayerName: String? = null,
+    val externalSession: Boolean = false
 ) {
     val firstScore: Int? get() = playerScores.getOrNull(0)
     val secondScore: Int? get() = playerScores.getOrNull(1)

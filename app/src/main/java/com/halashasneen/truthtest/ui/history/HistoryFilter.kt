@@ -8,6 +8,10 @@ enum class HistoryFilter {
     ALL,
     SOLO,
     DAILY,
+    COUPLES,
+    FRIENDS,
+    PARTY,
+    CHALLENGE,
     DUEL,
     GROUP,
     CUSTOM,
@@ -19,6 +23,10 @@ enum class HistoryFilter {
         ALL -> true
         SOLO -> result.mode == "solo"
         DAILY -> result.mode == HistoryRepository.MODE_DAILY
+        COUPLES -> result.mode == "social_couples"
+        FRIENDS -> result.mode == "social_friends"
+        PARTY -> result.mode == "social_party"
+        CHALLENGE -> result.mode == "social_challenge"
         DUEL -> result.mode.startsWith("duel_")
         GROUP -> result.mode.startsWith("group")
         CUSTOM -> result.mode == "custom"

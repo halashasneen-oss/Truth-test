@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="p3_level_format">المستوى %1$d</string>
+    <string name="p3_xp_format">%1$d XP</string>
+    <string name="p3_progress_format">%1$d / %2$d XP</string>
+    <string name="p3_games_format">%1$d لعبة</string>
+    <string name="p3_best_format">الأفضل %1$d</string>
+    <string name="p3_average_format">المتوسط %1$d</string>
+    <string name="p3_active_profile">اللاعب النشط</string>
+    <string name="p3_manage_profiles">ملفات اللاعبين</string>
+    <string name="p3_manage_profiles_body">أسماء وصور رمزية وXP وإحصائيات محلية.</string>
+    <string name="p3_add_profile">إضافة لاعب</string>
+    <string name="p3_edit_profile">تعديل اللاعب</string>
+    <string name="p3_profile_name">اسم اللاعب</string>
+    <string name="p3_profile_avatar">الصورة الرمزية</string>
+    <string name="p3_set_active">تعيين كنشط</string>
+    <string name="p3_active">نشط</string>
+    <string name="p3_delete_profile">حذف</string>
+    <string name="p3_profile_limit">يمكن حفظ حتى 8 ملفات لاعبين محليًا على هذا الجهاز.</string>
+    <string name="p3_keep_one_profile">يجب الإبقاء على ملف لاعب محلي واحد على الأقل.</string>
+    <string name="p3_profile_required">أضف ملفات لاعبين إضافية قبل بدء هذا الوضع.</string>
+
+    <string name="p3_resume_session">متابعة الجلسة</string>
+    <string name="p3_resume_session_format">%1$s • اكتملت %2$d من %3$d جولة فردية</string>
+    <string name="p3_social_setup">جهّز جلستك</string>
+    <string name="p3_social_setup_body">كل شيء يبقى على هذا الجهاز. اختر اللاعبين وحزمة الأسئلة وعدد الجولات.</string>
+    <string name="p3_choose_players">اختيار اللاعبين</string>
+    <string name="p3_selected_players_format">تم اختيار %1$d لاعبين</string>
+    <string name="p3_choose_pack">حزمة الأسئلة</string>
+    <string name="p3_choose_rounds">الجولات</string>
+    <string name="p3_rounds_format">%1$d جولات</string>
+    <string name="p3_choose_challenge">نوع التحدي</string>
+    <string name="p3_start_session">ابدأ الجلسة</string>
+    <string name="p3_continue_session">متابعة الجلسة</string>
+    <string name="p3_quit_session">مغادرة الجلسة</string>
+    <string name="p3_session_saved">تم حفظ جلستك محليًا ويمكنك متابعتها لاحقًا.</string>
+    <string name="p3_replace_session_body">بدء جلسة جديدة سيستبدل الجلسة الحالية غير المكتملة والمحفوظه محليًا.</string>
+    <string name="p3_replace_session">ابدأ جلسة جديدة</string>
+    <string name="p3_min_players_format">اختر %1$d لاعبين على الأقل.</string>
+    <string name="p3_max_players_format">اختر بحد أقصى %1$d لاعبين.</string>
+
+    <string name="p3_mode_couples">الأزواج</string>
+    <string name="p3_mode_friends">الأصدقاء</string>
+    <string name="p3_mode_party">حفلة</string>
+    <string name="p3_mode_challenge">التحديات</string>
+    <string name="p3_mode_couples_body">جولات لشخصين بأسئلة علاقات مرحة وعميقة وجريئة.</string>
+    <string name="p3_mode_friends_body">جولات مشتركة مصممة للأصدقاء والذكريات.</string>
+    <string name="p3_mode_party_body">جولات سريعة لـ3–4 لاعبين مع ترتيب محلي.</string>
+    <string name="p3_mode_challenge_body">نافس بصيغ سريعة بدون حسابات أو خوادم.</string>
+
+    <string name="p3_pack_classic">كلاسيكي</string>
+    <string name="p3_pack_funny">مضحك</string>
+    <string name="p3_pack_bold">جريء</string>
+    <string name="p3_pack_deep">عميق</string>
+    <string name="p3_pack_couples">الأزواج</string>
+    <string name="p3_pack_friends">الأصدقاء</string>
+
+    <string name="p3_challenge_highest">أعلى نتيجة</string>
+    <string name="p3_challenge_best_three">الأفضل من 3</string>
+    <string name="p3_challenge_streak">تحدي السلسلة</string>
+    <string name="p3_challenge_quick">جولة سريعة</string>
+
+    <string name="p3_round_format">الجولة %1$d من %2$d</string>
+    <string name="p3_turn_progress_format">الدور %1$d من %2$d</string>
+    <string name="p3_your_turn_format">دورك يا %1$s</string>
+    <string name="p3_answer_question">جاوب على السؤال بشكل طبيعي</string>
+    <string name="p3_start_voice_turn">ابدأ الدور الصوتي</string>
+    <string name="p3_next_turn">الدور التالي</string>
+    <string name="p3_no_questions">لا توجد أسئلة متاحة لهذه الحزمة.</string>
+    <string name="p3_social_history_mode_format">social_%1$s</string>
+
+    <string name="p3_summary_kicker">اكتملت الجلسة</string>
+    <string name="p3_summary_title">انتهت الجولة</string>
+    <string name="p3_winner_format">الفائز: %1$s</string>
+    <string name="p3_tie_format">تعادل: %1$s</string>
+    <string name="p3_ranking_title">الترتيب النهائي</string>
+    <string name="p3_ranking_line">%1$d. %2$s — متوسط %3$d • الأفضل %4$d</string>
+    <string name="p3_best_answer_title">أفضل لحظة</string>
+    <string name="p3_best_answer_format">%1$s سجّل %2$d على “%3$s”</string>
+    <string name="p3_xp_earned_title">التقدم المكتسب</string>
+    <string name="p3_xp_earned_format">تم اكتساب %1$d XP خلال هذه الجلسة</string>
+    <string name="p3_new_badge_format">إنجاز جديد: %1$s</string>
+    <string name="p3_play_again">العب من جديد</string>
+    <string name="p3_back_home">العودة للرئيسية</string>
+
+    <string name="p3_voice_session_title">دور الجلسة</string>
+    <string name="p3_continue_after_result">متابعة الجلسة</string>
+
+    <string name="achievement_couples">معًا أفضل</string>
+    <string name="achievement_friends">الدائرة القريبة</string>
+    <string name="achievement_party">بداية الحفلة</string>
+    <string name="achievement_daily">الصوت اليومي</string>
+    <string name="achievement_challenge">قبلت التحدي</string>
+    <string name="achievement_xp500">صعود المستوى</string>
+    <string name="achievement_sessions5">لاعب الجلسات</string>
+    <string name="achievement_req_couples">أكمل جلسة أزواج</string>
+    <string name="achievement_req_friends">أكمل جلسة أصدقاء</string>
+    <string name="achievement_req_party">أكمل جلسة حفلة</string>
+    <string name="achievement_req_daily">أكمل Truth اليوم</string>
+    <string name="achievement_req_challenge">أكمل جلسة تحدي</string>
+    <string name="achievement_req_xp500">وصل إلى 500 XP إجمالي</string>
+    <string name="achievement_req_sessions5">أكمل 5 جلسات اجتماعية</string>
+
+    <string name="history_filter_couples">الأزواج</string>
+    <string name="history_filter_friends">الأصدقاء</string>
+    <string name="history_filter_party">حفلة</string>
+    <string name="history_filter_challenge">التحديات</string>
+</resources>

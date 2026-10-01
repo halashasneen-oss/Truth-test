@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="p3_level_format">Level %1$d</string>
+    <string name="p3_xp_format">%1$d XP</string>
+    <string name="p3_progress_format">%1$d / %2$d XP</string>
+    <string name="p3_games_format">%1$d games</string>
+    <string name="p3_best_format">Best %1$d</string>
+    <string name="p3_average_format">Avg %1$d</string>
+    <string name="p3_active_profile">Active player</string>
+    <string name="p3_manage_profiles">Player Profiles</string>
+    <string name="p3_manage_profiles_body">Local names, avatars, XP and personal stats.</string>
+    <string name="p3_add_profile">Add player</string>
+    <string name="p3_edit_profile">Edit player</string>
+    <string name="p3_profile_name">Player name</string>
+    <string name="p3_profile_avatar">Avatar</string>
+    <string name="p3_set_active">Set active</string>
+    <string name="p3_active">ACTIVE</string>
+    <string name="p3_delete_profile">Delete</string>
+    <string name="p3_profile_limit">Up to 8 local profiles can be stored on this device.</string>
+    <string name="p3_keep_one_profile">Keep at least one local player profile.</string>
+    <string name="p3_profile_required">Add more player profiles before starting this mode.</string>
+
+    <string name="p3_resume_session">Resume session</string>
+    <string name="p3_resume_session_format">%1$s • %2$d/%3$d turns complete</string>
+    <string name="p3_social_setup">Set up your session</string>
+    <string name="p3_social_setup_body">Everything stays on this device. Choose players, a question pack and the number of rounds.</string>
+    <string name="p3_choose_players">Choose players</string>
+    <string name="p3_selected_players_format">%1$d players selected</string>
+    <string name="p3_choose_pack">Question pack</string>
+    <string name="p3_choose_rounds">Rounds</string>
+    <string name="p3_rounds_format">%1$d rounds</string>
+    <string name="p3_choose_challenge">Challenge type</string>
+    <string name="p3_start_session">Start session</string>
+    <string name="p3_continue_session">Continue session</string>
+    <string name="p3_quit_session">Leave session</string>
+    <string name="p3_session_saved">Your session is saved locally and can be resumed.</string>
+    <string name="p3_replace_session_body">Starting a new session will replace the currently saved unfinished session.</string>
+    <string name="p3_replace_session">Start new</string>
+    <string name="p3_min_players_format">Choose at least %1$d players.</string>
+    <string name="p3_max_players_format">Choose no more than %1$d players.</string>
+
+    <string name="p3_mode_couples">Couples</string>
+    <string name="p3_mode_friends">Friends</string>
+    <string name="p3_mode_party">Party</string>
+    <string name="p3_mode_challenge">Challenges</string>
+    <string name="p3_mode_couples_body">Two-player relationship rounds with playful, deep and bold packs.</string>
+    <string name="p3_mode_friends_body">Shared rounds built for close friends and group memories.</string>
+    <string name="p3_mode_party_body">Fast 3–4 player rounds with local rankings.</string>
+    <string name="p3_mode_challenge_body">Compete through quick formats without accounts or servers.</string>
+
+    <string name="p3_pack_classic">Classic</string>
+    <string name="p3_pack_funny">Funny</string>
+    <string name="p3_pack_bold">Bold</string>
+    <string name="p3_pack_deep">Deep</string>
+    <string name="p3_pack_couples">Couples</string>
+    <string name="p3_pack_friends">Friends</string>
+
+    <string name="p3_challenge_highest">Highest Score</string>
+    <string name="p3_challenge_best_three">Best of 3</string>
+    <string name="p3_challenge_streak">Streak Challenge</string>
+    <string name="p3_challenge_quick">Quick Round</string>
+
+    <string name="p3_round_format">Round %1$d of %2$d</string>
+    <string name="p3_turn_progress_format">Turn %1$d of %2$d</string>
+    <string name="p3_your_turn_format">%1$s, you’re up</string>
+    <string name="p3_answer_question">Answer this question naturally</string>
+    <string name="p3_start_voice_turn">Start voice turn</string>
+    <string name="p3_next_turn">Next turn</string>
+    <string name="p3_no_questions">No questions are available for this pack.</string>
+    <string name="p3_social_history_mode_format">social_%1$s</string>
+
+    <string name="p3_summary_kicker">SESSION COMPLETE</string>
+    <string name="p3_summary_title">Round complete</string>
+    <string name="p3_winner_format">Winner: %1$s</string>
+    <string name="p3_tie_format">Tie: %1$s</string>
+    <string name="p3_ranking_title">Final ranking</string>
+    <string name="p3_ranking_line">%1$d. %2$s — avg %3$d • best %4$d</string>
+    <string name="p3_best_answer_title">Top moment</string>
+    <string name="p3_best_answer_format">%1$s scored %2$d on “%3$s”</string>
+    <string name="p3_xp_earned_title">Progress earned</string>
+    <string name="p3_xp_earned_format">%1$d XP earned across this session</string>
+    <string name="p3_new_badge_format">New achievement: %1$s</string>
+    <string name="p3_play_again">Play again</string>
+    <string name="p3_back_home">Back home</string>
+
+    <string name="p3_voice_session_title">Session turn</string>
+    <string name="p3_continue_after_result">Continue session</string>
+
+    <string name="achievement_couples">Better Together</string>
+    <string name="achievement_friends">Inner Circle</string>
+    <string name="achievement_party">Party Starter</string>
+    <string name="achievement_daily">Daily Voice</string>
+    <string name="achievement_challenge">Challenge Accepted</string>
+    <string name="achievement_xp500">Level Climber</string>
+    <string name="achievement_sessions5">Session Regular</string>
+    <string name="achievement_req_couples">Complete a Couples session</string>
+    <string name="achievement_req_friends">Complete a Friends session</string>
+    <string name="achievement_req_party">Complete a Party session</string>
+    <string name="achievement_req_daily">Complete a Daily Truth</string>
+    <string name="achievement_req_challenge">Complete a Challenge session</string>
+    <string name="achievement_req_xp500">Reach 500 total XP</string>
+    <string name="achievement_req_sessions5">Complete 5 social sessions</string>
+
+    <string name="history_filter_couples">Couples</string>
+    <string name="history_filter_friends">Friends</string>
+    <string name="history_filter_party">Party</string>
+    <string name="history_filter_challenge">Challenges</string>
+</resources>

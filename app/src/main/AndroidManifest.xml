@@ -25,6 +25,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".ui.social.SocialSessionActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity android:name=".ui.test.TestActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity android:name=".ui.onboarding.OnboardingActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity android:name=".ui.MainActivity" android:screenOrientation="portrait" android:exported="false" />

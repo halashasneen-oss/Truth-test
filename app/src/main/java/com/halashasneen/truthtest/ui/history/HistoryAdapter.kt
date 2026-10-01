@@ -50,6 +50,10 @@ class HistoryAdapter(
         mode == "solo" -> context.getString(R.string.solo_test)
         mode == "custom" -> context.getString(R.string.custom_question)
         mode == HistoryRepository.MODE_DAILY -> context.getString(R.string.daily_challenge)
+        mode == "social_couples" -> context.getString(R.string.history_filter_couples)
+        mode == "social_friends" -> context.getString(R.string.history_filter_friends)
+        mode == "social_party" -> context.getString(R.string.history_filter_party)
+        mode == "social_challenge" -> context.getString(R.string.history_filter_challenge)
         mode.startsWith("duel_") -> context.getString(R.string.duel_mode)
         mode.startsWith("group") -> context.getString(R.string.group_mode)
         else -> mode

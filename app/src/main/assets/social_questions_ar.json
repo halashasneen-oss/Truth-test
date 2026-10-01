@@ -1,0 +1,362 @@
+[
+  {
+    "id": "classic-01",
+    "pack": "classic",
+    "text": "ما العادة التي تتظاهر بأنها لا تزعجك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-02",
+    "pack": "classic",
+    "text": "متى آخر مرة غيّرت رأيك بسبب شخص موجود معك؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-03",
+    "pack": "classic",
+    "text": "ما المجاملة التي تحب سماعها سرًا؟",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-04",
+    "pack": "classic",
+    "text": "ما الوعد الذي تؤجل الوفاء به؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-05",
+    "pack": "classic",
+    "text": "ما أطرف عذر استخدمته مؤخرًا؟",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-06",
+    "pack": "classic",
+    "text": "ما الرأي الذي تفضّل غالبًا الاحتفاظ به لنفسك؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "classic-07",
+    "pack": "classic",
+    "text": "ما الشيء الذي تتمنى لو أعدته بشكل مختلف هذا الأسبوع؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-08",
+    "pack": "classic",
+    "text": "من الموجودين تثق به ليعرف سرًا محرجًا عنك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "classic-09",
+    "pack": "classic",
+    "text": "ما الشيء الذي يسيء الناس فهمه عنك؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "classic-10",
+    "pack": "classic",
+    "text": "هل تظاهرت يومًا بأنك تعرف شيئًا وأنت لا تعرفه؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-11",
+    "pack": "funny",
+    "text": "ما أغرب شيء بحثت عنه على الإنترنت؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-12",
+    "pack": "funny",
+    "text": "ما خلطة الطعام التي ستدافع عنها مهما اعترض الآخرون؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-13",
+    "pack": "funny",
+    "text": "ما أكثر موهبة عديمة الفائدة لديك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-14",
+    "pack": "funny",
+    "text": "ما أسخف شيء فعلته للتهرب من مهمة؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-15",
+    "pack": "funny",
+    "text": "ما الإيموجي الذي تستخدمه أكثر من اللازم؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-16",
+    "pack": "funny",
+    "text": "ما الأغنية التي قد تكشف ذوقك الموسيقي السري؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-17",
+    "pack": "funny",
+    "text": "ما أغرب لقب أطلق عليك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "funny-18",
+    "pack": "funny",
+    "text": "ما الكذبة البسيطة التي تقولها عادة عندما تتأخر؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-19",
+    "pack": "funny",
+    "text": "ما أطرف رسالة كدت ترسلها للشخص الخطأ؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "funny-20",
+    "pack": "funny",
+    "text": "ما الصيحة التي جرّبتها وندمت فورًا؟",
+    "intensity": "light"
+  },
+  {
+    "id": "bold-21",
+    "pack": "bold",
+    "text": "هل سبق أن كتمت شخصًا بدل أن تواجهه؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-22",
+    "pack": "bold",
+    "text": "ما الشيء الذي حكمت على شخص بسببه ثم فعلته أنت لاحقًا؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-23",
+    "pack": "bold",
+    "text": "هل أخذت يومًا فضل فكرة لم تكن فكرتك بالكامل؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-24",
+    "pack": "bold",
+    "text": "ما الحقيقة عن نفسك التي احتجت وقتًا طويلًا لتتقبلها؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-25",
+    "pack": "bold",
+    "text": "هل تجنبت الرد يومًا لأنك لم تعرف ماذا تقول؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "bold-26",
+    "pack": "bold",
+    "text": "ما الحد الذي تتمنى لو وضعته مع الآخرين أبكر؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-27",
+    "pack": "bold",
+    "text": "هل شعرت بالغيرة يومًا من صديق قريب؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-28",
+    "pack": "bold",
+    "text": "ما الشيء الذي لن تنشره أبدًا على العلن؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "bold-29",
+    "pack": "bold",
+    "text": "هل تصرفت يومًا بثقة بينما كنت ضائعًا تمامًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "bold-30",
+    "pack": "bold",
+    "text": "ما الاعتذار الذي ما زلت مدينًا به لشخص ما؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-31",
+    "pack": "deep",
+    "text": "ما الشيء الذي يجعلك تشعر أن الآخرين يفهمونك فعلًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-32",
+    "pack": "deep",
+    "text": "ما الخوف الذي يؤثر في قراراتك أكثر مما تعترف؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-33",
+    "pack": "deep",
+    "text": "ما الجزء من شخصيتك الذي ما زلت تتعلم تقبله؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-34",
+    "pack": "deep",
+    "text": "ما العلاقة التي علمتك أكثر شيء عن نفسك؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-35",
+    "pack": "deep",
+    "text": "متى تشعر أنك على طبيعتك تمامًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-36",
+    "pack": "deep",
+    "text": "ماذا يعني لك الوفاء عمليًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-37",
+    "pack": "deep",
+    "text": "ما الفكرة التي غيّرت رأيك فيها خلال السنوات الأخيرة؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "deep-38",
+    "pack": "deep",
+    "text": "ما نوع الدعم الذي يصعب عليك طلبه؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-39",
+    "pack": "deep",
+    "text": "ما الذكرى التي ما زالت تؤثر في طريقة رد فعلك اليوم؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "deep-40",
+    "pack": "deep",
+    "text": "ما الشيء الذي تتمنى أن يفهمه المقربون منك بشكل أفضل؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-41",
+    "pack": "couples",
+    "text": "ما التصرف الصغير الذي يفعله شريكك ويجعلك تشعر بالاهتمام؟",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-42",
+    "pack": "couples",
+    "text": "ما اللحظة التي شعرت فيها أنك الأقرب لشريكك؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-43",
+    "pack": "couples",
+    "text": "ما الشيء الذي تتمنى أن تفعلاه معًا أكثر؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-44",
+    "pack": "couples",
+    "text": "ما العادة لدى شريكك التي تجعلك تبتسم سرًا؟",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-45",
+    "pack": "couples",
+    "text": "ما الموضوع الذي تتجنبان الحديث عنه أكثر مما ينبغي؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-46",
+    "pack": "couples",
+    "text": "ما الذي يجعلك تشعر بالأمان أكثر في هذه العلاقة؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-47",
+    "pack": "couples",
+    "text": "ما أكثر صفة تعجبك في شريكك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "couples-48",
+    "pack": "couples",
+    "text": "متى تشعر أن شريكك يقدّرك أكثر؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "couples-49",
+    "pack": "couples",
+    "text": "ما سوء الفهم الذي تتمنى أن توضحه بينكما؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "couples-50",
+    "pack": "couples",
+    "text": "ما الخطة المستقبلية التي تتحمس أكثر لمشاركتها مع شريكك؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-51",
+    "pack": "friends",
+    "text": "ما أول ذكرى جعلتك تثق بهذا الصديق؟",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-52",
+    "pack": "friends",
+    "text": "ما الشيء الذي يفعله صديقك أفضل منك؟",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-53",
+    "pack": "friends",
+    "text": "ما أطرف ذكرى جمعتكما؟",
+    "intensity": "light"
+  },
+  {
+    "id": "friends-54",
+    "pack": "friends",
+    "text": "ما النصيحة من هذا الصديق التي طبقتها فعلًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-55",
+    "pack": "friends",
+    "text": "ما السبب الذي قد يجعلك تتصل بهذا الصديق الساعة الثالثة فجرًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-56",
+    "pack": "friends",
+    "text": "ما العادة البسيطة لدى هذا الصديق التي تزعجك أكثر؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-57",
+    "pack": "friends",
+    "text": "ما الصفة التي تتمنى ألا تفقدها صداقتكما أبدًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-58",
+    "pack": "friends",
+    "text": "هل انزعجت يومًا من هذا الصديق ولم تخبره؟",
+    "intensity": "bold"
+  },
+  {
+    "id": "friends-59",
+    "pack": "friends",
+    "text": "ما التحدي الذي تعاملتما معه جيدًا معًا؟",
+    "intensity": "medium"
+  },
+  {
+    "id": "friends-60",
+    "pack": "friends",
+    "text": "ما الشيء الذي تعتقد أن هذا الصديق يقلل من قيمته في نفسه؟",
+    "intensity": "medium"
+  }
+]

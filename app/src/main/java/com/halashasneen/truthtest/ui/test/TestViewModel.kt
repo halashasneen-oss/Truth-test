@@ -5,7 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import com.halashasneen.truthtest.audio.VoiceAnalysis
 import com.halashasneen.truthtest.data.AchievementRepository
 import com.halashasneen.truthtest.data.HistoryRepository
+import com.halashasneen.truthtest.data.PlayerProfileRepository
 import com.halashasneen.truthtest.data.QuestionRepository
+import com.halashasneen.truthtest.data.SocialSessionRepository
+import com.halashasneen.truthtest.data.XpEngine
 import com.halashasneen.truthtest.data.model.Question
 import com.halashasneen.truthtest.data.model.TestResult
 import java.util.UUID
@@ -17,18 +20,57 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     private val questions = QuestionRepository(application)
     private val history = HistoryRepository(application)
     private val achievements = AchievementRepository(application)
+    private val profiles = PlayerProfileRepository(application)
+    private val sessions = SocialSessionRepository(application)
+
     private val _state = MutableStateFlow(TestUiState())
     val state: StateFlow<TestUiState> = _state.asStateFlow()
 
-    fun configure(mode: String, daily: Boolean, requestedPlayerCount: Int = 1) {
+    fun configure(
+        mode: String,
+        daily: Boolean,
+        requestedPlayerCount: Int = 1,
+        forcedQuestionText: String? = null,
+        forcedQuestionCategory: String? = null,
+        forcedQuestionIntensity: String? = null,
+        historyModeOverride: String? = null,
+        sessionPlayerName: String? = null
+    ) {
         if (_state.value.initialized) return
-        val initialStage = if (mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY
+
+        val intensity = forcedQuestionIntensity
+            ?.takeIf { it in QuestionRepository.INTENSITIES }
+            ?: questions.preferredIntensity()
+
+        if (!forcedQuestionText.isNullOrBlank()) {
+            _state.value = TestUiState(
+                initialized = true,
+                mode = mode,
+                daily = false,
+                stage = TestStage.RECORDING,
+                question = Question(
+                    id = "session-" + System.currentTimeMillis(),
+                    category = forcedQuestionCategory ?: "social",
+                    text = forcedQuestionText,
+                    intensity = intensity
+                ),
+                selectedIntensity = intensity,
+                playerCount = 1,
+                historyModeOverride = historyModeOverride,
+                sessionPlayerName = sessionPlayerName,
+                externalSession = true
+            )
+            return
+        }
+
+        val initialStage =
+            if (mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY
         val playerCount = when (mode) {
             TestActivity.MODE_DUEL -> 2
             TestActivity.MODE_GROUP -> requestedPlayerCount.coerceIn(3, 4)
             else -> 1
         }
-        val intensity = questions.preferredIntensity()
+
         _state.value = TestUiState(
             initialized = true,
             mode = mode,
@@ -37,10 +79,12 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             selectedIntensity = intensity,
             playerCount = playerCount
         )
+
         if (daily) questions.dailyQuestion(intensity)?.let(::beginQuestion)
     }
 
-    fun categoryCount(category: String): Int = questions.count(category, _state.value.selectedIntensity)
+    fun categoryCount(category: String): Int =
+        questions.count(category, _state.value.selectedIntensity)
 
     fun setIntensity(intensity: String) {
         val clean = if (intensity in QuestionRepository.INTENSITIES) {
@@ -61,7 +105,14 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
     fun useCustomQuestion(text: String): Boolean {
         val clean = text.trim()
         if (clean.isBlank()) return false
-        beginQuestion(Question("custom-" + System.currentTimeMillis(), "custom", clean, null))
+        beginQuestion(
+            Question(
+                id = "custom-" + System.currentTimeMillis(),
+                category = "custom",
+                text = clean,
+                intensity = null
+            )
+        )
         return true
     }
 
@@ -80,6 +131,8 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
 
     fun reset() {
         val current = _state.value
+        if (current.externalSession) return
+
         if (current.daily) {
             val dailyQuestion = questions.dailyQuestion(current.selectedIntensity)
             if (dailyQuestion != null) {
@@ -95,11 +148,16 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
                 return
             }
         }
+
         _state.value = TestUiState(
             initialized = true,
             mode = current.mode,
             daily = false,
-            stage = if (current.mode == TestActivity.MODE_CUSTOM) TestStage.CUSTOM else TestStage.CATEGORY,
+            stage = if (current.mode == TestActivity.MODE_CUSTOM) {
+                TestStage.CUSTOM
+            } else {
+                TestStage.CATEGORY
+            },
             selectedIntensity = current.selectedIntensity,
             playerCount = current.playerCount
         )
@@ -123,7 +181,15 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         val cleanScore = analysis.score.coerceIn(0, 100)
         val updatedScores = current.playerScores + cleanScore
         val updatedAnalyses = current.playerAnalyses + analysis
-        save(question, cleanScore, historyMode(current))
+
+        val firstDailyToday = current.daily && !history.hasDailyResultToday()
+        save(
+            question = question,
+            score = cleanScore,
+            mode = historyMode(current),
+            awardProgression = !current.externalSession && (!current.daily || firstDailyToday),
+            daily = current.daily && firstDailyToday
+        )
 
         if (current.player < current.playerCount) {
             _state.value = current.copy(
@@ -147,25 +213,62 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         return false
     }
 
-    private fun historyMode(state: TestUiState): String = when {
-        state.daily && state.mode == TestActivity.MODE_SOLO -> HistoryRepository.MODE_DAILY
-        state.mode == TestActivity.MODE_DUEL -> "duel_p" + state.player
-        state.mode == TestActivity.MODE_GROUP -> "group" + state.playerCount + "_p" + state.player
-        else -> state.mode
+    private fun historyMode(state: TestUiState): String =
+        state.historyModeOverride ?: when {
+            state.daily && state.mode == TestActivity.MODE_SOLO -> HistoryRepository.MODE_DAILY
+            state.mode == TestActivity.MODE_DUEL -> "duel_p" + state.player
+            state.mode == TestActivity.MODE_GROUP -> "group" + state.playerCount + "_p" + state.player
+            else -> state.mode
+        }
+
+    private fun syncAchievementsAndXp() {
+        var known = achievements.unlocked()
+        repeat(3) {
+            val updated = achievements.sync(
+                results = history.getAll(),
+                totalXp = profiles.totalXp(),
+                completedSessions = sessions.completedCount()
+            )
+            val newlyUnlocked = updated - known
+            if (newlyUnlocked.isEmpty()) return
+            profiles.addXp(
+                profiles.active().id,
+                XpEngine.achievementXp(newlyUnlocked.size)
+            )
+            known = updated
+        }
     }
 
-    private fun save(question: Question, score: Int, mode: String) {
+    private fun save(
+        question: Question,
+        score: Int,
+        mode: String,
+        awardProgression: Boolean,
+        daily: Boolean
+    ) {
         history.add(
             TestResult(
-                UUID.randomUUID().toString(),
-                question.text,
-                question.category,
-                score,
-                System.currentTimeMillis(),
-                mode,
-                question.intensity
+                id = UUID.randomUUID().toString(),
+                question = question.text,
+                category = question.category,
+                score = score,
+                timestamp = System.currentTimeMillis(),
+                mode = mode,
+                intensity = question.intensity
             )
         )
-        achievements.sync(history.getAll())
+
+        if (awardProgression) {
+            val active = profiles.active()
+            profiles.recordResult(
+                id = active.id,
+                score = score,
+                xpAward = XpEngine.resultXp(score, daily)
+            )
+        }
+
+        if (!mode.startsWith("social_")) {
+            syncAchievementsAndXp()
+        }
     }
 }

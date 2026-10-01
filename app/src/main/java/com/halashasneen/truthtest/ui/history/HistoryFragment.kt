@@ -88,6 +88,10 @@ class HistoryFragment : Fragment() {
             HistoryFilter.ALL -> R.string.history_filter_all
             HistoryFilter.SOLO -> R.string.solo_test
             HistoryFilter.DAILY -> R.string.daily_challenge
+            HistoryFilter.COUPLES -> R.string.history_filter_couples
+            HistoryFilter.FRIENDS -> R.string.history_filter_friends
+            HistoryFilter.PARTY -> R.string.history_filter_party
+            HistoryFilter.CHALLENGE -> R.string.history_filter_challenge
             HistoryFilter.DUEL -> R.string.duel_mode
             HistoryFilter.GROUP -> R.string.group_mode
             HistoryFilter.CUSTOM -> R.string.custom_question
@@ -173,6 +177,10 @@ class HistoryFragment : Fragment() {
         mode == "solo" -> getString(R.string.solo_test)
         mode == "custom" -> getString(R.string.custom_question)
         mode == HistoryRepository.MODE_DAILY -> getString(R.string.daily_challenge)
+        mode == "social_couples" -> getString(R.string.history_filter_couples)
+        mode == "social_friends" -> getString(R.string.history_filter_friends)
+        mode == "social_party" -> getString(R.string.history_filter_party)
+        mode == "social_challenge" -> getString(R.string.history_filter_challenge)
         mode.startsWith("duel_") -> getString(R.string.duel_mode)
         mode.startsWith("group") -> getString(R.string.group_mode)
         else -> mode

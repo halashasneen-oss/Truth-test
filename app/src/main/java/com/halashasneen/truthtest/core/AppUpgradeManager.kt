@@ -5,8 +5,9 @@ import android.content.Context
 /**
  * Central place for non-destructive migrations between Play Store releases.
  *
- * Version 1 intentionally performs no data rewrite: it establishes a schema marker
- * around the storage format already used by the published app.
+ * Phase 3 advances the local schema marker to version 2 only. The new profile and
+ * social-session stores are independent, so legacy settings, history, achievements,
+ * questions and share preferences do not need to be rewritten.
  */
 object AppUpgradeManager {
     fun migrate(context: Context) {

@@ -10,7 +10,7 @@ class AchievementEngineTest {
     private val zone = ZoneId.systemDefault()
 
     @Test
-    fun unlocksMilestonesAndModes() {
+    fun unlocksLegacyMilestonesAndModes() {
         val start = LocalDate.of(2026, 9, 1)
         val results = (1..100).map { index ->
             val day = start.plusDays((index % 7).toLong())
@@ -30,7 +30,6 @@ class AchievementEngineTest {
         }
 
         val earned = AchievementEngine.earned(results)
-
         assertTrue(AchievementKey.FIRST in earned)
         assertTrue(AchievementKey.TEN in earned)
         assertTrue(AchievementKey.FIFTY in earned)
@@ -41,5 +40,39 @@ class AchievementEngineTest {
         assertTrue(AchievementKey.DUEL in earned)
         assertTrue(AchievementKey.GROUP in earned)
         assertTrue(AchievementKey.CUSTOM in earned)
+    }
+
+    @Test
+    fun unlocksPhaseThreeSocialProgress() {
+        val modes = listOf(
+            "social_couples",
+            "social_friends",
+            "social_party",
+            "social_challenge",
+            HistoryRepository.MODE_DAILY
+        )
+        val results = modes.mapIndexed { index, mode ->
+            TestResult(
+                id = "social-$index",
+                question = "Q",
+                category = "funny",
+                score = 80,
+                timestamp = 1_000L + index,
+                mode = mode
+            )
+        }
+
+        val earned = AchievementEngine.earned(
+            results = results,
+            totalXp = 600,
+            completedSessions = 5
+        )
+        assertTrue(AchievementKey.COUPLES in earned)
+        assertTrue(AchievementKey.FRIENDS in earned)
+        assertTrue(AchievementKey.PARTY in earned)
+        assertTrue(AchievementKey.DAILY in earned)
+        assertTrue(AchievementKey.CHALLENGE in earned)
+        assertTrue(AchievementKey.XP_500 in earned)
+        assertTrue(AchievementKey.SESSIONS_5 in earned)
     }
 }

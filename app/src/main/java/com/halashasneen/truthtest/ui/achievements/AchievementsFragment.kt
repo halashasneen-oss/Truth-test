@@ -10,6 +10,8 @@ import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.data.AchievementKey
 import com.halashasneen.truthtest.data.AchievementRepository
 import com.halashasneen.truthtest.data.HistoryRepository
+import com.halashasneen.truthtest.data.PlayerProfileRepository
+import com.halashasneen.truthtest.data.SocialSessionRepository
 import com.halashasneen.truthtest.databinding.FragmentAchievementsBinding
 
 class AchievementsFragment : Fragment() {
@@ -28,8 +30,14 @@ class AchievementsFragment : Fragment() {
 
     private fun render() {
         val history = HistoryRepository(requireContext())
+        val profiles = PlayerProfileRepository(requireContext())
+        val sessions = SocialSessionRepository(requireContext())
         val results = history.getAll()
-        val unlocked = AchievementRepository(requireContext()).sync(results)
+        val unlocked = AchievementRepository(requireContext()).sync(
+            results = results,
+            totalXp = profiles.totalXp(),
+            completedSessions = sessions.completedCount()
+        )
         val streak = history.currentStreak()
 
         binding.streakSummary.text = getString(R.string.current_streak_format, streak)
@@ -49,6 +57,14 @@ class AchievementsFragment : Fragment() {
         bind(binding.duelBadge, AchievementKey.DUEL in unlocked, R.string.achievement_duel, "⚔", R.string.achievement_req_duel)
         bind(binding.groupBadge, AchievementKey.GROUP in unlocked, R.string.achievement_group, "◈", R.string.achievement_req_group)
         bind(binding.customBadge, AchievementKey.CUSTOM in unlocked, R.string.achievement_custom, "✎", R.string.achievement_req_custom)
+
+        bind(binding.couplesBadge, AchievementKey.COUPLES in unlocked, R.string.achievement_couples, "♡", R.string.achievement_req_couples)
+        bind(binding.friendsBadge, AchievementKey.FRIENDS in unlocked, R.string.achievement_friends, "◇", R.string.achievement_req_friends)
+        bind(binding.partyBadge, AchievementKey.PARTY in unlocked, R.string.achievement_party, "◈", R.string.achievement_req_party)
+        bind(binding.dailyBadge, AchievementKey.DAILY in unlocked, R.string.achievement_daily, "◉", R.string.achievement_req_daily)
+        bind(binding.challengeBadge, AchievementKey.CHALLENGE in unlocked, R.string.achievement_challenge, "↯", R.string.achievement_req_challenge)
+        bind(binding.xpBadge, AchievementKey.XP_500 in unlocked, R.string.achievement_xp500, "↑", R.string.achievement_req_xp500)
+        bind(binding.sessionsBadge, AchievementKey.SESSIONS_5 in unlocked, R.string.achievement_sessions5, "5", R.string.achievement_req_sessions5)
     }
 
     private fun bind(

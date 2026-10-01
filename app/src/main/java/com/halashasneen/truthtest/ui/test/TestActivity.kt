@@ -80,7 +80,12 @@ class TestActivity : AppCompatActivity() {
         viewModel.configure(
             mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO,
             daily = intent.getBooleanExtra(EXTRA_DAILY, false),
-            requestedPlayerCount = intent.getIntExtra(EXTRA_PLAYER_COUNT, 1)
+            requestedPlayerCount = intent.getIntExtra(EXTRA_PLAYER_COUNT, 1),
+            forcedQuestionText = intent.getStringExtra(EXTRA_FORCED_QUESTION_TEXT),
+            forcedQuestionCategory = intent.getStringExtra(EXTRA_FORCED_QUESTION_CATEGORY),
+            forcedQuestionIntensity = intent.getStringExtra(EXTRA_FORCED_QUESTION_INTENSITY),
+            historyModeOverride = intent.getStringExtra(EXTRA_HISTORY_MODE_OVERRIDE),
+            sessionPlayerName = intent.getStringExtra(EXTRA_SESSION_PLAYER_NAME)
         )
 
         bindIntensity()
@@ -152,7 +157,14 @@ class TestActivity : AppCompatActivity() {
             if (isRecording) stopRecording() else ensureMicAndStart()
         }
         binding.newTestButton.setOnClickListener { viewModel.reset() }
-        binding.homeButton.setOnClickListener { finish() }
+        binding.homeButton.setOnClickListener {
+            val state = viewModel.state.value
+            if (state.externalSession && state.stage == TestStage.RESULT) {
+                returnSessionResult(state)
+            } else {
+                finish()
+            }
+        }
         binding.shareButton.setOnClickListener { showShareThemePicker(viewModel.state.value) }
     }
 
@@ -173,6 +185,7 @@ class TestActivity : AppCompatActivity() {
                 MODE_DUEL -> R.string.duel_mode
                 MODE_GROUP -> R.string.group_mode
                 MODE_CUSTOM -> R.string.custom_question
+                MODE_SESSION -> R.string.p3_voice_session_title
                 else -> R.string.solo_test
             }
         )
@@ -205,10 +218,10 @@ class TestActivity : AppCompatActivity() {
     }
 
     private fun renderRecording(state: TestUiState, stageChanged: Boolean) {
-        binding.playerLabel.text = if (state.playerCount > 1) {
-            getString(R.string.player_turn_format, state.player, state.playerCount)
-        } else {
-            ""
+        binding.playerLabel.text = when {
+            !state.sessionPlayerName.isNullOrBlank() -> state.sessionPlayerName
+            state.playerCount > 1 -> getString(R.string.player_turn_format, state.player, state.playerCount)
+            else -> ""
         }
 
         if (renderedPlayer != state.player || stageChanged) {
@@ -365,6 +378,10 @@ class TestActivity : AppCompatActivity() {
 
     private fun renderResult(state: TestUiState) {
         val question = state.question ?: return
+        binding.newTestButton.visibility = if (state.externalSession) View.GONE else View.VISIBLE
+        binding.homeButton.setText(
+            if (state.externalSession) R.string.p3_continue_after_result else R.string.back_home
+        )
         val score = state.finalScore
         val analysis = state.analysis
         val breakdown = if (analysis != null) {
@@ -481,6 +498,10 @@ class TestActivity : AppCompatActivity() {
             "friendship" -> getString(R.string.friendship)
             "family" -> getString(R.string.family)
             "custom" -> getString(R.string.custom_question)
+            "classic" -> getString(R.string.p3_pack_classic)
+            "deep" -> getString(R.string.p3_pack_deep)
+            "couples" -> getString(R.string.p3_pack_couples)
+            "friends" -> getString(R.string.p3_pack_friends)
             else -> category
         }
         val intensityLabel = when (intensity) {
@@ -490,6 +511,14 @@ class TestActivity : AppCompatActivity() {
             else -> ""
         }
         return if (intensityLabel.isBlank()) categoryLabel else categoryLabel + " • " + intensityLabel
+    }
+
+    private fun returnSessionResult(state: TestUiState) {
+        setResult(
+            RESULT_OK,
+            Intent().putExtra(EXTRA_SESSION_SCORE, state.finalScore)
+        )
+        finish()
     }
 
     private fun showShareThemePicker(state: TestUiState) {
@@ -659,10 +688,18 @@ class TestActivity : AppCompatActivity() {
         const val EXTRA_MODE = "mode"
         const val EXTRA_DAILY = "daily"
         const val EXTRA_PLAYER_COUNT = "player_count"
+        const val EXTRA_FORCED_QUESTION_TEXT = "forced_question_text"
+        const val EXTRA_FORCED_QUESTION_CATEGORY = "forced_question_category"
+        const val EXTRA_FORCED_QUESTION_INTENSITY = "forced_question_intensity"
+        const val EXTRA_HISTORY_MODE_OVERRIDE = "history_mode_override"
+        const val EXTRA_SESSION_PLAYER_NAME = "session_player_name"
+        const val EXTRA_SESSION_SCORE = "session_score"
+
         const val MODE_SOLO = "solo"
         const val MODE_DUEL = "duel"
         const val MODE_GROUP = "group"
         const val MODE_CUSTOM = "custom"
+        const val MODE_SESSION = "session"
         private const val MIN_ANALYSIS_REVEAL_MS = 650L
     }
 }
