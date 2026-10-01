@@ -1,8 +1,10 @@
-name: Android CI
+name: Android CI 
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'truth-test-v2-*'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -14,6 +16,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verify repository hygiene
+        shell: bash
+        run: |
+          sensitive="$(git ls-files | grep -E '(^|/)([^/]+\.(jks|keystore)|keystore\.properties|signing\.properties||\.env)$' || true)"
+          if [ -n "$sensitive" ]; then
+            echo "Sensitive signing/environment files are tracked:"
+            echo "$sensitive"
+            exit 1
+          fi
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -32,17 +44,18 @@ jobs:
         with:
           gradle-version: '8.11.1'
 
-      - name: Run tests and build APK + release AAB
-        run: gradle :app:testDebugUnitTest :app:assembleDebug :app:bundleRelease --stacktrace --no-daemon
+      - name: Run Phase quality gate
+        run: gradle :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:bundleRelease --stacktrace --no-daemon
 
       - name: Upload debug APK
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: truth-test-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Validate signing secrets
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         env:
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
           UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
@@ -55,7 +68,7 @@ jobs:
           test -n "$UPLOAD_KEY_PASSWORD" || (echo "UPLOAD_KEY_PASSWORD is missing" && exit 1)
 
       - name: Restore upload keystore
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         env:
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
         run: |
@@ -64,7 +77,7 @@ jobs:
           chmod 600 "$RUNNER_TEMP/truth-test-upload.jks"
 
       - name: Sign Google Play AAB
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         env:
           UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
           UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
@@ -76,25 +89,25 @@ jobs:
             -keypass "$UPLOAD_KEY_PASSWORD" \
             -sigalg SHA256withRSA \
             -digestalg SHA-256 \
-            -signedjar app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab \
+            -signedjar app/build/outputs/bundle/release/Truth-Test-2.0.0-google-play-signed.aab \
             app/build/outputs/bundle/release/app-release.aab \
             "$UPLOAD_KEY_ALIAS"
 
       - name: Verify signed AAB
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         run: |
-          jarsigner -verify -verbose -certs app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab | tee "$RUNNER_TEMP/jarsigner-verify.txt"
+          jarsigner -verify -verbose -certs app/build/outputs/bundle/release/Truth-Test-2.0.0-google-play-signed.aab | tee "$RUNNER_TEMP/jarsigner-verify.txt"
           grep -q "jar verified" "$RUNNER_TEMP/jarsigner-verify.txt"
-          sha256sum app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab
+          sha256sum app/build/outputs/bundle/release/Truth-Test-2.0.0-google-play-signed.aab
 
       - name: Upload signed Google Play AAB
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: truth-test-google-play-signed-aab
-          path: app/build/outputs/bundle/release/Truth-Test-1.0.0-google-play-signed.aab
+          path: app/build/outputs/bundle/release/Truth-Test-2.0.0-google-play-signed.aab
           if-no-files-found: error
 
       - name: Remove restored keystore
-        if: always() && github.event_name != 'pull_request'
+        if: always() && github.ref == 'refs/heads/main'
         run: rm -f "$RUNNER_TEMP/truth-test-upload.jks"

@@ -1,6 +1,7 @@
 package com.halashasneen.truthtest.data
 
 import android.content.Context
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.model.TestResult
 
 enum class AchievementKey(val storageKey: String) {
@@ -40,21 +41,26 @@ object AchievementEngine {
 
 /** Keeps earned achievements permanently, even if local history is later cleared. */
 class AchievementRepository(context: Context) {
-    private val prefs = context.getSharedPreferences("truth_test_achievements", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences(
+        AppStorageContract.PREFS_ACHIEVEMENTS,
+        Context.MODE_PRIVATE
+    )
 
     fun sync(results: List<TestResult>): Set<AchievementKey> {
-        val merged = prefs.getStringSet(KEY_UNLOCKED, emptySet()).orEmpty().toMutableSet()
+        val merged = prefs.getStringSet(
+            AppStorageContract.KEY_ACHIEVEMENTS_UNLOCKED,
+            emptySet()
+        ).orEmpty().toMutableSet()
         merged += AchievementEngine.earned(results).map { it.storageKey }
-        prefs.edit().putStringSet(KEY_UNLOCKED, merged).apply()
+        prefs.edit()
+            .putStringSet(AppStorageContract.KEY_ACHIEVEMENTS_UNLOCKED, merged)
+            .apply()
         return merged.mapNotNull { AchievementKey.fromStorage(it) }.toSet()
     }
 
     fun unlocked(): Set<AchievementKey> =
-        prefs.getStringSet(KEY_UNLOCKED, emptySet()).orEmpty()
+        prefs.getStringSet(AppStorageContract.KEY_ACHIEVEMENTS_UNLOCKED, emptySet())
+            .orEmpty()
             .mapNotNull { AchievementKey.fromStorage(it) }
             .toSet()
-
-    private companion object {
-        const val KEY_UNLOCKED = "unlocked"
-    }
 }

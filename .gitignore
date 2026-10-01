@@ -8,3 +8,11 @@
 .externalNativeBuild
 .cxx
 app/build
+
+# Signing and environment material must never be committed.
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+.env
+.env.*

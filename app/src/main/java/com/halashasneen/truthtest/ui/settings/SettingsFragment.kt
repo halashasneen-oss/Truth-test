@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.FragmentSettingsBinding
 import com.halashasneen.truthtest.notifications.DailyChallengeScheduler
 import com.halashasneen.truthtest.notifications.NotificationSettings
@@ -37,34 +38,34 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        state: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, state: Bundle?) {
-        val prefs = requireContext().getSharedPreferences("truth_test_settings", Context.MODE_PRIVATE)
+        val prefs = requireContext().getSharedPreferences(
+            AppStorageContract.PREFS_SETTINGS,
+            Context.MODE_PRIVATE
+        )
         notificationSettings = NotificationSettings(requireContext())
-        binding.aboutText.text = getString(R.string.entertainment_notice) + "\n\n" + getString(R.string.privacy_audio)
+        binding.aboutText.text =
+            getString(R.string.entertainment_notice) + "\n\n" + getString(R.string.privacy_audio)
 
         binding.arabicButton.setOnClickListener {
-            prefs.edit().putString("language", "ar").apply()
+            prefs.edit().putString(AppStorageContract.KEY_LANGUAGE, "ar").apply()
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar"))
         }
         binding.englishButton.setOnClickListener {
-            prefs.edit().putString("language", "en").apply()
+            prefs.edit().putString(AppStorageContract.KEY_LANGUAGE, "en").apply()
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
         }
         binding.darkButton.setOnClickListener {
-            prefs.edit().putBoolean("light_theme", false).apply()
+            prefs.edit().putBoolean(AppStorageContract.KEY_LIGHT_THEME, false).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
         binding.lightButton.setOnClickListener {
-            prefs.edit().putBoolean("light_theme", true).apply()
+            prefs.edit().putBoolean(AppStorageContract.KEY_LIGHT_THEME, true).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 

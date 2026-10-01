@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivityOnboardingBinding
 import com.halashasneen.truthtest.ui.MainActivity
 
@@ -23,8 +24,10 @@ class OnboardingActivity : AppCompatActivity() {
                 page++
                 render()
             } else {
-                getSharedPreferences("truth_test_settings", MODE_PRIVATE)
-                    .edit().putBoolean("onboarding_seen", true).apply()
+                getSharedPreferences(AppStorageContract.PREFS_SETTINGS, MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(AppStorageContract.KEY_ONBOARDING_SEEN, true)
+                    .apply()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }

@@ -3,6 +3,7 @@ package com.halashasneen.truthtest.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivitySplashBinding
 import com.halashasneen.truthtest.ui.MainActivity
 import com.halashasneen.truthtest.ui.onboarding.OnboardingActivity
@@ -23,8 +24,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private val openApp = Runnable {
-        val seen = getSharedPreferences("truth_test_settings", MODE_PRIVATE)
-            .getBoolean("onboarding_seen", false)
+        val seen = getSharedPreferences(AppStorageContract.PREFS_SETTINGS, MODE_PRIVATE)
+            .getBoolean(AppStorageContract.KEY_ONBOARDING_SEEN, false)
         startActivity(Intent(this, if (seen) MainActivity::class.java else OnboardingActivity::class.java))
         finish()
     }

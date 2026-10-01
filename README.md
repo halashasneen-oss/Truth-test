@@ -1,45 +1,44 @@
 # Truth Test
 
-Offline-first Android entertainment app built with Kotlin + XML Views. It analyzes voice consistency (pitch, jitter, shimmer, pauses and energy) to create a **playful score** that is presented as a "Truth Test" result.
+Truth Test is a local-first Android social entertainment app built with Kotlin + XML Views.
+It analyzes voice consistency features such as pitch variation, jitter, shimmer, pauses and energy to create a **playful score**.
 
 > Truth Test is not a scientific lie detector. Voice patterns cannot determine whether a person is telling the truth, and results must never be used for consequential decisions.
 
-## Current MVP
+## Current app
 
-- Solo test with six local question categories.
-- Duel mode for two players on the same phone.
-- Custom questions.
-- 120 local questions across Arabic and English, with immediate-repeat avoidance per category.
+- Solo test, duel mode and group mode for 3–4 players.
+- Custom questions and a deterministic daily challenge.
+- 150 Arabic + 150 English local questions across six categories.
+- Light / Medium / Bold question intensity.
 - Real-time microphone waveform using `AudioRecord`.
-- Local FFT-based pitch estimation plus jitter/shimmer/pause/energy features.
-- Recording quality gate: answers shorter than two seconds or too quiet are rejected instead of generating nonsense results.
-- Raw audio is held only in memory during analysis and is not persisted.
-- Local JSON history via Gson/SharedPreferences (no Room, no server).
-- Local achievements including a three-day streak calculated from history.
-- Deterministic daily challenge + local WorkManager notification.
-- Arabic and English resources with RTL support and in-app language switching.
+- Local FFT-based voice analysis with a recording-quality gate.
+- Raw audio is analyzed in memory and is not persisted.
+- Local history, streaks, statistics and achievements.
+- Arabic/English resources, RTL support and in-app language switching.
 - Dark theme by default with optional light theme.
-- Shareable PNG result card rendered locally with Canvas and FileProvider.
-- Optional 7-second vertical MP4/H.264 result video rendered fully on-device using Android `MediaCodec` + `MediaMuxer` + EGL/OpenGL ES. No server or FFmpeg binary is required.
-- Video sharing animates the real recorded waveform, score reveal, question and final result; duel exports show both player scores.
-- Four selectable share themes shared by PNG and MP4 export: Neon Purple, Cyber Cyan, Romantic Pink and Gold Challenge. The last selected style is remembered locally.
-- Optional locally generated AAC soundtrack for MP4 export: Neon Beat, Minimal Pulse, or No Sound. The recorded microphone audio is never reused in shared media.
-- Audio/video merge has a silent-video fallback so export can still succeed if a device codec rejects AAC/remuxing.
-- GitHub Actions debug APK build using an installed Gradle version; no Gradle Wrapper JAR is committed.
+- Daily challenge and streak reminder notifications.
+- Shareable local PNG result cards.
+- 7-second vertical H.264 MP4 sharing with locally generated optional AAC sound.
+- Four share themes.
+- Monthly PDF report generated on-device.
+- No account or backend is required for core functionality.
 
 ## Architecture
 
-`data/` repositories + models → `audio/` recording/DSP → XML/ViewBinding UI → local share/notification engines.
+`data/` repositories + models → `audio/` recording/DSP → XML/ViewBinding UI → local share/report/notification engines.
 
-The app deliberately keeps all user test data on-device. Share media is generated only inside the app cache and handed to Android's share sheet through `FileProvider`.
+The app keeps core user data on-device. Share media is created in app cache and exposed only through Android `FileProvider`.
 
-## Video export choice
+## Truth Test 2.0
 
-The original FFmpegKit project was retired and its historical Android binaries were removed. To keep clean CI builds reliable and avoid a large native dependency, the MVP video exporter uses Android platform APIs (`MediaCodec`, `MediaMuxer`, EGL/OpenGL ES) instead. The output is a 720×1280 H.264 MP4 intended for reels/stories and general social sharing. Optional AAC music/effects are synthesized on-device from deterministic waveforms, so no copyrighted audio asset, server upload, or microphone recording is needed.
+The 2.0 work is being built in controlled phases. Phase 1 establishes:
 
-## Planned next steps
+- Play Store application-ID protection;
+- non-destructive local data migration contracts;
+- strict local-data backup rules;
+- a product-level section catalog for the future multi-section Home;
+- shared design-system tokens;
+- a stronger CI quality gate for every 2.0 branch.
 
-1. Device-test video + AAC encoding on a wider range of Android chipsets and add additional codec fallback if needed.
-2. Add group mode for up to four players.
-3. Add monthly playful PDF report.
-4. Add release signing and AAB workflow when Play Console publishing starts.
+See `docs/TRUTH_TEST_2_FOUNDATION.md`.
