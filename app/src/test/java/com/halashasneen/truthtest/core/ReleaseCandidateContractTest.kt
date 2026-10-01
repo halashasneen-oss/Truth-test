@@ -25,8 +25,8 @@ class ReleaseCandidateContractTest {
     @Test
     fun finalRewardAndInterstitialPolicyIsFrozen() {
         assertEquals(3_600_000L, MonetizationPolicy.REWARDED_AD_FREE_MS)
-        assertEquals(3, MonetizationPolicy.INTERSTITIAL_EVENT_THRESHOLD)
-        assertEquals(240_000L, MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS)
+        assertEquals(2, MonetizationPolicy.INTERSTITIAL_EVENT_THRESHOLD)
+        assertEquals(90_000L, MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS)
         assertEquals(4, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
     }
 }

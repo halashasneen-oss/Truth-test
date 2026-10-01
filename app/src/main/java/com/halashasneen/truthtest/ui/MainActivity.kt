@@ -26,7 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        MonetizationCoordinator.startAds(this)
+        SafeArea.apply(this, binding.root)
+        MonetizationCoordinator.startAds(this) {
+            (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? HomeFragment)
+                ?.refreshAdsAfterConsent()
+        }
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             val fragment = when (item.itemId) {

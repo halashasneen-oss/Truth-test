@@ -14,18 +14,18 @@ class MonetizationPolicyTest {
     }
 
     @Test
-    fun interstitialRequiresThreeNaturalBreaksAndFourMinuteSpacing() {
+    fun interstitialRequiresTwoNaturalBreaksAndNinetySecondSpacing() {
         val now = 1_000_000L
         assertFalse(
-            MonetizationPolicy.interstitialEligible(0L, 2, 0L, now)
+            MonetizationPolicy.interstitialEligible(0L, 1, 0L, now)
         )
         assertTrue(
-            MonetizationPolicy.interstitialEligible(0L, 3, 0L, now)
+            MonetizationPolicy.interstitialEligible(0L, 2, 0L, now)
         )
         assertFalse(
             MonetizationPolicy.interstitialEligible(
                 0L,
-                3,
+                2,
                 now - MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS + 1L,
                 now
             )
@@ -33,11 +33,17 @@ class MonetizationPolicyTest {
         assertTrue(
             MonetizationPolicy.interstitialEligible(
                 0L,
-                3,
+                2,
                 now - MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS,
                 now
             )
         )
+    }
+
+    @Test
+    fun adFreeSessionSuppressesInterstitialRegardlessOfCounter() {
+        val now = 1_000_000L
+        assertFalse(MonetizationPolicy.interstitialEligible(now + 60_000L, 20, 0L, now))
     }
 
     @Test

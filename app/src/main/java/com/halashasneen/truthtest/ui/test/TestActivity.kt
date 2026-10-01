@@ -30,6 +30,9 @@ import com.halashasneen.truthtest.audio.VoiceAnalyzer
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.PlayerRanking
 import com.halashasneen.truthtest.data.QuestionRepository
+import com.halashasneen.truthtest.data.QuestionSequence
+import com.halashasneen.truthtest.share.ShareCaptionFormatter
+import com.halashasneen.truthtest.ui.SafeArea
 import com.halashasneen.truthtest.databinding.ActivityTestBinding
 import com.halashasneen.truthtest.share.ResultCardRenderer
 import com.halashasneen.truthtest.share.ResultVideoShareRenderer
@@ -77,11 +80,13 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(state)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SafeArea.apply(this, binding.root)
 
         viewModel.configure(
             mode = intent.getStringExtra(EXTRA_MODE) ?: MODE_SOLO,
             daily = intent.getBooleanExtra(EXTRA_DAILY, false),
             requestedPlayerCount = intent.getIntExtra(EXTRA_PLAYER_COUNT, 1),
+            requestedQuestionCount = intent.getIntExtra(EXTRA_QUESTION_COUNT, 1),
             forcedQuestionText = intent.getStringExtra(EXTRA_FORCED_QUESTION_TEXT),
             forcedQuestionCategory = intent.getStringExtra(EXTRA_FORCED_QUESTION_CATEGORY),
             forcedQuestionIntensity = intent.getStringExtra(EXTRA_FORCED_QUESTION_INTENSITY),
@@ -157,12 +162,26 @@ class TestActivity : AppCompatActivity() {
         binding.recordButton.setOnClickListener {
             if (isRecording) stopRecording() else ensureMicAndStart()
         }
-        binding.newTestButton.setOnClickListener { viewModel.reset() }
+        binding.newTestButton.setOnClickListener { viewModel.reset(); binding.testScroll.smoothScrollTo(0, 0) }
+        binding.finishEarlyButton.setOnClickListener {
+            viewModel.finishEarly()
+        }
+        binding.nextQuestionButton.setOnClickListener {
+            binding.nextQuestionButton.isEnabled = false
+            AdsManager.maybeShowInterstitial(this) {
+                if (!isFinishing) {
+                    viewModel.nextQuestion()
+                    binding.testScroll.smoothScrollTo(0, 0)
+                }
+                binding.nextQuestionButton.isEnabled = true
+            }
+        }
         binding.homeButton.setOnClickListener {
             val state = viewModel.state.value
             if (state.externalSession && state.stage == TestStage.RESULT) {
                 returnSessionResult(state)
             } else if (state.stage == TestStage.RESULT) {
+                binding.homeButton.isEnabled = false
                 AdsManager.maybeShowInterstitial(this) { finish() }
             } else {
                 finish()
@@ -182,6 +201,13 @@ class TestActivity : AppCompatActivity() {
     private fun render(state: TestUiState) {
         if (!state.initialized) return
         val stageChanged = lastStage != state.stage
+        binding.questionProgress.visibility =
+            if (state.totalQuestions > 1 && !state.externalSession) View.VISIBLE else View.GONE
+        if (state.totalQuestions > 1) {
+            binding.questionProgress.text = getString(
+                R.string.hotfix_progress, state.questionNumber, state.totalQuestions
+            )
+        }
 
         binding.screenTitle.setText(
             when (state.mode) {
@@ -393,6 +419,22 @@ class TestActivity : AppCompatActivity() {
             TruthBreakdown(score, score, score, score, score)
         }
 
+        val isMulti = state.mode == MODE_SOLO && !state.daily && !state.externalSession &&
+            state.totalQuestions > 1
+        binding.nextQuestionButton.visibility =
+            if (isMulti && state.questionNumber < state.totalQuestions) View.VISIBLE else View.GONE
+        binding.finishEarlyButton.visibility =
+            if (isMulti && state.questionNumber < state.totalQuestions) View.VISIBLE else View.GONE
+        binding.multiSummary.visibility =
+            if (isMulti && state.questionNumber >= state.totalQuestions) View.VISIBLE else View.GONE
+        if (binding.multiSummary.visibility == View.VISIBLE) {
+            binding.multiSummary.text = getString(
+                R.string.hotfix_summary,
+                state.completedQuestionScores.size,
+                QuestionSequence.average(state.completedQuestionScores),
+                state.completedQuestionScores.maxOrNull() ?: 0
+            )
+        }
         binding.resultQuestion.text = question.text
         binding.resultWaveform.setValues(binding.waveform.snapshot())
         binding.resultScore.text = score.toString() + "%"
@@ -637,17 +679,27 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-    private fun shareMessage(state: TestUiState, question: String): String =
-        if (state.mode == MODE_GROUP) {
+    private fun shareMessage(state: TestUiState, question: String): String {
+        val summary = if (state.totalQuestions > 1 && state.questionNumber == state.totalQuestions) {
             getString(
-                R.string.group_share_text,
-                question,
-                state.finalScore,
-                state.playerCount
+                R.string.hotfix_summary, state.completedQuestionScores.size,
+                QuestionSequence.average(state.completedQuestionScores),
+                state.completedQuestionScores.maxOrNull() ?: 0
             )
-        } else {
-            getString(R.string.share_text, question, state.finalScore)
-        }
+        } else null
+        return ShareCaptionFormatter.create(
+            this, question, state.finalScore, getString(
+                when {
+                    state.daily -> R.string.experience_daily
+                    state.mode == MODE_DUEL -> R.string.duel_mode
+                    state.mode == MODE_GROUP -> R.string.group_mode
+                    state.mode == MODE_CUSTOM -> R.string.custom_question
+                    state.mode == MODE_SESSION -> R.string.p3_voice_session_title
+                    else -> R.string.solo_test
+                }
+            ), state.sessionPlayerName, summary
+        )
+    }
 
     private fun launchShare(uri: Uri, mimeType: String, message: String) {
         startActivity(
@@ -691,6 +743,7 @@ class TestActivity : AppCompatActivity() {
         const val EXTRA_MODE = "mode"
         const val EXTRA_DAILY = "daily"
         const val EXTRA_PLAYER_COUNT = "player_count"
+        const val EXTRA_QUESTION_COUNT = "question_count"
         const val EXTRA_FORCED_QUESTION_TEXT = "forced_question_text"
         const val EXTRA_FORCED_QUESTION_CATEGORY = "forced_question_category"
         const val EXTRA_FORCED_QUESTION_INTENSITY = "forced_question_intensity"

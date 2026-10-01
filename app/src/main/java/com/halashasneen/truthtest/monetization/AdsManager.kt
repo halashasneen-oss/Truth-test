@@ -17,6 +17,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.halashasneen.truthtest.BuildConfig
+import com.halashasneen.truthtest.R
 import java.util.concurrent.atomic.AtomicBoolean
 
 object AdsManager {
@@ -44,16 +45,20 @@ object AdsManager {
             host?.visibility = View.GONE
             return null
         }
-        val widthPx = container.width.takeIf { it > 0 }
-            ?: activity.resources.displayMetrics.widthPixels
-        val widthDp = (widthPx / activity.resources.displayMetrics.density).toInt().coerceAtLeast(320)
+        val horizontalMargins = activity.resources.getDimensionPixelSize(R.dimen.tt_screen_horizontal) * 2
+        val availablePx = container.width.takeIf { it > 0 }
+            ?: (activity.resources.displayMetrics.widthPixels - horizontalMargins -
+                container.paddingLeft - container.paddingRight)
+        val widthDp = (availablePx / activity.resources.displayMetrics.density).toInt().coerceAtLeast(1)
         val adView = AdView(activity).apply {
             adUnitId = BuildConfig.ADMOB_BANNER_ID
-            setAdSize(AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(activity, widthDp))
+            setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, widthDp))
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
-                    host?.visibility = View.VISIBLE
-                    container.visibility = View.VISIBLE
+                    val allowed = ConsentManager.canRequestAds() &&
+                        !MonetizationPreferences(activity).adsSuppressed()
+                    host?.visibility = if (allowed) View.VISIBLE else View.GONE
+                    container.visibility = if (allowed) View.VISIBLE else View.GONE
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
@@ -114,6 +119,8 @@ object AdsManager {
         ad.show(activity)
     }
 
+    fun preloadRewarded(context: Context) { if (ConsentManager.canRequestAds()) loadRewarded(context) }
+
     fun showRewarded(
         activity: Activity,
         onReward: (Long) -> Unit,
@@ -148,7 +155,7 @@ object AdsManager {
     }
 
     private fun loadInterstitial(context: Context) {
-        if (!initialized.get() || interstitialLoading) return
+        if (!initialized.get() || interstitialLoading || interstitialAd != null) return
         if (MonetizationPreferences(context).adsSuppressed()) return
         interstitialLoading = true
         InterstitialAd.load(

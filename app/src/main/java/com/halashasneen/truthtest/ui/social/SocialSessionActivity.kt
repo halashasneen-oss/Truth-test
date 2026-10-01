@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.ui.SafeArea
 import com.halashasneen.truthtest.data.AchievementRepository
 import com.halashasneen.truthtest.data.HistoryRepository
 import com.halashasneen.truthtest.data.PlayerProfileRepository
@@ -52,6 +53,7 @@ class SocialSessionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySocialSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SafeArea.apply(this, binding.root)
 
         selectedMode = SocialMode.fromStorage(intent.getStringExtra(EXTRA_MODE))
         bindActions()

@@ -26,6 +26,7 @@ import com.halashasneen.truthtest.share.ChallengePayload
 import com.halashasneen.truthtest.share.ChallengePayloadCodec
 import com.halashasneen.truthtest.share.ChallengeQrCardRenderer
 import com.halashasneen.truthtest.share.ResultVideoShareRenderer
+import com.halashasneen.truthtest.share.ShareCaptionFormatter
 import com.halashasneen.truthtest.share.ShareFormat
 import com.halashasneen.truthtest.share.ShareHistoryEntry
 import com.halashasneen.truthtest.share.ShareHistoryRepository
@@ -309,7 +310,7 @@ class ShareStudioFragment : Fragment(R.layout.fragment_share_studio) {
                     includeQr = binding.includeQrSwitch.isChecked
                 )
                 recordExport(source)
-                launchShare(uri, "image/jpeg", getString(selectedCtaRes))
+                launchShare(uri, "image/jpeg", caption(source))
             } catch (_: Throwable) {
                 Toast.makeText(requireContext(), R.string.p4_share_failed, Toast.LENGTH_LONG).show()
             } finally {
@@ -335,7 +336,7 @@ class ShareStudioFragment : Fragment(R.layout.fragment_share_studio) {
                     cta = getString(selectedCtaRes)
                 )
                 recordExport(source, ShareFormat.STORY)
-                launchShare(uri, "video/mp4", getString(selectedCtaRes))
+                launchShare(uri, "video/mp4", caption(source))
             } catch (_: Throwable) {
                 Toast.makeText(requireContext(), R.string.video_failed, Toast.LENGTH_LONG).show()
             } finally {
@@ -358,7 +359,7 @@ class ShareStudioFragment : Fragment(R.layout.fragment_share_studio) {
                     title = source.modeLabel,
                     question = source.question
                 )
-                launchShare(uri, "image/jpeg", getString(R.string.p4_qr_body))
+                launchShare(uri, "image/jpeg", caption(source))
             } catch (_: Throwable) {
                 Toast.makeText(requireContext(), R.string.p4_share_failed, Toast.LENGTH_LONG).show()
             }
@@ -424,6 +425,15 @@ class ShareStudioFragment : Fragment(R.layout.fragment_share_studio) {
             )
         )
     }
+
+    private fun caption(source: Source): String = ShareCaptionFormatter.create(
+        context = requireContext(),
+        question = source.question,
+        score = source.score,
+        modeLabel = source.modeLabel,
+        playerName = source.playerName,
+        summary = source.secondaryText
+    )
 
     private fun resultModeLabel(item: TestResult): String = when {
         item.mode == HistoryRepository.MODE_DAILY -> getString(R.string.experience_daily)

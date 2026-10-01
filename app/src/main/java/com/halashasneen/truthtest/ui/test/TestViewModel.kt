@@ -30,6 +30,7 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         mode: String,
         daily: Boolean,
         requestedPlayerCount: Int = 1,
+        requestedQuestionCount: Int = 1,
         forcedQuestionText: String? = null,
         forcedQuestionCategory: String? = null,
         forcedQuestionIntensity: String? = null,
@@ -77,7 +78,9 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             daily = daily,
             stage = initialStage,
             selectedIntensity = intensity,
-            playerCount = playerCount
+            playerCount = playerCount,
+            totalQuestions = if (mode == TestActivity.MODE_SOLO && !daily) requestedQuestionCount.coerceIn(1, 10) else 1,
+            requestedQuestions = if (mode == TestActivity.MODE_SOLO && !daily) requestedQuestionCount.coerceIn(1, 10) else 1
         )
 
         if (daily) questions.dailyQuestion(intensity)?.let(::beginQuestion)
@@ -100,6 +103,42 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         val question = questions.random(category, _state.value.selectedIntensity) ?: return false
         beginQuestion(question)
         return true
+    }
+
+    /** Called only after the completed result has been shown and the user taps Next. */
+    fun nextQuestion(): Boolean {
+        val current = _state.value
+        if (current.externalSession || current.daily || current.mode != TestActivity.MODE_SOLO ||
+            current.stage != TestStage.RESULT || current.questionNumber >= current.totalQuestions
+        ) return false
+        val next = questions.nextUnseen(
+            current.selectedCategory ?: current.question?.category ?: "funny",
+            current.selectedIntensity,
+            current.usedQuestionIds
+        ) ?: run {
+            _state.value = current.copy(totalQuestions = current.questionNumber)
+            return false
+        }
+        _state.value = current.copy(
+            stage = TestStage.RECORDING,
+            question = next,
+            questionNumber = current.questionNumber + 1,
+            usedQuestionIds = current.usedQuestionIds + next.id,
+            player = 1,
+            playerScores = emptyList(),
+            playerAnalyses = emptyList(),
+            analysis = null,
+            finalScore = 0
+        )
+        return true
+    }
+
+    /** Explicit early finish retains the results already saved once per completed question. */
+    fun finishEarly() {
+        val current = _state.value
+        if (current.stage == TestStage.RESULT && current.mode == TestActivity.MODE_SOLO &&
+            !current.daily && !current.externalSession && current.questionNumber > 0
+        ) _state.value = current.copy(totalQuestions = current.questionNumber)
     }
 
     fun useCustomQuestion(text: String): Boolean {
@@ -159,7 +198,9 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
                 TestStage.CATEGORY
             },
             selectedIntensity = current.selectedIntensity,
-            playerCount = current.playerCount
+            playerCount = current.playerCount,
+            totalQuestions = current.requestedQuestions,
+            requestedQuestions = current.requestedQuestions
         )
     }
 
@@ -167,6 +208,8 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = _state.value.copy(
             stage = TestStage.RECORDING,
             question = question,
+            selectedCategory = question.category,
+            usedQuestionIds = _state.value.usedQuestionIds + question.id,
             player = 1,
             playerScores = emptyList(),
             playerAnalyses = emptyList(),
@@ -208,7 +251,10 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
             playerScores = updatedScores,
             playerAnalyses = updatedAnalyses,
             analysis = updatedAnalyses.getOrNull(bestIndex),
-            finalScore = updatedScores.getOrElse(bestIndex) { cleanScore }
+            finalScore = updatedScores.getOrElse(bestIndex) { cleanScore },
+            completedQuestionScores = if (current.mode == TestActivity.MODE_SOLO && !current.daily && !current.externalSession) {
+                current.completedQuestionScores + cleanScore
+            } else current.completedQuestionScores
         )
         return false
     }

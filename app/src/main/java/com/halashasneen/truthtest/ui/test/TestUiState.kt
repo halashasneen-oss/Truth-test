@@ -21,7 +21,13 @@ data class TestUiState(
     val finalScore: Int = 0,
     val historyModeOverride: String? = null,
     val sessionPlayerName: String? = null,
-    val externalSession: Boolean = false
+    val externalSession: Boolean = false,
+    val totalQuestions: Int = 1,
+    val requestedQuestions: Int = 1,
+    val questionNumber: Int = 1,
+    val selectedCategory: String? = null,
+    val usedQuestionIds: Set<String> = emptySet(),
+    val completedQuestionScores: List<Int> = emptyList()
 ) {
     val firstScore: Int? get() = playerScores.getOrNull(0)
     val secondScore: Int? get() = playerScores.getOrNull(1)

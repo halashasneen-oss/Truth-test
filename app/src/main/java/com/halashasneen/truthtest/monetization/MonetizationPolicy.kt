@@ -2,8 +2,8 @@ package com.halashasneen.truthtest.monetization
 
 object MonetizationPolicy {
     const val REWARDED_AD_FREE_MS = 60L * 60L * 1_000L
-    const val INTERSTITIAL_EVENT_THRESHOLD = 3
-    const val INTERSTITIAL_MIN_INTERVAL_MS = 4L * 60L * 1_000L
+    const val INTERSTITIAL_EVENT_THRESHOLD = 2
+    const val INTERSTITIAL_MIN_INTERVAL_MS = 90L * 1_000L
 
     fun adsSuppressed(
         adFreeUntil: Long,

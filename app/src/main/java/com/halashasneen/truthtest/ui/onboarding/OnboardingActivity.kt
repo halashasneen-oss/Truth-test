@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.ui.SafeArea
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivityOnboardingBinding
 import com.halashasneen.truthtest.ui.MainActivity
@@ -29,6 +30,7 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(state)
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SafeArea.apply(this, binding.root)
 
         binding.skipButton.setOnClickListener { finishOnboarding() }
         binding.nextButton.setOnClickListener {

@@ -21,6 +21,10 @@ import com.halashasneen.truthtest.ui.social.SocialSessionActivity
 import com.halashasneen.truthtest.ui.share.ShareStudioFragment
 import com.halashasneen.truthtest.ui.test.TestActivity
 import com.halashasneen.truthtest.monetization.AdsManager
+import com.halashasneen.truthtest.monetization.MonetizationPreferences
+import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlin.math.ceil
 import com.google.android.gms.ads.AdView
 import kotlin.math.sin
 
@@ -29,6 +33,13 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private var phase = 0.0
     private var bannerAd: AdView? = null
+    private val rewardExpiry = Runnable {
+        if (_binding != null && isAdded) {
+            val expired = MonetizationPreferences(requireContext()).remainingAdFreeMs() <= 0L
+            refreshReward()
+            if (expired) refreshAdsAfterConsent()
+        }
+    }
 
     private val animator = object : Runnable {
         override fun run() {
@@ -46,8 +57,30 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, state: Bundle?) {
-        binding.startTruthButton.setOnClickListener { launch(TestActivity.MODE_SOLO) }
-        binding.truthExperienceCard.setOnClickListener { launch(TestActivity.MODE_SOLO) }
+        binding.startTruthButton.setOnClickListener { chooseSoloLength() }
+        binding.homeRewardButton.setOnClickListener {
+            binding.homeRewardButton.isEnabled = false
+            AdsManager.showRewarded(
+                requireActivity(),
+                onReward = {
+                    if (_binding != null) {
+                        bannerAd?.destroy()
+                        bannerAd = null
+                        binding.homeAdContainer.removeAllViews()
+                        binding.homeAdSection.visibility = View.GONE
+                        refreshReward()
+                        Toast.makeText(requireContext(), R.string.p5_reward_granted, Toast.LENGTH_LONG).show()
+                    }
+                },
+                onUnavailable = {
+                    if (_binding != null) {
+                        refreshReward()
+                        Toast.makeText(requireContext(), R.string.p5_reward_unavailable, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+        binding.truthExperienceCard.setOnClickListener { chooseSoloLength() }
         binding.duelButton.setOnClickListener { launch(TestActivity.MODE_DUEL, playerCount = 2) }
         binding.partyButton.setOnClickListener { launchSocial(SocialMode.PARTY) }
         binding.partyExperienceCard.setOnClickListener { launchSocial(SocialMode.PARTY) }
@@ -82,6 +115,7 @@ class HomeFragment : Fragment() {
         refreshDaily()
         refreshProgress()
         refreshActiveSession()
+        refreshReward()
     }
 
     override fun onResume() {
@@ -90,11 +124,48 @@ class HomeFragment : Fragment() {
             refreshDaily()
             refreshProgress()
             refreshActiveSession()
-            binding.homeAdContainer.post {
-                bannerAd?.destroy()
-                bannerAd = AdsManager.attachBanner(requireActivity(), binding.homeAdContainer)
-            }
+            refreshReward()
+            refreshAdsAfterConsent()
         }
+    }
+
+    fun refreshAdsAfterConsent() {
+        if (_binding == null || !isAdded) return
+        binding.homeAdContainer.post {
+            if (_binding == null || !isAdded) return@post
+            bannerAd?.destroy()
+            bannerAd = AdsManager.attachBanner(requireActivity(), binding.homeAdContainer)
+            refreshReward()
+        }
+    }
+
+    private fun refreshReward() {
+        if (_binding == null) return
+        val remaining = MonetizationPreferences(requireContext()).remainingAdFreeMs()
+        binding.homeRewardCard.removeCallbacks(rewardExpiry)
+        if (remaining > 0L) binding.homeRewardCard.postDelayed(
+            rewardExpiry, minOf(remaining + 100L, 60_000L)
+        )
+        binding.homeRewardStatus.text = if (remaining > 0L) {
+            getString(R.string.p5_ad_free_remaining, ceil(remaining / 60000.0).toInt())
+        } else {
+            getString(R.string.hotfix_reward_description)
+        }
+        binding.homeRewardButton.isEnabled = remaining <= 0L
+        binding.homeRewardButton.visibility = if (remaining <= 0L) View.VISIBLE else View.GONE
+        if (remaining <= 0L) AdsManager.preloadRewarded(requireContext())
+    }
+
+    private fun chooseSoloLength() {
+        val counts = intArrayOf(5, 10, 1)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.hotfix_choose_length)
+            .setItems(arrayOf(
+                getString(R.string.hotfix_five_questions),
+                getString(R.string.hotfix_ten_questions),
+                getString(R.string.hotfix_single_question)
+            )) { _, index -> launch(TestActivity.MODE_SOLO, questionCount = counts[index]) }
+            .show()
     }
 
     private fun refreshDaily() {
@@ -147,16 +218,18 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun launch(mode: String, daily: Boolean = false, playerCount: Int = 1) {
+    private fun launch(mode: String, daily: Boolean = false, playerCount: Int = 1, questionCount: Int = 1) {
         startActivity(Intent(requireContext(), TestActivity::class.java).apply {
             putExtra(TestActivity.EXTRA_MODE, mode)
             putExtra(TestActivity.EXTRA_DAILY, daily)
             putExtra(TestActivity.EXTRA_PLAYER_COUNT, playerCount)
+            putExtra(TestActivity.EXTRA_QUESTION_COUNT, questionCount)
         })
     }
 
     override fun onDestroyView() {
         binding.ambientWaveform.removeCallbacks(animator)
+        binding.homeRewardCard.removeCallbacks(rewardExpiry)
         bannerAd?.destroy()
         bannerAd = null
         _binding = null

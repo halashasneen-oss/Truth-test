@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.ui.SafeArea
 import com.halashasneen.truthtest.data.model.ChallengeType
 import com.halashasneen.truthtest.data.model.QuestionPack
 import com.halashasneen.truthtest.data.model.SocialMode
@@ -21,6 +22,7 @@ class ChallengeImportActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChallengeImportBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SafeArea.apply(this, binding.root)
 
         val raw = intent.getStringExtra(EXTRA_RAW_CHALLENGE) ?: intent.dataString
         payload = ChallengePayloadCodec.decode(raw)

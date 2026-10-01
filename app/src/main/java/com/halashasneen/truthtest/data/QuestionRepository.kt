@@ -42,6 +42,9 @@ class QuestionRepository(private val context: Context) {
         return chosen
     }
 
+    fun nextUnseen(category: String, intensity: String, usedIds: Set<String>): Question? =
+        QuestionSequence.next(allQuestions(), category, intensity, usedIds)
+
     fun dailyQuestion(intensity: String = preferredIntensity()): Question? {
         val all = allQuestions()
         if (all.isEmpty()) return null

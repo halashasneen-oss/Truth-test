@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="hotfix_reward_title">Enjoy an ad-free hour</string>
+  <string name="hotfix_reward_description">Watch one optional video to hide ads for 60 minutes.</string>
+  <string name="hotfix_choose_length">How many questions?</string>
+  <string name="hotfix_five_questions">5 questions</string>
+  <string name="hotfix_ten_questions">10 questions</string>
+  <string name="hotfix_single_question">1 quick question</string>
+  <string name="hotfix_next_question">Next question</string>
+  <string name="hotfix_progress">Question %1$d of %2$d</string>
+  <string name="hotfix_summary">Finished %1$d questions • Average %2$d%% • Best %3$d%%</string>
+  <string name="hotfix_share_intro">My %1$s score in Truth Test: %2$d%%!</string>
+  <string name="hotfix_share_question">The question: %1$s</string>
+  <string name="hotfix_share_high">My voice-pattern score was strong this round! This is just for fun.</string>
+  <string name="hotfix_share_medium">An interesting round with a few surprises! Just a playful voice-pattern score.</string>
+  <string name="hotfix_share_low">That was a challenging question! This score is all in good fun.</string>
+  <string name="hotfix_share_challenge">Think you can beat my score? Challenge your friends — download Truth Test:</string>
+  <string name="hotfix_finish_early">Finish &amp; view summary</string>
+</resources>
