@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivityMainBinding
 import com.halashasneen.truthtest.ui.achievements.AchievementsFragment
 import com.halashasneen.truthtest.ui.history.HistoryFragment
@@ -43,12 +44,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val prefs = getSharedPreferences("truth_test_settings", MODE_PRIVATE)
+        val prefs = getSharedPreferences(AppStorageContract.PREFS_SETTINGS, MODE_PRIVATE)
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-            !prefs.getBoolean("notification_asked", false)
+            !prefs.getBoolean(AppStorageContract.KEY_NOTIFICATION_ASKED, false)
         ) {
-            prefs.edit().putBoolean("notification_asked", true).apply()
+            prefs.edit().putBoolean(AppStorageContract.KEY_NOTIFICATION_ASKED, true).apply()
             notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }

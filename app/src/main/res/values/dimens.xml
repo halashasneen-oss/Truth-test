@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Truth Test 2.0 design-system spacing -->
+    <dimen name="tt_space_2xs">4dp</dimen>
+    <dimen name="tt_space_xs">8dp</dimen>
+    <dimen name="tt_space_sm">12dp</dimen>
+    <dimen name="tt_space_md">16dp</dimen>
+    <dimen name="tt_space_lg">20dp</dimen>
+    <dimen name="tt_space_xl">24dp</dimen>
+    <dimen name="tt_space_2xl">32dp</dimen>
+
+    <dimen name="tt_screen_horizontal">20dp</dimen>
+    <dimen name="tt_radius_sm">12dp</dimen>
+    <dimen name="tt_radius_md">18dp</dimen>
+    <dimen name="tt_radius_lg">24dp</dimen>
+    <dimen name="tt_radius_xl">30dp</dimen>
+    <dimen name="tt_min_touch">48dp</dimen>
+
+    <dimen name="tt_text_hero">32sp</dimen>
+    <dimen name="tt_text_title">22sp</dimen>
+    <dimen name="tt_text_body">15sp</dimen>
+    <dimen name="tt_text_label">12sp</dimen>
+</resources>

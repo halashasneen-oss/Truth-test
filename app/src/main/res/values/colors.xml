@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_dark">#0B0B12</color><color name="surface_dark">#171721</color><color name="surface_dark_2">#20202C</color>
-    <color name="purple">#7C3AED</color><color name="pink">#EC4899</color><color name="cyan">#22D3EE</color>
-    <color name="success">#22C55E</color><color name="warning">#FACC15</color><color name="danger">#EF4444</color><color name="orange">#F97316</color>
-    <color name="app_background">#F6F4FA</color><color name="app_surface">#FFFFFF</color><color name="app_surface_2">#ECE9F2</color>
-    <color name="app_text_primary">#17121F</color><color name="app_text_secondary">#625D6B</color>
+    <color name="bg_dark">#0B0B12</color>
+    <color name="surface_dark">#171721</color>
+    <color name="surface_dark_2">#20202C</color>
+
+    <color name="purple">#7C3AED</color>
+    <color name="pink">#EC4899</color>
+    <color name="cyan">#22D3EE</color>
+    <color name="success">#22C55E</color>
+    <color name="warning">#FACC15</color>
+    <color name="danger">#EF4444</color>
+    <color name="orange">#F97316</color>
+
+    <color name="app_background">#F6F4FA</color>
+    <color name="app_surface">#FFFFFF</color>
+    <color name="app_surface_2">#ECE9F2</color>
+    <color name="app_text_primary">#17121F</color>
+    <color name="app_text_secondary">#625D6B</color>
+
+    <!-- Truth Test 2.0 semantic tokens. Existing colors remain intact for compatibility. -->
+    <color name="tt_brand_primary">@color/purple</color>
+    <color name="tt_brand_secondary">@color/cyan</color>
+    <color name="tt_brand_accent">@color/pink</color>
+    <color name="tt_brand_gold">#F59E0B</color>
+    <color name="tt_brand_blue">#38BDF8</color>
+    <color name="tt_background">@color/app_background</color>
+    <color name="tt_surface">@color/app_surface</color>
+    <color name="tt_surface_elevated">@color/app_surface_2</color>
+    <color name="tt_text_primary">@color/app_text_primary</color>
+    <color name="tt_text_secondary">@color/app_text_secondary</color>
+    <color name="tt_overlay_soft">#1AFFFFFF</color>
 </resources>

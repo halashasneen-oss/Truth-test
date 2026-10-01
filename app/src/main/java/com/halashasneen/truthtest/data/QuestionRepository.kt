@@ -3,13 +3,14 @@ package com.halashasneen.truthtest.data
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.model.Question
 import java.io.InputStreamReader
 import java.time.LocalDate
 
 class QuestionRepository(private val context: Context) {
     private val gson = Gson()
-    private val prefs = context.getSharedPreferences("truth_test_questions", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences(AppStorageContract.PREFS_QUESTIONS, Context.MODE_PRIVATE)
 
     fun allQuestions(): List<Question> {
         val language = currentLanguage()
@@ -50,11 +51,11 @@ class QuestionRepository(private val context: Context) {
     }
 
     fun preferredIntensity(): String = normalizeIntensity(
-        prefs.getString(PREF_INTENSITY, INTENSITY_MEDIUM)
+        prefs.getString(AppStorageContract.KEY_QUESTION_INTENSITY, INTENSITY_MEDIUM)
     )
 
     fun setPreferredIntensity(intensity: String) {
-        prefs.edit().putString(PREF_INTENSITY, normalizeIntensity(intensity)).apply()
+        prefs.edit().putString(AppStorageContract.KEY_QUESTION_INTENSITY, normalizeIntensity(intensity)).apply()
     }
 
     private fun normalize(question: Question): Question = question.copy(
@@ -72,7 +73,6 @@ class QuestionRepository(private val context: Context) {
         const val INTENSITY_LIGHT = "light"
         const val INTENSITY_MEDIUM = "medium"
         const val INTENSITY_BOLD = "bold"
-        private const val PREF_INTENSITY = "preferred_intensity"
         val INTENSITIES = setOf(INTENSITY_LIGHT, INTENSITY_MEDIUM, INTENSITY_BOLD)
     }
 }

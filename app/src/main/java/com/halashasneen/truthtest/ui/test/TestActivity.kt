@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.audio.AudioRecorderEngine
 import com.halashasneen.truthtest.audio.VoiceAnalyzer
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.PlayerRanking
 import com.halashasneen.truthtest.data.QuestionRepository
 import com.halashasneen.truthtest.databinding.ActivityTestBinding
@@ -206,6 +207,11 @@ class TestActivity : AppCompatActivity() {
     }
 
     private fun startRecordingInternal() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            isRecording = false
+            Toast.makeText(this, R.string.permission_audio, Toast.LENGTH_LONG).show()
+            return
+        }
         runCatching {
             isRecording = true
             binding.recordButton.text = "■"
@@ -295,7 +301,7 @@ class TestActivity : AppCompatActivity() {
         if (state.question == null) return
         val themes = ShareTheme.entries
         val saved = ShareTheme.fromStorage(
-            getSharedPreferences(SHARE_PREFS, MODE_PRIVATE).getString(PREF_SHARE_THEME, null)
+            getSharedPreferences(AppStorageContract.PREFS_SHARE, MODE_PRIVATE).getString(AppStorageContract.KEY_SHARE_THEME, null)
         )
         var selectedIndex = themes.indexOf(saved).coerceAtLeast(0)
         val labels = themes.map { "${it.emoji}  ${getString(it.labelRes)}" }.toTypedArray()
@@ -306,9 +312,9 @@ class TestActivity : AppCompatActivity() {
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.continue_label) { _, _ ->
                 val selectedTheme = themes[selectedIndex]
-                getSharedPreferences(SHARE_PREFS, MODE_PRIVATE)
+                getSharedPreferences(AppStorageContract.PREFS_SHARE, MODE_PRIVATE)
                     .edit()
-                    .putString(PREF_SHARE_THEME, selectedTheme.storageKey)
+                    .putString(AppStorageContract.KEY_SHARE_THEME, selectedTheme.storageKey)
                     .apply()
                 showShareFormatPicker(state, selectedTheme)
             }
@@ -327,7 +333,7 @@ class TestActivity : AppCompatActivity() {
     private fun showShareSoundPicker(state: TestUiState, theme: ShareTheme) {
         val sounds = ShareSound.entries
         val saved = ShareSound.fromStorage(
-            getSharedPreferences(SHARE_PREFS, MODE_PRIVATE).getString(PREF_SHARE_SOUND, null)
+            getSharedPreferences(AppStorageContract.PREFS_SHARE, MODE_PRIVATE).getString(AppStorageContract.KEY_SHARE_SOUND, null)
         )
         var selectedIndex = sounds.indexOf(saved).coerceAtLeast(0)
         val labels = sounds.map { "${it.emoji}  ${getString(it.labelRes)}" }.toTypedArray()
@@ -338,9 +344,9 @@ class TestActivity : AppCompatActivity() {
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.continue_label) { _, _ ->
                 val selectedSound = sounds[selectedIndex]
-                getSharedPreferences(SHARE_PREFS, MODE_PRIVATE)
+                getSharedPreferences(AppStorageContract.PREFS_SHARE, MODE_PRIVATE)
                     .edit()
-                    .putString(PREF_SHARE_SOUND, selectedSound.storageKey)
+                    .putString(AppStorageContract.KEY_SHARE_SOUND, selectedSound.storageKey)
                     .apply()
                 shareVideo(state, theme, selectedSound)
             }
@@ -421,8 +427,5 @@ class TestActivity : AppCompatActivity() {
         const val MODE_DUEL = "duel"
         const val MODE_GROUP = "group"
         const val MODE_CUSTOM = "custom"
-        private const val SHARE_PREFS = "truth_test_share"
-        private const val PREF_SHARE_THEME = "share_theme"
-        private const val PREF_SHARE_SOUND = "share_sound"
     }
 }

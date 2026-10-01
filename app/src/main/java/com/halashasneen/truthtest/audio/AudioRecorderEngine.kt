@@ -1,8 +1,10 @@
 package com.halashasneen.truthtest.audio
 
+import android.Manifest
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import androidx.annotation.RequiresPermission
 import kotlin.concurrent.thread
 import kotlin.math.sqrt
 
@@ -14,6 +16,7 @@ class AudioRecorderEngine(
     @Volatile private var recording = false
     private val samples = mutableListOf<Short>()
 
+    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
     fun start(onAmplitude: (Float) -> Unit) {
         if (recording) return
         val minBuffer = AudioRecord.getMinBufferSize(

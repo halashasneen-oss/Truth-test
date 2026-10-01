@@ -3,26 +3,26 @@ package com.halashasneen.truthtest.data
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.data.model.TestResult
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
 class HistoryRepository(context: Context) {
-    private val prefs = context.getSharedPreferences("truth_test_history", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences(AppStorageContract.PREFS_HISTORY, Context.MODE_PRIVATE)
     private val gson = Gson()
     private val type = object : TypeToken<List<TestResult>>() {}.type
 
     fun getAll(): List<TestResult> {
-        val raw = prefs.getString("results", null) ?: return emptyList()
+        val raw = prefs.getString(AppStorageContract.KEY_HISTORY_RESULTS, null) ?: return emptyList()
         return runCatching { gson.fromJson<List<TestResult>>(raw, type).orEmpty() }
             .getOrDefault(emptyList())
             .sortedByDescending { it.timestamp }
     }
 
     fun add(result: TestResult) {
-        val updated = (listOf(result) + getAll()).distinctBy { it.id }.take(MAX_RESULTS)
-        save(updated)
+        save((listOf(result) + getAll()).distinctBy { it.id }.take(MAX_RESULTS))
     }
 
     fun delete(id: String): Boolean {
@@ -36,9 +36,7 @@ class HistoryRepository(context: Context) {
     fun hasResultToday(nowMillis: Long = System.currentTimeMillis()): Boolean {
         val zone = ZoneId.systemDefault()
         val today = Instant.ofEpochMilli(nowMillis).atZone(zone).toLocalDate()
-        return getAll().any {
-            Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate() == today
-        }
+        return getAll().any { Instant.ofEpochMilli(it.timestamp).atZone(zone).toLocalDate() == today }
     }
 
     fun currentStreak(nowMillis: Long = System.currentTimeMillis()): Int {
@@ -69,10 +67,10 @@ class HistoryRepository(context: Context) {
         return streak
     }
 
-    fun clear() = prefs.edit().remove("results").apply()
+    fun clear() = prefs.edit().remove(AppStorageContract.KEY_HISTORY_RESULTS).apply()
 
     private fun save(items: List<TestResult>) {
-        prefs.edit().putString("results", gson.toJson(items)).apply()
+        prefs.edit().putString(AppStorageContract.KEY_HISTORY_RESULTS, gson.toJson(items)).apply()
     }
 
     companion object {

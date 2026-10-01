@@ -73,10 +73,19 @@ object MediaTrackMuxer {
             val ptsUs = extractor.sampleTime
             if (ptsUs < 0L) break
 
+            var codecFlags = 0
+            val extractorFlags = extractor.sampleFlags
+            if (extractorFlags and MediaExtractor.SAMPLE_FLAG_SYNC != 0) {
+                codecFlags = codecFlags or MediaCodec.BUFFER_FLAG_KEY_FRAME
+            }
+            if (extractorFlags and MediaExtractor.SAMPLE_FLAG_PARTIAL_FRAME != 0) {
+                codecFlags = codecFlags or MediaCodec.BUFFER_FLAG_PARTIAL_FRAME
+            }
+
             info.offset = 0
             info.size = size
             info.presentationTimeUs = ptsUs
-            info.flags = extractor.sampleFlags
+            info.flags = codecFlags
             buffer.position(0)
             buffer.limit(size)
             muxer.writeSampleData(outputTrack, buffer, info)

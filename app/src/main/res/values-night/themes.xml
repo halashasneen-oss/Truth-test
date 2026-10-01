@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.TruthTest" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple</item><item name="colorSecondary">@color/cyan</item>
-        <item name="android:windowLightStatusBar">false</item><item name="android:statusBarColor">@color/app_background</item>
-        <item name="android:navigationBarColor">@color/app_background</item><item name="android:windowBackground">@color/app_background</item>
-        <item name="android:colorAccent">@color/pink</item>
+        <item name="colorPrimary">@color/tt_brand_primary</item>
+        <item name="colorSecondary">@color/tt_brand_secondary</item>
+        <item name="colorTertiary">@color/tt_brand_accent</item>
+        <item name="android:colorAccent">@color/tt_brand_accent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/tt_background</item>
+        <item name="android:navigationBarColor">@color/tt_background</item>
+        <item name="android:windowBackground">@color/tt_background</item>
     </style>
 </resources>
