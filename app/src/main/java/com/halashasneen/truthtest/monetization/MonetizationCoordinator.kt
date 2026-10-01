@@ -6,9 +6,11 @@ object MonetizationCoordinator {
     fun startAds(activity: Activity, onReady: (() -> Unit)? = null) {
         ConsentManager.gather(activity) { canRequestAds ->
             if (canRequestAds) {
-                AdsManager.initialize(activity.applicationContext)
+                AdsManager.initialize(activity.applicationContext) { onReady?.invoke() }
+            } else {
+                AdsManager.reportConsentUnavailable()
+                onReady?.invoke()
             }
-            onReady?.invoke()
         }
     }
 }

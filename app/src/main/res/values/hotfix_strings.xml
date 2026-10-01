@@ -16,4 +16,13 @@
   <string name="hotfix_share_low">That was a challenging question! This score is all in good fun.</string>
   <string name="hotfix_share_challenge">Think you can beat my score? Challenge your friends — download Truth Test:</string>
   <string name="hotfix_finish_early">Finish &amp; view summary</string>
+  <string name="hotfix_reward_waiting">Waiting for ad privacy setup. Check your connection or privacy choices.</string>
+  <string name="hotfix_reward_initializing">Initializing ads…</string>
+  <string name="hotfix_reward_loading">Preparing your rewarded ad…</string>
+  <string name="hotfix_reward_ready">Your rewarded ad is ready.</string>
+  <string name="hotfix_reward_no_fill">No rewarded ad available from AdMob right now. We’ll retry automatically.</string>
+  <string name="hotfix_reward_network">Cannot load an ad right now. Check your internet connection.</string>
+  <string name="hotfix_reward_config">AdMob rejected the ad request. Configuration needs checking.</string>
+  <string name="hotfix_reward_error">An ad could not be loaded. We’ll retry shortly.</string>
+  <string name="hotfix_reward_loading_button">Preparing ad…</string>
 </resources>

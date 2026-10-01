@@ -34,6 +34,9 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var notificationSettings: NotificationSettings
     private lateinit var monetizationPrefs: MonetizationPreferences
+    private val rewardStateObserver: (AdsManager.RewardedState) -> Unit = {
+        if (_binding != null && isAdded) refreshMonetization()
+    }
 
     private val notificationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -102,24 +105,38 @@ class SettingsFragment : Fragment() {
                 },
                 onUnavailable = {
                     if (_binding != null) {
-                        Toast.makeText(requireContext(), R.string.p5_reward_unavailable, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            AdsManager.rewardStatusText(AdsManager.rewardedState),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             )
         }
         binding.privacyOptionsButton.setOnClickListener {
             ConsentManager.showPrivacyOptions(requireActivity()) { shown ->
+                if (ConsentManager.canRequestAds()) {
+                    AdsManager.initialize(requireContext().applicationContext)
+                } else {
+                    AdsManager.reportConsentUnavailable()
+                }
+                if (_binding != null) refreshMonetization()
                 if (!shown && isAdded) {
                     Toast.makeText(requireContext(), R.string.p5_privacy_not_required, Toast.LENGTH_LONG).show()
                 }
             }
         }
+        AdsManager.registerRewardedObserver(rewardStateObserver)
         refreshMonetization()
     }
 
     override fun onResume() {
         super.onResume()
-        if (_binding != null && ::monetizationPrefs.isInitialized) refreshMonetization()
+        if (_binding != null && ::monetizationPrefs.isInitialized) {
+            AdsManager.preloadRewarded(requireContext())
+            refreshMonetization()
+        }
     }
 
     private fun refreshMonetization() {
@@ -132,7 +149,17 @@ class SettingsFragment : Fragment() {
         } else {
             getString(R.string.p5_ads_active)
         }
-        binding.rewardedAdButton.isEnabled = remaining <= 0L
+        val ready = AdsManager.rewardedState == AdsManager.RewardedState.READY
+        binding.rewardedAdButton.isEnabled = remaining <= 0L && ready
+        binding.rewardedAdButton.text = getString(
+            if (ready) R.string.p5_watch_rewarded
+            else R.string.hotfix_reward_loading_button
+        )
+        if (remaining <= 0L) {
+            binding.adStatusText.append(
+                "\n" + getString(AdsManager.rewardStatusText(AdsManager.rewardedState))
+            )
+        }
         binding.privacyOptionsButton.visibility =
             if (ConsentManager.privacyOptionsRequired()) View.VISIBLE else View.GONE
     }
@@ -171,6 +198,7 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        AdsManager.unregisterRewardedObserver(rewardStateObserver)
         _binding = null
         super.onDestroyView()
     }

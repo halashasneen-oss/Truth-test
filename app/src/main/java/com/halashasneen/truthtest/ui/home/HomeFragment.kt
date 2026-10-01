@@ -1,6 +1,7 @@
 package com.halashasneen.truthtest.ui.home
 
 import android.content.Intent
+import android.os.SystemClock
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.halashasneen.truthtest.ui.share.ShareStudioFragment
 import com.halashasneen.truthtest.ui.test.TestActivity
 import com.halashasneen.truthtest.monetization.AdsManager
 import com.halashasneen.truthtest.monetization.MonetizationPreferences
+import com.halashasneen.truthtest.monetization.AdRetryPolicy
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.ceil
@@ -33,6 +35,13 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private var phase = 0.0
     private var bannerAd: AdView? = null
+    private var bannerFailures = 0
+    private var bannerLastAttemptAt = 0L
+    private var nextBannerAttemptAt = 0L
+    private var bannerRetry: Runnable? = null
+    private val rewardStateObserver: (AdsManager.RewardedState) -> Unit = {
+        if (_binding != null && isAdded) refreshReward()
+    }
     private val rewardExpiry = Runnable {
         if (_binding != null && isAdded) {
             val expired = MonetizationPreferences(requireContext()).remainingAdFreeMs() <= 0L
@@ -66,6 +75,8 @@ class HomeFragment : Fragment() {
                     if (_binding != null) {
                         bannerAd?.destroy()
                         bannerAd = null
+                        bannerFailures = 0
+                        nextBannerAttemptAt = 0L
                         binding.homeAdContainer.removeAllViews()
                         binding.homeAdSection.visibility = View.GONE
                         refreshReward()
@@ -75,7 +86,11 @@ class HomeFragment : Fragment() {
                 onUnavailable = {
                     if (_binding != null) {
                         refreshReward()
-                        Toast.makeText(requireContext(), R.string.p5_reward_unavailable, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            AdsManager.rewardStatusText(AdsManager.rewardedState),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             )
@@ -111,6 +126,7 @@ class HomeFragment : Fragment() {
             })
         }
 
+        AdsManager.registerRewardedObserver(rewardStateObserver)
         binding.ambientWaveform.post(animator)
         refreshDaily()
         refreshProgress()
@@ -131,12 +147,67 @@ class HomeFragment : Fragment() {
 
     fun refreshAdsAfterConsent() {
         if (_binding == null || !isAdded) return
-        binding.homeAdContainer.post {
-            if (_binding == null || !isAdded) return@post
+        if (!AdsManager.isReadyForAds() ||
+            MonetizationPreferences(requireContext()).adsSuppressed()
+        ) {
+            bannerRetry?.let(binding.homeAdContainer::removeCallbacks)
+            bannerRetry = null
             bannerAd?.destroy()
-            bannerAd = AdsManager.attachBanner(requireActivity(), binding.homeAdContainer)
-            refreshReward()
+            bannerAd = null
+            binding.homeAdContainer.removeAllViews()
+            binding.homeAdSection.visibility = View.GONE
+            return
         }
+        if (bannerAd != null) return
+        val wait = nextBannerAttemptAt - SystemClock.elapsedRealtime()
+        if (wait > 0L) {
+            scheduleBannerRetry(wait)
+            return
+        }
+        binding.homeAdContainer.post {
+            if (_binding == null || !isAdded || bannerAd != null) return@post
+            if (!AdsManager.isReadyForAds() ||
+                MonetizationPreferences(requireContext()).adsSuppressed()
+            ) return@post
+            bannerLastAttemptAt = SystemClock.elapsedRealtime()
+            bannerAd = AdsManager.attachBanner(
+                requireActivity(),
+                binding.homeAdContainer,
+                onLoaded = {
+                    bannerFailures = 0
+                    nextBannerAttemptAt = 0L
+                    bannerRetry?.let(binding.homeAdContainer::removeCallbacks)
+                    bannerRetry = null
+                },
+                onLoadFailure = { kind ->
+                    if (_binding != null && isAdded) {
+                        bannerAd?.destroy()
+                        bannerAd = null
+                        bannerFailures++
+                        val delay = AdRetryPolicy.retryDelayMs(bannerFailures, kind)
+                        nextBannerAttemptAt = if (kind == AdRetryPolicy.Failure.CONFIGURATION) {
+                            Long.MAX_VALUE
+                        } else {
+                            SystemClock.elapsedRealtime() +
+                                if (bannerFailures <= 3) delay else 300_000L
+                        }
+                        if (kind != AdRetryPolicy.Failure.CONFIGURATION &&
+                            bannerFailures <= 3
+                        ) scheduleBannerRetry(delay)
+                    }
+                }
+            )
+        }
+    }
+
+    private fun scheduleBannerRetry(delayMs: Long) {
+        if (_binding == null || !isAdded || bannerRetry != null) return
+        val task = Runnable {
+            bannerRetry = null
+            refreshAdsAfterConsent()
+        }
+        bannerRetry = task
+        binding.homeAdContainer.postDelayed(task, delayMs)
     }
 
     private fun refreshReward() {
@@ -149,9 +220,14 @@ class HomeFragment : Fragment() {
         binding.homeRewardStatus.text = if (remaining > 0L) {
             getString(R.string.p5_ad_free_remaining, ceil(remaining / 60000.0).toInt())
         } else {
-            getString(R.string.hotfix_reward_description)
+            getString(AdsManager.rewardStatusText(AdsManager.rewardedState))
         }
-        binding.homeRewardButton.isEnabled = remaining <= 0L
+        val ready = AdsManager.rewardedState == AdsManager.RewardedState.READY
+        binding.homeRewardButton.isEnabled = remaining <= 0L && ready
+        binding.homeRewardButton.text = getString(
+            if (ready) R.string.p5_watch_rewarded
+            else R.string.hotfix_reward_loading_button
+        )
         binding.homeRewardButton.visibility = if (remaining <= 0L) View.VISIBLE else View.GONE
         if (remaining <= 0L) AdsManager.preloadRewarded(requireContext())
     }
@@ -228,8 +304,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        AdsManager.unregisterRewardedObserver(rewardStateObserver)
         binding.ambientWaveform.removeCallbacks(animator)
         binding.homeRewardCard.removeCallbacks(rewardExpiry)
+        bannerRetry?.let(binding.homeAdContainer::removeCallbacks)
+        bannerRetry = null
         bannerAd?.destroy()
         bannerAd = null
         _binding = null

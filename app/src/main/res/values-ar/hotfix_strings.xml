@@ -16,4 +16,13 @@
   <string name="hotfix_share_low">هالسؤال تحدّاني! النتيجة للمرح فقط، مو حكم على الصدق.</string>
   <string name="hotfix_share_challenge">بتقدر تجيب نتيجة أعلى؟ تحدّى أصحابك وحمّل Truth Test:</string>
   <string name="hotfix_finish_early">إنهاء وعرض الملخص</string>
+  <string name="hotfix_reward_waiting">بانتظار إعداد خصوصية الإعلانات. تحقق من الاتصال أو خيارات الخصوصية.</string>
+  <string name="hotfix_reward_initializing">جاري تهيئة الإعلانات…</string>
+  <string name="hotfix_reward_loading">جاري تجهيز إعلان المكافأة…</string>
+  <string name="hotfix_reward_ready">إعلان المكافأة جاهز للمشاهدة.</string>
+  <string name="hotfix_reward_no_fill">لا يوجد إعلان مكافأة متاح حاليًا من AdMob. سنحاول تلقائيًا.</string>
+  <string name="hotfix_reward_network">تعذر تحميل الإعلان. تأكد من اتصال الإنترنت.</string>
+  <string name="hotfix_reward_config">رفض AdMob طلب الإعلان. يلزم فحص الإعدادات.</string>
+  <string name="hotfix_reward_error">تعذر تحميل الإعلان، وسنحاول مجددًا قريبًا.</string>
+  <string name="hotfix_reward_loading_button">جاري تجهيز الإعلان…</string>
 </resources>

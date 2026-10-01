@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         SafeArea.apply(this, binding.root)
+        binding.bottomNav.setItemActiveIndicatorEnabled(false)
         MonetizationCoordinator.startAds(this) {
             (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? HomeFragment)
                 ?.refreshAdsAfterConsent()
