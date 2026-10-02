@@ -12,7 +12,7 @@ class ReleaseContractTest {
 
     @Test
     fun truthTestTwoStartsWithExpectedVersion() {
-        assertEquals(7, BuildConfig.VERSION_CODE)
-        assertEquals("2.0.5", BuildConfig.VERSION_NAME)
+        assertEquals(8, BuildConfig.VERSION_CODE)
+        assertEquals("2.0.6", BuildConfig.VERSION_NAME)
     }
 }
