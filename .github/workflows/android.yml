@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4, truth-test-phase5, truth-test-phase6, truth-test-final-hotfix, truth-test-admob-ui-fix, truth-test-custom-nav-admob-fix, truth-test-admob-v204, truth-test-ad-id-hotfix ]
+    branches: [ main, truth-test-phase1, truth-test-phase2, truth-test-phase3, truth-test-phase4, truth-test-phase5, truth-test-phase6, truth-test-final-hotfix, truth-test-admob-ui-fix, truth-test-custom-nav-admob-fix, truth-test-admob-v204, truth-test-ad-id-hotfix, truth-test-production-v206 ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -39,8 +39,8 @@ jobs:
       - name: Release contract audit
         run: |
           grep -Fq 'applicationId = "com.halahasneen.truthtest"' app/build.gradle.kts
-          grep -Fq 'versionCode = 7' app/build.gradle.kts
-          grep -Fq 'versionName = "2.0.5"' app/build.gradle.kts
+          grep -Fq 'versionCode = 8' app/build.gradle.kts
+          grep -Fq 'versionName = "2.0.6"' app/build.gradle.kts
           grep -Fq 'android:usesCleartextTraffic="false"' app/src/main/AndroidManifest.xml
           grep -Fq '<uses-permission android:name="com.google.android.gms.permission.AD_ID" />' app/src/main/AndroidManifest.xml
           test ! -e app/src/main/java/com/halashasneen/truthtest/monetization/BillingManager.kt
@@ -82,7 +82,7 @@ jobs:
           if-no-files-found: error
 
       - name: Validate signing secrets
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         env:
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
           UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
@@ -95,7 +95,7 @@ jobs:
           test -n "$UPLOAD_KEY_PASSWORD" || (echo "UPLOAD_KEY_PASSWORD is missing" && exit 1)
 
       - name: Restore upload keystore
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         env:
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
         run: |
@@ -104,7 +104,7 @@ jobs:
           chmod 600 "$RUNNER_TEMP/truth-test-upload.jks"
 
       - name: Sign Google Play AAB
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         env:
           UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
           UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
@@ -116,19 +116,19 @@ jobs:
           -keypass "$UPLOAD_KEY_PASSWORD"
           -sigalg SHA256withRSA
           -digestalg SHA-256
-          -signedjar app/build/outputs/bundle/release/Truth-Test-2.0.5-google-play-signed.aab
+          -signedjar app/build/outputs/bundle/release/Truth-Test-2.0.6-google-play-signed.aab
           app/build/outputs/bundle/release/app-release.aab
           "$UPLOAD_KEY_ALIAS"
 
       - name: Verify signed AAB
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         run: |
-          jarsigner -verify -verbose -certs app/build/outputs/bundle/release/Truth-Test-2.0.5-google-play-signed.aab | tee "$RUNNER_TEMP/jarsigner-verify.txt"
+          jarsigner -verify -verbose -certs app/build/outputs/bundle/release/Truth-Test-2.0.6-google-play-signed.aab | tee "$RUNNER_TEMP/jarsigner-verify.txt"
           grep -q "jar verified" "$RUNNER_TEMP/jarsigner-verify.txt"
-          sha256sum app/build/outputs/bundle/release/Truth-Test-2.0.5-google-play-signed.aab
+          sha256sum app/build/outputs/bundle/release/Truth-Test-2.0.6-google-play-signed.aab
 
       - name: Sign release APK with existing upload key
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix'))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206')))))
         env:
           UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
           UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
@@ -142,41 +142,41 @@ jobs:
             --ks-key-alias "$UPLOAD_KEY_ALIAS" \
             --ks-pass env:UPLOAD_STORE_PASSWORD \
             --key-pass env:UPLOAD_KEY_PASSWORD \
-            --out app/build/outputs/apk/release/Truth-Test-2.0.5-signed.apk \
+            --out app/build/outputs/apk/release/Truth-Test-2.0.6-signed.apk \
             "$RUNNER_TEMP/truth-test-aligned.apk"
-          "$APKSIGNER" verify --verbose --print-certs app/build/outputs/apk/release/Truth-Test-2.0.5-signed.apk
-          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump permissions app/build/outputs/apk/release/Truth-Test-2.0.5-signed.apk | tee "$RUNNER_TEMP/release-permissions.txt"
+          "$APKSIGNER" verify --verbose --print-certs app/build/outputs/apk/release/Truth-Test-2.0.6-signed.apk
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump permissions app/build/outputs/apk/release/Truth-Test-2.0.6-signed.apk | tee "$RUNNER_TEMP/release-permissions.txt"
           grep -Fq "com.google.android.gms.permission.AD_ID" "$RUNNER_TEMP/release-permissions.txt"
 
       - name: Upload signed release APK
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix'))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206')))))
         uses: actions/upload-artifact@v4
         with:
-          name: truth-test-v204-signed-apk
-          path: app/build/outputs/apk/release/Truth-Test-2.0.5-signed.apk
+          name: truth-test-v206-signed-apk
+          path: app/build/outputs/apk/release/Truth-Test-2.0.6-signed.apk
           if-no-files-found: error
 
       - name: Upload signed Google Play AAB
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         uses: actions/upload-artifact@v4
         with:
-          name: truth-test-v204-signed-aab
-          path: app/build/outputs/bundle/release/Truth-Test-2.0.5-google-play-signed.aab
+          name: truth-test-v206-signed-aab
+          path: app/build/outputs/bundle/release/Truth-Test-2.0.6-google-play-signed.aab
           if-no-files-found: error
 
       - name: Signed artifact checksums
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix'))))
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206')))))
         run: |
-          sha256sum app/build/outputs/apk/release/Truth-Test-2.0.5-signed.apk
-          sha256sum app/build/outputs/bundle/release/Truth-Test-2.0.5-google-play-signed.aab
+          sha256sum app/build/outputs/apk/release/Truth-Test-2.0.6-signed.apk
+          sha256sum app/build/outputs/bundle/release/Truth-Test-2.0.6-google-play-signed.aab
 
       - name: Remove restored keystore
-        if: always() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix')))))
+        if: always() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || (github.ref == 'refs/heads/truth-test-final-hotfix' || (github.ref == 'refs/heads/truth-test-admob-ui-fix' || (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206'))))))
         run: rm -f "$RUNNER_TEMP/truth-test-upload.jks"
 
   emulator_smoke:
     name: Debug emulator navigation and Google test ad smoke
-    if: (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || github.ref == 'refs/heads/truth-test-ad-id-hotfix'))
+    if: (github.ref == 'refs/heads/truth-test-custom-nav-admob-fix' || (github.ref == 'refs/heads/truth-test-admob-v204' || (github.ref == 'refs/heads/truth-test-ad-id-hotfix' || github.ref == 'refs/heads/truth-test-production-v206')))
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -207,7 +207,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: truth-test-v204-emulator-report
+          name: truth-test-v206-emulator-report
           path: |
             app/build/outputs/androidTest-results/connected/
             app/build/reports/androidTests/connected/
