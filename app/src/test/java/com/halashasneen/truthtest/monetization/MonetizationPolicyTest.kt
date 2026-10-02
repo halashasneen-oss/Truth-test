@@ -14,7 +14,7 @@ class MonetizationPolicyTest {
     }
 
     @Test
-    fun interstitialRequiresTwoNaturalBreaksAndNinetySecondSpacing() {
+    fun interstitialRequiresTwoNaturalBreaksAndSixtySecondSpacing() {
         val now = 1_000_000L
         assertFalse(
             MonetizationPolicy.interstitialEligible(0L, 1, 0L, now)
@@ -44,6 +44,30 @@ class MonetizationPolicyTest {
     fun adFreeSessionSuppressesInterstitialRegardlessOfCounter() {
         val now = 1_000_000L
         assertFalse(MonetizationPolicy.interstitialEligible(now + 60_000L, 20, 0L, now))
+    }
+
+    @Test
+    fun appOpenRespectsRewardSuppressionAndFullscreenSpacing() {
+        val now = 10_000_000L
+        assertTrue(MonetizationPolicy.appOpenEligible(0L, 0L, 0L, now))
+        assertFalse(MonetizationPolicy.appOpenEligible(now + 1_000L, 0L, 0L, now))
+        assertFalse(MonetizationPolicy.appOpenEligible(0L, now - 1_000L, 0L, now))
+        assertFalse(MonetizationPolicy.appOpenEligible(0L, 0L, now - 1_000L, now))
+        assertTrue(MonetizationPolicy.appOpenEligible(
+            0L, now - MonetizationPolicy.APP_OPEN_MIN_INTERVAL_MS,
+            now - MonetizationPolicy.FULLSCREEN_CROSS_FORMAT_GAP_MS, now
+        ))
+    }
+
+    @Test
+    fun anAppOpenOrRewardedAdPreventsImmediateInterstitial() {
+        val now = 10_000_000L
+        assertFalse(MonetizationPolicy.interstitialEligible(
+            0L, 2, now - 90_000L, now, now - 60_000L
+        ))
+        assertTrue(MonetizationPolicy.interstitialEligible(
+            0L, 2, now - 90_000L, now, now - 180_000L
+        ))
     }
 
     @Test

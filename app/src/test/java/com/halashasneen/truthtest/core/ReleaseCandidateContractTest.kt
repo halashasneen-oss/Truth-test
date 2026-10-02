@@ -20,13 +20,14 @@ class ReleaseCandidateContractTest {
             "ca-app-pub-3940256099942544/5224354917",
             BuildConfig.ADMOB_REWARDED_ID
         )
+        assertEquals("ca-app-pub-3940256099942544/9257395921", BuildConfig.ADMOB_APP_OPEN_ID)
     }
 
     @Test
     fun finalRewardAndInterstitialPolicyIsFrozen() {
         assertEquals(3_600_000L, MonetizationPolicy.REWARDED_AD_FREE_MS)
         assertEquals(2, MonetizationPolicy.INTERSTITIAL_EVENT_THRESHOLD)
-        assertEquals(90_000L, MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS)
+        assertEquals(60_000L, MonetizationPolicy.INTERSTITIAL_MIN_INTERVAL_MS)
         assertEquals(4, AppStorageContract.CURRENT_DATA_SCHEMA_VERSION)
     }
 }

@@ -11,6 +11,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
@@ -27,7 +28,7 @@ import java.util.Collections
 /** Requests only official Google TEST units; does not show or click ads. */
 @RunWith(AndroidJUnit4::class)
 class GoogleDemoAdLoadDeviceTest {
-    @Test fun bannerInterstitialAndRewardedReturnSuccessfulCallbacks() {
+    @Test fun allFourGoogleTestAdFormatsReturnSuccessfulCallbacks() {
         assertTrue("Device smoke must never request production ads", BuildConfig.DEBUG)
         val initialized = CountDownLatch(1)
         val instrument = InstrumentationRegistry.getInstrumentation()
@@ -36,7 +37,7 @@ class GoogleDemoAdLoadDeviceTest {
         assertTrue("Google Mobile Ads SDK init timed out",
             initialized.await(60, TimeUnit.SECONDS))
 
-        val completed = CountDownLatch(3)
+        val completed = CountDownLatch(4)
         val failures = Collections.synchronizedList(mutableListOf<String>())
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
@@ -61,6 +62,14 @@ class GoogleDemoAdLoadDeviceTest {
                         override fun onAdLoaded(ad: InterstitialAd) { completed.countDown() }
                         override fun onAdFailedToLoad(error: LoadAdError) {
                             failures += "Interstitial code=${error.code}"
+                            completed.countDown()
+                        }
+                    })
+                AppOpenAd.load(activity, BuildConfig.ADMOB_APP_OPEN_ID,
+                    AdRequest.Builder().build(), object : AppOpenAd.AppOpenAdLoadCallback() {
+                        override fun onAdLoaded(ad: AppOpenAd) { completed.countDown() }
+                        override fun onAdFailedToLoad(error: LoadAdError) {
+                            failures += "AppOpen code=" + error.code
                             completed.countDown()
                         }
                     })

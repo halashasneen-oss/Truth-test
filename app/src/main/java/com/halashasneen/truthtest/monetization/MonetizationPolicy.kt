@@ -20,7 +20,7 @@ object MonetizationPolicy {
         lastFullscreenAt: Long = 0L
     ): Boolean {
         if (adsSuppressed(adFreeUntil, now)) return false
-        if (lastFullscreenAt > 0L && now - lastFullscreenAt < FULLSCREEN_CROSS_FORMAT_GAP_MS) return false
+        if (lastFullscreenAt > lastShownAt && now - lastFullscreenAt < FULLSCREEN_CROSS_FORMAT_GAP_MS) return false
         if (eventCount < INTERSTITIAL_EVENT_THRESHOLD) return false
         return lastShownAt <= 0L || now - lastShownAt >= INTERSTITIAL_MIN_INTERVAL_MS
     }
