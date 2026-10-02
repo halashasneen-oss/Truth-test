@@ -14,8 +14,8 @@ android {
         applicationId = "com.halahasneen.truthtest"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
-        versionName = "2.0.3"
+        versionCode = 6
+        versionName = "2.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,13 +26,15 @@ android {
             buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
+            buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"ca-app-pub-3940256099942544/9257395921\"")
         }
         release {
             isMinifyEnabled = false
-            resValue("string", "admob_app_id", "ca-app-pub-5961173995415325~9185872171")
-            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-5961173995415325/3434852042\"")
-            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-5961173995415325/7149812330\"")
-            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-5961173995415325/5836730662\"")
+            resValue("string", "admob_app_id", "ca-app-pub-5961173995415325~9450642239")
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-5961173995415325/6736848981\"")
+            buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-5961173995415325/3452299387\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-5961173995415325/9826136046\"")
+            buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"ca-app-pub-5961173995415325/5080066660\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

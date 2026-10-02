@@ -44,6 +44,8 @@ object AppStorageContract {
     const val KEY_AD_FREE_UNTIL = "ad_free_until"
     const val KEY_INTERSTITIAL_EVENT_COUNT = "interstitial_event_count"
     const val KEY_LAST_INTERSTITIAL_AT = "last_interstitial_at"
+    const val KEY_LAST_FULLSCREEN_AD_AT = "last_fullscreen_ad_at"
+    const val KEY_LAST_APP_OPEN_AT = "last_app_open_at"
 
     const val KEY_DATA_SCHEMA_VERSION = "data_schema_version"
     const val CURRENT_DATA_SCHEMA_VERSION = 4

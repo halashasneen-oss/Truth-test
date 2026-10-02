@@ -18,6 +18,12 @@ class MonetizationPreferences(context: Context) {
     val lastInterstitialAt: Long
         get() = prefs.getLong(AppStorageContract.KEY_LAST_INTERSTITIAL_AT, 0L)
 
+    val lastFullscreenAt: Long
+        get() = prefs.getLong(AppStorageContract.KEY_LAST_FULLSCREEN_AD_AT, 0L)
+
+    val lastAppOpenAt: Long
+        get() = prefs.getLong(AppStorageContract.KEY_LAST_APP_OPEN_AT, 0L)
+
     fun adsSuppressed(now: Long = System.currentTimeMillis()): Boolean =
         MonetizationPolicy.adsSuppressed(adFreeUntil, now)
 
@@ -44,6 +50,17 @@ class MonetizationPreferences(context: Context) {
         prefs.edit()
             .putInt(AppStorageContract.KEY_INTERSTITIAL_EVENT_COUNT, 0)
             .putLong(AppStorageContract.KEY_LAST_INTERSTITIAL_AT, now)
+            .putLong(AppStorageContract.KEY_LAST_FULLSCREEN_AD_AT, now)
+            .apply()
+    }
+
+    fun markRewardedShown(now: Long = System.currentTimeMillis()) {
+        prefs.edit().putLong(AppStorageContract.KEY_LAST_FULLSCREEN_AD_AT, now).apply()
+    }
+
+    fun markAppOpenShown(now: Long = System.currentTimeMillis()) {
+        prefs.edit().putLong(AppStorageContract.KEY_LAST_APP_OPEN_AT, now)
+            .putLong(AppStorageContract.KEY_LAST_FULLSCREEN_AD_AT, now)
             .apply()
     }
 
