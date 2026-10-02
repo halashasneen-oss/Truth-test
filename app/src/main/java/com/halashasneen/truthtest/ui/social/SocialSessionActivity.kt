@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.halashasneen.truthtest.R
+import com.halashasneen.truthtest.monetization.AdsManager
 import com.halashasneen.truthtest.ui.SafeArea
 import com.halashasneen.truthtest.data.AchievementRepository
 import com.halashasneen.truthtest.data.HistoryRepository
@@ -83,8 +84,21 @@ class SocialSessionActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.p3_session_saved, Toast.LENGTH_SHORT).show()
             finish()
         }
-        binding.playAgainButton.setOnClickListener { prepareReplay() }
-        binding.homeButton.setOnClickListener { finish() }
+        binding.playAgainButton.setOnClickListener {
+            if (currentSession?.isComplete == true) {
+                binding.playAgainButton.isEnabled = false
+                AdsManager.maybeShowInterstitial(this) {
+                    if (!isFinishing) prepareReplay()
+                    binding.playAgainButton.isEnabled = true
+                }
+            } else prepareReplay()
+        }
+        binding.homeButton.setOnClickListener {
+            if (currentSession?.isComplete == true) {
+                binding.homeButton.isEnabled = false
+                AdsManager.maybeShowInterstitial(this) { finish() }
+            } else finish()
+        }
     }
 
     private fun initializeSetup() {

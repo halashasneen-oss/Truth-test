@@ -25,6 +25,8 @@ object AppOpenAds {
         private set
     private val pending = mutableListOf<() -> Unit>()
 
+    fun debugStatus(): String = "loading=" + loading + " cached=" + (cached != null) + " showing=" + isShowing
+
     fun clear() {
         cached = null
         pending.clear()

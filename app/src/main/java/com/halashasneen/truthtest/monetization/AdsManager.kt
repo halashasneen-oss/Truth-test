@@ -53,6 +53,7 @@ object AdsManager {
         private set
 
     private var interstitial: InterstitialAd? = null
+    private var interstitialShowing = false
     private var interstitialLoading = false
     private var interstitialFailures = 0
     private var nextInterstitialAttemptAt = 0L
@@ -76,11 +77,14 @@ object AdsManager {
 
     fun isReadyForAds(): Boolean = sdkReady && ConsentManager.canRequestAds()
 
+    fun isFullScreenShowing(): Boolean = interstitialShowing || rewardedShowing || AppOpenAds.isShowing
+
     fun reportConsentUnavailable() {
         main.post {
             initializationDiagnostic = "UMP blocked ad requests"
             interstitial = null
             rewarded = null
+            AppOpenAds.clear()
             interstitialRetry?.let(main::removeCallbacks)
             rewardedRetry?.let(main::removeCallbacks)
             interstitialRetry = null
@@ -101,6 +105,7 @@ object AdsManager {
         if (sdkReady) {
             loadInterstitial(app)
             loadRewarded(app)
+            AppOpenAds.preload(app)
             onReady?.invoke()
             return
         }
@@ -118,6 +123,7 @@ object AdsManager {
                 Log.i(TAG, "Google Mobile Ads SDK initialization completed")
                 loadInterstitial(app)
                 loadRewarded(app)
+                AppOpenAds.preload(app)
                 val callbacks = initCallbacks.toList()
                 initCallbacks.clear()
                 callbacks.forEach { callback -> callback() }
@@ -215,13 +221,18 @@ object AdsManager {
             onComplete()
             return
         }
+        if (isFullScreenShowing()) {
+            onComplete()
+            return
+        }
         val count = prefs.recordNaturalBreak()
         val now = System.currentTimeMillis()
         val eligible = MonetizationPolicy.interstitialEligible(
             adFreeUntil = prefs.adFreeUntil,
             eventCount = count,
             lastShownAt = prefs.lastInterstitialAt,
-            now = now
+            now = now,
+            lastFullscreenAt = prefs.lastFullscreenAt
         )
         if (!eligible) {
             Log.d(TAG, "Interstitial frequency cap: completedBreaks=$count")
@@ -236,15 +247,21 @@ object AdsManager {
             return
         }
         interstitial = null
+        interstitialShowing = true
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {
+            override fun onAdShowedFullScreenContent() {
                 prefs.markInterstitialShown()
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                interstitialShowing = false
                 Log.i(TAG, "Interstitial dismissed after display")
                 loadInterstitial(activity.applicationContext)
                 onComplete()
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                interstitialShowing = false
                 Log.w(TAG, "Interstitial show failed: code=${adError.code}")
                 loadInterstitial(activity.applicationContext)
                 onComplete()
@@ -264,6 +281,7 @@ object AdsManager {
             append("Rewarded: ").append(rewardedDiagnostic).append('\n')
             append("Interstitial: ").append(interstitialDiagnostic).append('\n')
             append("Banner: ").append(bannerDiagnostic).append('\n')
+            append("App-open: ").append(AppOpenAds.debugStatus()).append('\n')
             append("Ad-free minutes: ").append(remaining / 60_000L)
         }
     }
@@ -308,7 +326,7 @@ object AdsManager {
         onUnavailable: () -> Unit
     ) {
         val ad = rewarded
-        if (!isReadyForAds() || ad == null ||
+        if (!isReadyForAds() || ad == null || isFullScreenShowing() ||
             MonetizationPreferences(activity).adsSuppressed()
         ) {
             preloadRewarded(activity.applicationContext)
@@ -320,6 +338,10 @@ object AdsManager {
         setRewardedState(RewardedState.LOADING)
         var granted = false
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                MonetizationPreferences(activity).markRewardedShown()
+            }
+
             override fun onAdDismissedFullScreenContent() {
                 rewardedShowing = false
                 if (!granted) {

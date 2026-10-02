@@ -174,10 +174,12 @@ class HomeFragment : Fragment() {
                 requireActivity(),
                 binding.homeAdContainer,
                 onLoaded = {
-                    bannerFailures = 0
-                    nextBannerAttemptAt = 0L
-                    bannerRetry?.let(binding.homeAdContainer::removeCallbacks)
-                    bannerRetry = null
+                    if (_binding != null && isAdded) {
+                        bannerFailures = 0
+                        nextBannerAttemptAt = 0L
+                        bannerRetry?.let(binding.homeAdContainer::removeCallbacks)
+                        bannerRetry = null
+                    }
                 },
                 onLoadFailure = { kind ->
                     if (_binding != null && isAdded) {
