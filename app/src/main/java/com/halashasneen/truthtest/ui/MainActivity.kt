@@ -18,6 +18,7 @@ import com.halashasneen.truthtest.R
 import com.halashasneen.truthtest.core.AppStorageContract
 import com.halashasneen.truthtest.databinding.ActivityMainBinding
 import com.halashasneen.truthtest.monetization.MonetizationCoordinator
+import com.halashasneen.truthtest.monetization.AdsManager
 import com.halashasneen.truthtest.ui.history.HistoryFragment
 import com.halashasneen.truthtest.ui.home.HomeFragment
 import com.halashasneen.truthtest.ui.more.MoreFragment
@@ -42,9 +43,11 @@ class MainActivity : AppCompatActivity() {
         selectedTab = savedInstanceState?.getInt(STATE_SELECTED_TAB, R.id.nav_home)
             ?: R.id.nav_home
         renderNavigation()
-        MonetizationCoordinator.startAds(this) {
-            (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? HomeFragment)
-                ?.refreshAdsAfterConsent()
+        if (!AdsManager.isReadyForAds()) {
+            MonetizationCoordinator.startAds(this) {
+                (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? HomeFragment)
+                    ?.refreshAdsAfterConsent()
+            }
         }
         if (savedInstanceState == null) openRoot(HomeFragment())
     }
